@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class NhaTros extends Model
+{
+    use HasFactory;
+      protected $fillable = [
+        'ten_toa_nha', 'ma_toa_nha', 'dia_chi', 'phuong', 'quan', 'thanh_pho', 'quoc_gia',
+        'so_tang', 'dien_tich', 'chu_so_huu', 'mo_ta', 'anh_dai_dien'
+    ];
+     public function tangs()
+    {
+        return $this->hasMany(Tangs::class);
+    }
+public function congViecs()
+{
+    return $this->hasMany(CongViec::class);
+}
+
+    // public function baoTris()
+    // {
+    //     return $this->hasMany(BaoTri::class);
+    // }
+}

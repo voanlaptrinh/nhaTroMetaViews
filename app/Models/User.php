@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function congViecs()
+{
+    return $this->hasMany(CongViec::class, 'user_thuc_hien');
+}
+
 }
