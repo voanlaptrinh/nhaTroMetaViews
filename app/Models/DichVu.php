@@ -10,7 +10,8 @@ class DichVu extends Model
     use HasFactory;
       protected $fillable = [
         'ten_dich_vu',
-        'don_vi',
+        'ma_dich_vu',
+        'don_vi_tinh_id',
         'don_gia',
         'mo_ta',
     ];
@@ -22,5 +23,9 @@ class DichVu extends Model
     {
         return $this->belongsToMany(NhaTros::class, 'toa_nha_dich_vus')
             ->withTimestamps();
+    }
+    public function donViTinh()
+    {
+        return $this->belongsTo(DonViTinh::class, 'don_vi_tinh_id');
     }
 }

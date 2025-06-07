@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phuong')->nullable();
             $table->string('quan')->nullable();
             $table->string('thanh_pho')->nullable();
-            $table->string('status');
+            $table->string('status'); 
             $table->string('quoc_gia')->default('Việt Nam');
             $table->integer('so_tang')->nullable(); // Tổng số tầng
             $table->integer('dien_tich')->nullable(); // m2

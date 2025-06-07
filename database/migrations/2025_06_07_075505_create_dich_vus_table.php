@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('dich_vus', function (Blueprint $table) {
             $table->id();
             $table->string('ten_dich_vu');
-            $table->string('don_vi')->nullable(); // Ví dụ: m3, kWh, Mbps
-            $table->decimal('don_gia', 15, 2)->default(0); // Giá cơ bản mặc định
+            $table->string('ma_dich_vu')->unique();
+            $table->unsignedBigInteger('don_vi_tinh_id')->nullable();
+            $table->foreign('don_vi_tinh_id')->references('id')->on('don_vi_tinhs')->onDelete('set null');
+            $table->integer('don_gia')->default(0); // Giá cơ bản mặc định
             $table->text('mo_ta')->nullable();
             $table->timestamps();
         });

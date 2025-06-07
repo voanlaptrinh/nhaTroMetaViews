@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\DichVu;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DichVuSeeder extends Seeder
 {
@@ -13,24 +14,13 @@ class DichVuSeeder extends Seeder
      */
     public function run(): void
     {
-         $dichVus = [
-          
-            ['ten_dich_vu' => 'Tiền điện', 'don_vi' => 'kWh', 'don_gia' => 3500],
-            ['ten_dich_vu' => 'Tiền nước', 'don_vi' => 'm³', 'don_gia' => 20000],
-            ['ten_dich_vu' => 'Tiền vệ sinh', 'don_vi' => 'tháng', 'don_gia' => 50000],
-            ['ten_dich_vu' => 'Tiền internet', 'don_vi' => 'tháng', 'don_gia' => 100000],
-            ['ten_dich_vu' => 'Tiền phí quản lý', 'don_vi' => 'tháng', 'don_gia' => 30000],
-            ['ten_dich_vu' => 'Tiền gửi xe', 'don_vi' => 'tháng', 'don_gia' => 100000],
-            ['ten_dich_vu' => 'Tiền phí dịch vụ', 'don_vi' => 'tháng', 'don_gia' => 70000],
-            ['ten_dich_vu' => 'Tiền phí giặt sấy', 'don_vi' => 'kg', 'don_gia' => 10000],
-            
-        ];
-
-        foreach ($dichVus as $dichVu) {
-            DichVu::updateOrCreate(
-                ['ten_dich_vu' => $dichVu['ten_dich_vu']],
-                $dichVu
-            );
-        }
+     
+        DB::table('don_vi_tinhs')->insert([
+    ['ma_don_vi' => 'm3', 'ten_day_du' => 'Mét khối', 'mo_ta' => 'Dùng cho dịch vụ nước'],
+    ['ma_don_vi' => 'kWh', 'ten_day_du' => 'Kilowatt giờ', 'mo_ta' => 'Dùng cho điện'],
+    ['ma_don_vi' => 'người', 'ten_day_du' => 'Đầu người', 'mo_ta' => 'Tính phí theo số người'],
+    ['ma_don_vi' => 'Mbps', 'ten_day_du' => 'Megabit / giây', 'mo_ta' => 'Dùng cho internet'],
+    ['ma_don_vi' => 'VND', 'ten_day_du' => 'Việt Nam Đồng', 'mo_ta' => 'Tiền tệ'],
+]);
     }
 }
