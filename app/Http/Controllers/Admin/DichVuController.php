@@ -27,6 +27,7 @@ class DichVuController extends Controller
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu',
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
+            'kieu_tinh' => 'required',
             'don_gia' => 'numeric|min:0',
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
@@ -44,7 +45,7 @@ class DichVuController extends Controller
 
 
         DichVu::create($request->all());
-        return redirect()->route('dich_vu.index')->with('success', 'Thêm dịch vụ thành công');
+        return redirect()->route('dichvu.index')->with('success', 'Thêm dịch vụ thành công');
     }
 
     public function edit($id)
@@ -62,6 +63,7 @@ class DichVuController extends Controller
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu,' . $dichVu->id,
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
             'don_gia' => 'numeric|min:0',
+            'kieu_tinh' => 'required',
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',

@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('phuong')->nullable();
             $table->string('quan')->nullable();
             $table->string('thanh_pho')->nullable();
-            $table->string('status'); 
+            $table->string('status')->default('Hoạt động'); 
             $table->string('quoc_gia')->default('Việt Nam');
             $table->integer('so_tang')->nullable(); // Tổng số tầng
+            $table->integer('so_phong_tang')->nullable(); // Tổng số tầng
             $table->integer('dien_tich')->nullable(); // m2
             $table->string('chu_so_huu')->nullable(); // Tên chủ sở hữu
             $table->text('mo_ta')->nullable(); // mô tả thêm
-            $table->string('anh_dai_dien')->nullable();
             $table->timestamps();
         });
     }

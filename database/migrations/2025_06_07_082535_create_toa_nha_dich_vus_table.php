@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('toa_nha_dich_vus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('toa_nha_id')->constrained('nha_tros')->onDelete('cascade');
-            $table->foreignId('dich_vu_id')->constrained('dich_vus')->onDelete('cascade');
+            $table->unsignedBigInteger('nha_tro_id');
+            $table->unsignedBigInteger('dich_vu_id');
             $table->timestamps();
+            $table->foreign('nha_tro_id')->references('id')->on('nha_tros')->onDelete('cascade');
+            $table->foreign('dich_vu_id')->references('id')->on('dich_vus')->onDelete('cascade');
         });
     }
 

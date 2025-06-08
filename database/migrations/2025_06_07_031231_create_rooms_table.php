@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tang_id')->constrained('tangs')->onDelete('cascade');
+       
+            $table->foreignId('nha_tro_id')->constrained('nha_tros')->onDelete('cascade');
             $table->string('ten_phong');
-            $table->string('ma_phong')->unique();
+            $table->string('ma_phong')->nullable();
             $table->integer('dien_tich')->nullable();
-            $table->integer('so_khach_toi_da')->nullable();
-            $table->enum('loai_phong', ['van_phong', 'can_ho', 'phong_cho_thue', 'khac'])->default('khac');
-            $table->decimal('gia_thue', 15, 2)->nullable(); // VND
+            $table->integer('so_khach')->nullable();
+            $table->enum('loai_phong', ['van_phong', 'can_ho', 'phong_cho_thue', 'khac'])->default('can_ho');
+            $table->integer('gia_thue')->default(0); // VND
             $table->boolean('da_thue')->default(false);
             $table->json('images')->nullable();//Ảnh demo phòng trọ
             $table->text('ghi_chu')->nullable();
+            $table->string('status')->default('trong');
             $table->timestamps();
         });
     }

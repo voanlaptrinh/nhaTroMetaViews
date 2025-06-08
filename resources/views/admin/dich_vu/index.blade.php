@@ -8,8 +8,8 @@
         <th>Đơn giá</th>
     </thead>
     <tbody>
+        @foreach ($dichVus as $dichvu)
         <tr>
-            @foreach ($dichVus as $dichvu)
                 <td>{{ $dichvu->ten_dich_vu }}</td>
                 <td>{{ $dichvu->ma_dich_vu }}</td>
                 <td>{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}
@@ -25,7 +25,7 @@
                             style="background:none;border:none;color:red;cursor:pointer;padding:0;">Xóa</button>
                     </form>
                 </td>
+            </tr>
             @endforeach
-        </tr>
     </tbody>
 </table>

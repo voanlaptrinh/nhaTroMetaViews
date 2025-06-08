@@ -32,7 +32,19 @@
             <div style="color:red">{{ $message }}</div>
         @enderror
     </div>
-
+    
+ <div>
+        <label for="kieu_tinh">Kiểu tính</label><br>
+        <select id="kieu_tinh" name="kieu_tinh">
+            <option value="">-- Chọn kiểu tính --</option>
+            <option value="cong_to" {{ old('kieu_tinh', $dichvu->kieu_tinh) == 'cong_to' ? 'selected' : '' }}>Tính theo công tơ</option>
+            <option value="dau_nguoi" {{ old('kieu_tinh', $dichvu->kieu_tinh) == 'dau_nguoi' ? 'selected' : '' }}>Tính theo đầu người</option>
+            <option value="co_dinh" {{ old('kieu_tinh', $dichvu->kieu_tinh) == 'co_dinh' ? 'selected' : '' }}>Cố định hàng tháng</option>
+        </select>
+        @error('kieu_tinh')
+            <div style="color:red">{{ $message }}</div>
+        @enderror
+    </div>
     <div>
         <label for="don_gia">Đơn giá</label><br>
         <input type="number" id="don_gia" name="don_gia" step="0.01" value="{{ old('don_gia', $dichvu->don_gia) }}">

@@ -10,7 +10,7 @@ class NhaTros extends Model
     use HasFactory;
       protected $fillable = [
         'ten_toa_nha', 'ma_toa_nha', 'dia_chi', 'phuong', 'quan', 'thanh_pho', 'quoc_gia',
-        'so_tang', 'dien_tich', 'chu_so_huu', 'mo_ta', 'anh_dai_dien'
+        'so_tang', 'dien_tich', 'chu_so_huu', 'mo_ta', 'anh_dai_dien','so_phong_tang'
     ];
      public function tangs()
     {
@@ -19,6 +19,14 @@ class NhaTros extends Model
 public function congViecs()
 {
     return $this->hasMany(CongViec::class);
+}
+public function dichVus()
+{
+    return $this->belongsToMany(DichVu::class, 'toa_nha_dich_vus', 'nha_tro_id', 'dich_vu_id')->withTimestamps();
+}
+public function rooms()
+{
+    return $this->hasMany(Rooms::class);
 }
 
     // public function baoTris()

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('don_vi_tinhs', function (Blueprint $table) {
             $table->id();
-                $table->string('ma_don_vi')->unique();        // Ví dụ: m3, kWh, người, Mbps
+            $table->string('ma_don_vi')->unique();        // Ví dụ: m3, kWh, người, Mbps
             $table->string('ten_day_du')->nullable();     // Ví dụ: Mét khối, Kilowatt giờ, Đầu người
             $table->string('mo_ta')->nullable();          // Mô tả chi tiết
             $table->timestamps();
