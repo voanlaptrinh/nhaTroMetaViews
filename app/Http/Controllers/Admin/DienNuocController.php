@@ -20,6 +20,7 @@ class DienNuocController extends Controller
 
         $dienNuocs = [];
         $canTao = false;
+        $kieuTinhNuoc = 'cong_to'; // mặc định
 
         if ($selectedNhaTroId && $thang && $nam) {
             $dienNuocs = DienNuocTheoPhong::where('nha_tro_id', $selectedNhaTroId)
@@ -28,9 +29,15 @@ class DienNuocController extends Controller
                 ->get();
 
             $canTao = $dienNuocs->isEmpty();
+
+            // Lấy dịch vụ nước của tòa nhà hiện tại
+            $dichVuNuoc = DichVu::whereHas('nhaTros', function ($q) use ($selectedNhaTroId) {
+                $q->where('nha_tro_id', $selectedNhaTroId);
+            })->where('ma_dich_vu', 'nuoc')->first();
+
+            $kieuTinhNuoc = $dichVuNuoc->kieu_tinh ?? 'cong_to';
         }
-     $dichVuNuoc = DichVu::where('ma_dich_vu', 'nuoc')->first();
-        $kieuTinhNuoc = $dichVuNuoc->kieu_tinh ?? 'cong_to';
+
         return view('admin.diennuoc.index', compact(
             'nhaTros',
             'selectedNhaTroId',
@@ -41,6 +48,7 @@ class DienNuocController extends Controller
             'kieuTinhNuoc'
         ));
     }
+
 
     public function store(Request $request)
     {
@@ -76,24 +84,40 @@ class DienNuocController extends Controller
         return redirect()->back()->with('success', 'Đã tạo dữ liệu điện nước cho tháng ' . $request->thang . '/' . $request->nam);
     }
 
-    public function update(Request $request, DienNuocTheoPhong $dienNuoc)
+    public function update(Request $request, $id)
     {
+        // Lấy kiểu tính nước
+        $dienNuoc = DienNuocTheoPhong::find($id);
         $dichVuNuoc = DichVu::where('ma_dich_vu', 'nuoc')->first();
         $kieuTinhNuoc = $dichVuNuoc->kieu_tinh ?? 'cong_to';
+        // Validate dữ liệu đầu vào
+        $request->validate([
+            'chi_so_dien' => 'required|numeric|min:0',
+            'so_nguoi'    => 'required|integer|min:0',
+            // chỉ validate so_m3_nuoc nếu kiểu tính là cong_to
+            'so_m3_nuoc'  => $kieuTinhNuoc === 'cong_to' ? 'required|numeric|min:0' : 'nullable',
+        ]);
 
+        // Tạo mảng dữ liệu cập nhật
         $data = [
-            'so_dien'  => $request->input('so_dien'),
-            'so_nguoi' => $request->input('so_nguoi'),
+            'chi_so_dien' => $request->chi_so_dien,
         ];
 
+        // Xử lý theo kiểu tính nước
         if ($kieuTinhNuoc === 'cong_to') {
-            $data['so_nuoc'] = $request->input('so_nuoc');
+            $data['so_m3_nuoc'] = $request->so_m3_nuoc;
         } elseif ($kieuTinhNuoc === 'dau_nguoi') {
-            $data['so_nuoc'] = $request->input('so_nguoi'); // tính theo số người
+            $data['so_m3_nuoc'] = $request->so_m3_nuoc;
         } elseif ($kieuTinhNuoc === 'co_dinh') {
-            $data['so_nuoc'] = 1;
+            $data['so_m3_nuoc'] = 1;
         }
 
+        // Nếu bảng DienNuocTheoPhong có trường nha_tro_id bắt buộc, bạn cần đảm bảo giữ nguyên hoặc gán đúng:
+        // Nếu update không đổi tòa nhà thì không cần gán lại.
+        // Nếu cần, thêm dòng sau:
+        // $data['nha_tro_id'] = $dienNuoc->nha_tro_id;
+
+        // Cập nhật dữ liệu
         $dienNuoc->update($data);
 
         return back()->with('success', 'Cập nhật thành công.');

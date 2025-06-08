@@ -47,5 +47,5 @@ Route::prefix('phong-tro')->name('rooms.')->group(function () {
 Route::prefix('dien-nuoc')->group(function () {
     Route::get('/', [DienNuocController::class, 'index'])->name('diennuoc.index');
     Route::post('/tao-du-lieu', [DienNuocController::class, 'store'])->name('diennuoc.store');
-    Route::post('/cap-nhat', [DienNuocController::class, 'update'])->name('diennuoc.update');
+    Route::put('/{id}', [DienNuocController::class, 'update'])->name('diennuoc.update');
 });
