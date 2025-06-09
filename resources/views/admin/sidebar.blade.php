@@ -11,14 +11,23 @@
          <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['dichvu.index', 'dichvus.create', 'dichvus.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('dichvu.index') }}">
-                 <i class="bi bi-tools"></i> 
+                 <i class="bi bi-tools"></i>
                  <span>Dịch vụ</span>
              </a>
          </li>
+
+         <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['nha_tro.index', 'nha_tro.create', 'nha_tro.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('nha_tro.index') }}">
                  <i class="bi bi-house-door"></i>
                  <span>Nhà trọ</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['rooms.index', 'rooms.create', 'rooms.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('rooms.index') }}">
+                 <i class="bi bi-door-closed"></i>
+                 <span>Phòng trọ</span>
              </a>
          </li>
          <li class="nav-item">

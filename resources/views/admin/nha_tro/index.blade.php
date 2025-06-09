@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($nhaTros as $nhaTro)
+                          @forelse ($nhaTros as $nhaTro)
                                 <tr>
                                     <td>{{ $nhaTro->ten_toa_nha }}</td>
                                     <td>{{ $nhaTro->ma_toa_nha }}</td>
@@ -67,7 +67,11 @@
 
                                     </td>
                                 </tr>
-                            @endforeach
+                           @empty
+    <tr>
+        <td colspan="6" class="text-center text-muted">Không có dữ liệu nhà trọ.</td>
+    </tr>
+@endforelse
                         </tbody>
                     </table>
                 </div>
