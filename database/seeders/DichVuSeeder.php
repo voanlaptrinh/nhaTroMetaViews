@@ -67,8 +67,8 @@ class DichVuSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'ten_dich_vu' => 'Nước giếng',
-                'ma_dich_vu' => 'nuoc_gieng',
+                'ten_dich_vu' => 'Nước theo đầu người',
+                'ma_dich_vu' => 'nuoc',
                 'don_vi_tinh_id' => 3, // người
                 'don_gia' => 20000,
                 'mo_ta' => 'Tính theo đầu người',
@@ -76,6 +76,7 @@ class DichVuSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+           
             [
                 'ten_dich_vu' => 'Phí quản lý',
                 'ma_dich_vu' => 'phi_quan_ly',

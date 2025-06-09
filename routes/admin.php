@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\TaiSanChungRiengController;
+use App\Http\Controllers\Admin\TaiSanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,3 +51,20 @@ Route::prefix('dien-nuoc')->group(function () {
     Route::post('/tao-du-lieu', [DienNuocController::class, 'store'])->name('diennuoc.store');
     Route::put('/{id}', [DienNuocController::class, 'update'])->name('diennuoc.update');
 });
+
+
+Route::get('/tai-sans', [TaiSanController::class, 'index'])->name('tai-sans.index');           // Danh sách
+Route::get('/tai-sans/create', [TaiSanController::class, 'create'])->name('tai-sans.create');   // Form thêm
+Route::post('/tai-sans', [TaiSanController::class, 'store'])->name('tai-sans.store');           // Xử lý thêm
+Route::get('/tai-sans/{id}/edit', [TaiSanController::class, 'edit'])->name('tai-sans.edit');    // Form sửa
+Route::put('/tai-sans/{id}', [TaiSanController::class, 'update'])->name('tai-sans.update');     // Xử lý sửa
+Route::delete('/tai-sans/{id}', [TaiSanController::class, 'destroy'])->name('tai-sans.destroy'); // Xử lý xóa
+
+
+
+Route::get('tai-san-chung-rieng', [TaiSanChungRiengController::class, 'index'])->name('tai_san_chung_riengs.index');
+Route::get('tai-san-chung-rieng/create', [TaiSanChungRiengController::class, 'create'])->name('tai_san_chung_riengs.create');
+Route::post('tai-san-chung-rieng', [TaiSanChungRiengController::class, 'store'])->name('tai_san_chung_riengs.store');
+Route::get('tai-san-chung-rieng/{id}/edit', [TaiSanChungRiengController::class, 'edit'])->name('tai_san_chung_riengs.edit');
+Route::put('tai-san-chung-rieng/{id}', [TaiSanChungRiengController::class, 'update'])->name('tai_san_chung_riengs.update');
+Route::delete('tai-san-chung-rieng/{id}', [TaiSanChungRiengController::class, 'destroy'])->name('tai_san_chung_riengs.destroy');

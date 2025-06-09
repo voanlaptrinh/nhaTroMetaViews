@@ -46,4 +46,9 @@ class Rooms extends Model
     {
         return $this->belongsTo(NhaTros::class);
     }
+  public function taiSanChungRiengs()
+{
+    return $this->hasMany(TaiSanChungRieng::class, 'room_id');
+}
+
 }
