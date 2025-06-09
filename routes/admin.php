@@ -18,24 +18,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::prefix('dich-vus')->group(function () {
+Route::get('/', [DichVuController::class, 'index'])->name('dichvu.index');
+Route::get('/create', [DichVuController::class, 'create'])->name('dichvus.create');
+Route::post('', [DichVuController::class, 'store'])->name('dichvus.store');
+Route::get('/{id}/edit', [DichVuController::class, 'edit'])->name('dichvus.edit');
+Route::put('/{id}', [DichVuController::class, 'update'])->name('dichvus.update');
+Route::delete('/{id}', [DichVuController::class, 'destroy'])->name('dichvus.destroy');
+});
 
-Route::get('/dich-vus', [DichVuController::class, 'index'])->name('dichvu.index');
-Route::get('/dich-vus/create', [DichVuController::class, 'create'])->name('dichvus.create');
-Route::post('/dich-vus', [DichVuController::class, 'store'])->name('dichvus.store');
-
-Route::get('/dich-vus/{id}/edit', [DichVuController::class, 'edit'])->name('dichvus.edit');
-Route::put('/dich-vus/{id}', [DichVuController::class, 'update'])->name('dichvus.update');
-
-Route::delete('/dich-vus/{id}', [DichVuController::class, 'destroy'])->name('dichvus.destroy');
-
-
-Route::get('nha-tro', [NhaTroController::class, 'index'])->name('nha_tro.index');
-Route::get('nha-tro/create', [NhaTroController::class, 'create'])->name('nha_tro.create');
-Route::post('nha-tro/store', [NhaTroController::class, 'store'])->name('nha_tro.store');
-Route::get('nha-tro/edit/{id}', [NhaTroController::class, 'edit'])->name('nha_tro.edit');
-Route::put('nha-tro/update/{id}', [NhaTroController::class, 'update'])->name('nha_tro.update');
-Route::delete('nha-tro/delete/{id}', [NhaTroController::class, 'destroy'])->name('nha_tro.destroy');
-
+Route::prefix('nha-tro')->group(function () {
+Route::get('/', [NhaTroController::class, 'index'])->name('nha_tro.index');
+Route::get('/create', [NhaTroController::class, 'create'])->name('nha_tro.create');
+Route::post('/store', [NhaTroController::class, 'store'])->name('nha_tro.store');
+Route::get('/edit/{id}', [NhaTroController::class, 'edit'])->name('nha_tro.edit');
+Route::put('/update/{id}', [NhaTroController::class, 'update'])->name('nha_tro.update');
+Route::delete('/delete/{id}', [NhaTroController::class, 'destroy'])->name('nha_tro.destroy');
+});
 
 
 Route::prefix('phong-tro')->name('rooms.')->group(function () {
@@ -52,14 +51,14 @@ Route::prefix('dien-nuoc')->group(function () {
     Route::put('/{id}', [DienNuocController::class, 'update'])->name('diennuoc.update');
 });
 
-
-Route::get('/tai-sans', [TaiSanController::class, 'index'])->name('tai-sans.index');           // Danh sách
-Route::get('/tai-sans/create', [TaiSanController::class, 'create'])->name('tai-sans.create');   // Form thêm
-Route::post('/tai-sans', [TaiSanController::class, 'store'])->name('tai-sans.store');           // Xử lý thêm
-Route::get('/tai-sans/{id}/edit', [TaiSanController::class, 'edit'])->name('tai-sans.edit');    // Form sửa
-Route::put('/tai-sans/{id}', [TaiSanController::class, 'update'])->name('tai-sans.update');     // Xử lý sửa
-Route::delete('/tai-sans/{id}', [TaiSanController::class, 'destroy'])->name('tai-sans.destroy'); // Xử lý xóa
-
+Route::prefix('tai-sans')->group(function () {
+Route::get('/', [TaiSanController::class, 'index'])->name('tai-sans.index');           // Danh sách
+Route::get('/create', [TaiSanController::class, 'create'])->name('tai-sans.create');   // Form thêm
+Route::post('/store', [TaiSanController::class, 'store'])->name('tai-sans.store');           // Xử lý thêm
+Route::get('/{id}/edit', [TaiSanController::class, 'edit'])->name('tai-sans.edit');    // Form sửa
+Route::put('/{id}', [TaiSanController::class, 'update'])->name('tai-sans.update');     // Xử lý sửa
+Route::delete('/{id}', [TaiSanController::class, 'destroy'])->name('tai-sans.destroy'); // Xử lý xóa
+});
 
 
 Route::get('tai-san-chung-rieng', [TaiSanChungRiengController::class, 'index'])->name('tai_san_chung_riengs.index');

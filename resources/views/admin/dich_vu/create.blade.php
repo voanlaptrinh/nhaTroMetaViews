@@ -1,72 +1,118 @@
-<h1>Thêm Dịch Vụ</h1>
-
-@if(session('success'))
-    <div style="color: green; margin-bottom: 20px;">
-        {{ session('success') }}
-    </div>
-@endif
-
-<form action="{{ route('dichvus.store') }}" method="POST">
-    @csrf
-
-    <div>
-        <label for="ten_dich_vu">Tên dịch vụ</label><br>
-        <input type="text" id="ten_dich_vu" name="ten_dich_vu" value="{{ old('ten_dich_vu') }}">
-        @error('ten_dich_vu')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
+@extends('admin.index')
+@section('contentadmin')
+    <div class="pagetitle">
+        <h1>Dịch vụ</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Thêm dịch vụ</li>
+            </ol>
+        </nav>
     </div>
 
-    <div>
-        <label for="ma_dich_vu">Mã dịch vụ</label><br>
-        <input type="text" id="ma_dich_vu" name="ma_dich_vu" value="{{ old('ma_dich_vu') }}">
-        @error('ma_dich_vu')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
 
-    <div>
-        <label for="don_vi_tinh_id">Đơn vị tính</label><br>
-        <select id="don_vi_tinh_id" name="don_vi_tinh_id">
-            <option value="">-- Chọn đơn vị tính --</option>
-            @foreach($donViTinhs as $dvt)
-                <option value="{{ $dvt->id }}" {{ old('don_vi_tinh_id') == $dvt->id ? 'selected' : '' }}>
-                    {{ $dvt->ma_don_vi }} - {{ $dvt->ten_day_du }}
-                </option>
-            @endforeach
-        </select>
-        @error('don_vi_tinh_id')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
-<div>
-        <label for="kieu_tinh">Kiểu tính</label><br>
-        <select id="kieu_tinh" name="kieu_tinh">
-            <option value="">-- Chọn kiểu tính --</option>
-            <option value="cong_to" {{ old('kieu_tinh') == 'cong_to' ? 'selected' : '' }}>Tính theo công tơ</option>
-            <option value="dau_nguoi" {{ old('kieu_tinh') == 'dau_nguoi' ? 'selected' : '' }}>Tính theo đầu người</option>
-            <option value="co_dinh" {{ old('kieu_tinh') == 'co_dinh' ? 'selected' : '' }}>Cố định hàng tháng</option>
-        </select>
-        @error('kieu_tinh')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
+    <div class="row">
 
-    <div>
-        <label for="don_gia">Đơn giá</label><br>
-        <input type="number" id="don_gia" name="don_gia" step="0.01" value="{{ old('don_gia', 0) }}">
-        @error('don_gia')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
+        <div class="col-lg-12">
 
-    <div>
-        <label for="mo_ta">Mô tả</label><br>
-        <textarea id="mo_ta" name="mo_ta">{{ old('mo_ta') }}</textarea>
-        @error('mo_ta')
-            <div style="color:red">{{ $message }}</div>
-        @enderror
-    </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Thêm mới dịch vụ</h5>
 
-    <button type="submit">Thêm dịch vụ</button>
-</form>
+                    </div>
+                    <div class="col-12">
+                        <form id="formDichVu" action="{{ route('dichvus.store') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="ten_dich_vu" class="form-label">Tên dịch vụ</label><br>
+                                    <input type="text" class="form-control" id="ten_dich_vu" name="ten_dich_vu"
+                                        value="{{ old('ten_dich_vu') }}">
+                                    <div class="text-danger" id="err-ten_dich_vu"></div>
+                                    @error('ten_dich_vu')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="ma_dich_vu" class="form-label">Mã dịch vụ</label><br>
+                                    <input type="text" class="form-control" id="ma_dich_vu" name="ma_dich_vu"
+                                        value="{{ old('ma_dich_vu') }}">
+                                    <div class="text-danger" id="err-ma_dich_vu"></div>
+                                    @error('ma_dich_vu')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="don_vi_tinh_id" class="form-label">Đơn vị tính</label><br>
+                                    <select id="don_vi_tinh_id" name="don_vi_tinh_id" class="select_ted form-control">
+                                        <option value="">-- Chọn đơn vị tính --</option>
+                                        @foreach ($donViTinhs as $dvt)
+                                            <option value="{{ $dvt->id }}"
+                                                {{ old('don_vi_tinh_id') == $dvt->id ? 'selected' : '' }}>
+                                                {{ $dvt->ma_don_vi }} - {{ $dvt->ten_day_du }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="text-danger" id="err-don_vi_tinh_id"></div>
+                                    @error('don_vi_tinh_id')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="kieu_tinh" class="form-label">Kiểu tính</label><br>
+                                    <select id="kieu_tinh" name="kieu_tinh" class="select_ted form-control">
+                                        <option value="">-- Chọn kiểu tính --</option>
+                                        <option value="cong_to" {{ old('kieu_tinh') == 'cong_to' ? 'selected' : '' }}>Tính
+                                            theo
+                                            công tơ
+                                        </option>
+                                        <option value="dau_nguoi" {{ old('kieu_tinh') == 'dau_nguoi' ? 'selected' : '' }}>
+                                            Tính
+                                            theo đầu người
+                                        </option>
+                                        <option value="co_dinh" {{ old('kieu_tinh') == 'co_dinh' ? 'selected' : '' }}>Cố
+                                            định
+                                            hàng tháng
+                                        </option>
+                                    </select>
+                                    <div class="text-danger" id="err-kieu_tinh"></div>
+                                    @error('kieu_tinh')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="don_gia" class="form-label">Đơn giá</label><br>
+                                    <input type="number" id="don_gia" class="form-control" name="don_gia" step="0.01"
+                                        value="{{ old('don_gia', 0) }}">
+                                    <div class="text-danger" id="err-don_gia"></div>
+                                    @error('don_gia')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="mo_ta" class="form-label">Mô tả</label><br>
+                                    <textarea id="mo_ta" name="mo_ta" class="form-control">{{ old('mo_ta') }}</textarea>
+                                    @error('mo_ta')
+                                        <div style="color:red">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="text-end pt-4">
+                                <button type="submit" class="btn btn-success">Thêm dịch vụ</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
