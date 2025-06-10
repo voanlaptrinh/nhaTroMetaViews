@@ -50,9 +50,7 @@ class DichVuSeeder extends Seeder
                 'ten_dich_vu' => 'Nước sạch theo đầu người',
                 'ma_dich_vu' => 'nuoc',
                 'don_vi_tinh_id' => 1, // m3
-                'don_gia' => 15000,
                 'mo_ta' => 'Tính theo số người có trong phòng trọ đó',
-                'kieu_tinh' => 'cong_to',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -60,19 +58,15 @@ class DichVuSeeder extends Seeder
                 'ten_dich_vu' => 'Điện sinh hoạt',
                 'ma_dich_vu' => 'dien_sinh_hoat',
                 'don_vi_tinh_id' => 2, // kWh
-                'don_gia' => 3000,
                 'mo_ta' => 'Tính theo công tơ điện',
-                'kieu_tinh' => 'cong_to',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'ten_dich_vu' => 'Nước theo đầu người',
-                'ma_dich_vu' => 'nuoc',
+                'ten_dich_vu' => 'Tiền mạng',
+                'ma_dich_vu' => 'mang',
                 'don_vi_tinh_id' => 3, // người
-                'don_gia' => 20000,
                 'mo_ta' => 'Tính theo đầu người',
-                'kieu_tinh' => 'dau_nguoi',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -81,9 +75,7 @@ class DichVuSeeder extends Seeder
                 'ten_dich_vu' => 'Phí quản lý',
                 'ma_dich_vu' => 'phi_quan_ly',
                 'don_vi_tinh_id' => 4, // gói
-                'don_gia' => 100000,
                 'mo_ta' => 'Phí cố định hàng tháng',
-                'kieu_tinh' => 'co_dinh',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

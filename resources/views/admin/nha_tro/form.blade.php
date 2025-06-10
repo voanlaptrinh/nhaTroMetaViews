@@ -121,7 +121,8 @@
 
 <div class="mb-3">
     <label>Dịch vụ áp dụng:</label><br>
-    @foreach ($dichVus as $key => $dv)
+    <table>
+  @foreach ($dichVus as $key => $dv)
         <div class="checkbox-wrapper-61">
             <input type="checkbox" class="check" name="dich_vu_ids[]" value="{{ $dv->id }}"
                 id="dv{{ $dv->id }}"
@@ -139,6 +140,8 @@
             </label>
         </div>
     @endforeach
+    </table>
+  
     @error('dich_vu_ids')
         <div class="text-danger d-block mt-2">{{ $message }}</div>
     @enderror

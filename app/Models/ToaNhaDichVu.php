@@ -11,6 +11,8 @@ class ToaNhaDichVu extends Model
      protected $fillable = [
         'toa_nha_id',
         'dich_vu_id',
+        'don_gia',
+        'kieu_tinh'
     ];
 
     public function toaNha()

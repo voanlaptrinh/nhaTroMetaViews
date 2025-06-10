@@ -32,7 +32,6 @@
                                 <th scope="col">Tên dịch vụ</th>
                                 <th scope="col">Mã dịch vụ</th>
                                 <th scope="col">Đơn vị tính</th>
-                                <th scope="col">Đơn giá</th>
                                 <th scope="col">Thao tác</th>
                             </tr>
                         </thead>
@@ -44,7 +43,7 @@
                                     <td>{{ $dichvu->ma_dich_vu }}</td>
                                     <td>{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}
                                     </td>
-                                    <td>{{ number_format($dichvu->don_gia) }}</td>
+                                 
                                     <td>
                                         <a href="{{ route('dichvus.edit', $dichvu->id) }}" class="btn btn-warning"><i
                                                 class="bi bi-wrench"></i></a>

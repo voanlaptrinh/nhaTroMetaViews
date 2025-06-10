@@ -49,7 +49,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <label for="don_vi_tinh_id" class="form-label">Đơn vị tính</label><br>
                                     <select id="don_vi_tinh_id" name="don_vi_tinh_id" class="select_ted form-control">
                                         <option value="">-- Chọn đơn vị tính --</option>
@@ -66,7 +66,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-6">
+                                {{-- <div class="col-lg-6">
                                     <label for="kieu_tinh" class="form-label">Kiểu tính</label><br>
                                     <select id="kieu_tinh" name="kieu_tinh" class="select_ted form-control">
                                           <option value="">-- Chọn kiểu tính --</option>
@@ -94,7 +94,7 @@
                                     @error('don_gia')
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div>
                                     <label for="mo_ta" class="form-label">Mô tả</label><br>

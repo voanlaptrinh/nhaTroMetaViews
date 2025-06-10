@@ -12,9 +12,8 @@ class DichVu extends Model
         'ten_dich_vu',
         'ma_dich_vu',
         'don_vi_tinh_id',
-        'don_gia',
         'mo_ta',
-        'kieu_tinh'
+        
     ];
 
     /**

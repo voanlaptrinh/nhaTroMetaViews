@@ -60,6 +60,7 @@ class NhaTroController extends Controller
         if ($request->has('dich_vu_ids')) {
             $nhaTro->dichVus()->attach($request->dich_vu_ids);
         }
+        dd($request->dich_vu_ids);
 
         return redirect()->route('nha_tro.index')->with('success', 'Thêm nhà trọ thành công');
     }

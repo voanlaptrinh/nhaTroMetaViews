@@ -27,8 +27,7 @@ class DichVuController extends Controller
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu',
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
-            'kieu_tinh' => 'required',
-            'don_gia' => 'numeric|min:0',
+           
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',
@@ -39,8 +38,7 @@ class DichVuController extends Controller
 
             'don_vi_tinh_id.exists' => 'Đơn vị tính không hợp lệ.',
 
-            'don_gia.numeric' => 'Đơn giá phải là số.',
-            'don_gia.min' => 'Đơn giá không được nhỏ hơn 0.',
+            
         ]);
 
 
@@ -62,8 +60,7 @@ class DichVuController extends Controller
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu,' . $dichVu->id,
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
-            'don_gia' => 'numeric|min:0',
-            'kieu_tinh' => 'required',
+            
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',
@@ -71,8 +68,7 @@ class DichVuController extends Controller
             'ma_dich_vu.required' => 'Vui lòng nhập mã dịch vụ.',
             'ma_dich_vu.unique' => 'Mã dịch vụ đã tồn tại, vui lòng chọn mã khác.',
             'don_vi_tinh_id.exists' => 'Đơn vị tính không hợp lệ.',
-            'don_gia.numeric' => 'Đơn giá phải là số.',
-            'don_gia.min' => 'Đơn giá không được nhỏ hơn 0.',
+           
         ]);
 
 
