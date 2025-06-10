@@ -1279,3 +1279,7 @@ h6 {
         stroke-dashoffset: 0;
         opacity: 1;
     }
+    .whx-100{
+      width: 100px;
+      height: 100px;
+    }

@@ -47,11 +47,11 @@ class DichVuSeeder extends Seeder
         ]);
         DB::table('dich_vus')->insert([
             [
-                'ten_dich_vu' => 'Nước sạch',
-                'ma_dich_vu' => 'nuoc_sach',
+                'ten_dich_vu' => 'Nước sạch theo đầu người',
+                'ma_dich_vu' => 'nuoc',
                 'don_vi_tinh_id' => 1, // m3
                 'don_gia' => 15000,
-                'mo_ta' => 'Tính theo công tơ nước',
+                'mo_ta' => 'Tính theo số người có trong phòng trọ đó',
                 'kieu_tinh' => 'cong_to',
                 'created_at' => now(),
                 'updated_at' => now(),

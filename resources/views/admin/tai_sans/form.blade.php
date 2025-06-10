@@ -20,7 +20,7 @@
 
 <div class="mb-3">
     <label>Tình trạng</label>
-    <select name="tinh_trang" class="form-control">
+    <select name="tinh_trang" class="form-select">
         @php
             $tinhTrang = old('tinh_trang', $taiSan->tinh_trang ?? 'Đang sử dụng');
         @endphp
@@ -36,5 +36,7 @@
     <textarea name="ghi_chu" class="form-control">{{ old('ghi_chu', $taiSan->ghi_chu ?? '') }}</textarea>
 </div>
 
-<button type="submit" class="btn btn-primary">Lưu</button>
+<div class="text-end">
+    <button type="submit" class="btn btn-primary">Lưu</button>
 <a href="{{ route('tai-sans.index') }}" class="btn btn-secondary">Quay lại</a>
+</div>

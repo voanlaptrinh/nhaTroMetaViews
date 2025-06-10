@@ -9,10 +9,36 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-     public function index()
+    public function index(Request $request)
     {
-        $rooms = Rooms::with('nhaTro')->latest()->paginate(10);
-        return view('admin.phong_tro.index', compact('rooms'));
+        $query = Rooms::query()->with('nhaTro');
+
+        if ($request->filled('nha_tro_id')) {
+            $query->where('nha_tro_id', $request->nha_tro_id);
+        }
+
+        if ($request->filled('ten_phong')) {
+            $query->where('ten_phong', 'like', '%' . $request->ten_phong . '%');
+        }
+
+        if ($request->filled('loai_phong')) {
+            $query->where('loai_phong', $request->loai_phong);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'da_thue') {
+                $query->where('da_thue', true);
+            } elseif ($request->status === 'trong') {
+                $query->where('da_thue', false);
+            }
+        }
+
+        $rooms = $query->paginate(10);
+
+        // Lấy danh sách nhà trọ để đưa vào form select
+        $nhaTros = NhaTros::all();
+
+        return view('admin.phong_tro.index', compact('rooms', 'nhaTros'));
     }
 
     public function create()
@@ -41,17 +67,17 @@ class RoomController extends Controller
             'loai_phong.in' => 'Loại phòng không hợp lệ.',
             'images.*.image' => 'Ảnh không đúng định dạng.',
         ]);
-$images = [];
+        $images = [];
 
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $img) {
-        $fileName = time() . '_' . $img->getClientOriginalName();
-        $img->move(public_path('rooms'), $fileName); // Lưu vào public/rooms
-        $images[] = 'rooms/' . $fileName; // Lưu đường dẫn tương đối
-    }
-}
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $img) {
+                $fileName = time() . '_' . $img->getClientOriginalName();
+                $img->move(public_path('rooms'), $fileName); // Lưu vào public/rooms
+                $images[] = 'rooms/' . $fileName; // Lưu đường dẫn tương đối
+            }
+        }
 
-$validated['images'] = $images;
+        $validated['images'] =json_encode($images) ;
         Rooms::create($validated);
 
         return redirect()->route('rooms.index')->with('success', 'Thêm phòng thành công.');
@@ -60,7 +86,7 @@ $validated['images'] = $images;
     public function edit(Rooms $room)
     {
         $nhaTros = NhaTros::all();
-     
+
         return view('admin.phong_tro.edit', compact('room', 'nhaTros'));
     }
 
@@ -79,17 +105,21 @@ $validated['images'] = $images;
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'ghi_chu' => 'nullable|string',
         ]);
-$images = is_array($room->images) ? $room->images : json_decode($room->images, true) ?? [];
+       $images = $request->input('existing_images', []);
+$images = is_array($images) ? $images : [];
 
 if ($request->hasFile('images')) {
     foreach ($request->file('images') as $img) {
-        $fileName = time() . '_' . $img->getClientOriginalName();
-        $img->move(public_path('rooms'), $fileName);
-        $images[] = 'rooms/' . $fileName;
+        if ($img->isValid()) {
+            $fileName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('rooms'), $fileName);
+            $images[] = 'rooms/' . $fileName;
+        }
     }
 }
 
-$validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
+
+        $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
 
         $room->update($validated);
 
@@ -102,10 +132,9 @@ $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
         return back()->with('success', 'Xóa phòng thành công.');
     }
     // App\Http\Controllers\RoomController.php
-public function getUsedRoomCodes($nha_tro_id)
-{
-    $usedCodes = Rooms::where('nha_tro_id', $nha_tro_id)->pluck('ma_phong');
-    return response()->json($usedCodes);
-}
-
+    public function getUsedRoomCodes($nha_tro_id)
+    {
+        $usedCodes = Rooms::where('nha_tro_id', $nha_tro_id)->pluck('ma_phong');
+        return response()->json($usedCodes);
+    }
 }

@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 
 class TaiSanController extends Controller
 {
-     public function index()
+    public function index(Request $request)
     {
-        $taiSans = TaiSan::all();
+        $query = TaiSan::query();
+
+        if ($request->filled('ten_tai_san')) {
+            $query->where('ten_tai_san', 'like', '%' . $request->ten_tai_san . '%');
+        }
+
+        if ($request->filled('tinh_trang')) {
+            $query->where('tinh_trang', $request->tinh_trang);
+        }
+
+        $taiSans = $query->paginate(10); // hoặc get() nếu không cần phân trang
         return view('admin.tai_sans.index', compact('taiSans'));
     }
 
