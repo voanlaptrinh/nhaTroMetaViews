@@ -12,7 +12,8 @@ class DichVuController extends Controller
     public function index()
     {
         $dichVus = DichVu::with('donViTinh')->paginate(10);
-        return view('admin.dich_vu.index', compact('dichVus'));
+        $acticeDichvu = true;
+        return view('admin.dich_vu.index', compact('dichVus','acticeDichvu'));
     }
 
     public function create()
