@@ -29,7 +29,18 @@ class DichVu extends Model
         return $this->belongsTo(DonViTinh::class, 'don_vi_tinh_id');
     }
     public function nhaTros()
+    {
+        return $this->belongsToMany(NhaTros::class, 'toa_nha_dich_vus', 'dich_vu_id', 'nha_tro_id')
+                    ->withPivot('don_gia', 'kieu_tinh')
+                    ->withTimestamps();
+    }
+    public function getDonGiaAttribute()
 {
-    return $this->belongsToMany(NhaTros::class, 'toa_nha_dich_vus', 'dich_vu_id', 'nha_tro_id')->withTimestamps();
+    return $this->pivot->don_gia ?? 0;
+}
+
+public function getKieuTinhAttribute()
+{
+    return $this->pivot->kieu_tinh ?? 'cong_to';
 }
 }
