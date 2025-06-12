@@ -1,11 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
     <div class="pagetitle">
-        <h1>Nhà trọ</h1>
+        <h1>Tài sản</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Nhà trọ</li>
+                <li class="breadcrumb-item active">Tài sản</li>
             </ol>
         </nav>
     </div>
@@ -43,7 +43,7 @@
                     </form>
 
 
-                    <table class="table table-bordered">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Mã</th>

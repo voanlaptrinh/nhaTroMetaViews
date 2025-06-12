@@ -8,9 +8,9 @@
                  <span>Dashboard</span>
              </a>
          </li><!-- End Dashboard Nav -->
-         
+
          <li class="nav-heading">Quản lý vận hành</li>
-         
+
          <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['dichvu.index', 'dichvus.create', 'dichvus.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('dichvu.index') }}">
@@ -24,6 +24,13 @@
                  href="{{ route('nha_tro.index') }}">
                  <i class="bi bi-house-door"></i>
                  <span>Nhà trọ</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['tai_san_chung_riengs.index', 'tai_san_chung_riengs.create', 'tai_san_chung_riengs.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('tai_san_chung_riengs.index') }}">
+                 <i class="bi bi-box"></i>
+                 <span>Tài sản trọ</span>
              </a>
          </li>
          <li class="nav-item">
@@ -42,8 +49,14 @@
          </li>
 
 
-         <li class="nav-heading">Pages</li>
-
+         <li class="nav-heading">Hiện thị trang chủ</li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['tin_tuc.index', 'tin_tuc.create', 'tin_tuc.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('tin_tuc.index') }}">
+                 <i class="bi bi-newspaper"></i>
+                 <span>Tin tức</span>
+             </a>
+         </li>
 
 
          <li class="nav-item">
