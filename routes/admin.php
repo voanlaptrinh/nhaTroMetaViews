@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\NhaTroController;
@@ -72,12 +73,13 @@ Route::prefix('tin_tuc')->group(function () {
 
 });
 Route::prefix('tai-san-chung-rieng')->group(function () {
-Route::get('/', [TaiSanChungRiengController::class, 'index'])->name('tai_san_chung_riengs.index');
-Route::get('/create', [TaiSanChungRiengController::class, 'create'])->name('tai_san_chung_riengs.create');
-Route::post('/store', [TaiSanChungRiengController::class, 'store'])->name('tai_san_chung_riengs.store');
-Route::get('/{id}/edit', [TaiSanChungRiengController::class, 'edit'])->name('tai_san_chung_riengs.edit');
-Route::put('/{id}', [TaiSanChungRiengController::class, 'update'])->name('tai_san_chung_riengs.update');
-Route::delete('/{id}', [TaiSanChungRiengController::class, 'destroy'])->name('tai_san_chung_riengs.destroy');
+    Route::get('/', [TaiSanChungRiengController::class, 'index'])->name('tai_san_chung_riengs.index');
+    Route::get('/create', [TaiSanChungRiengController::class, 'create'])->name('tai_san_chung_riengs.create');
+    Route::post('/store', [TaiSanChungRiengController::class, 'store'])->name('tai_san_chung_riengs.store');
+    Route::get('/{id}/edit', [TaiSanChungRiengController::class, 'edit'])->name('tai_san_chung_riengs.edit');
+    Route::put('/{id}', [TaiSanChungRiengController::class, 'update'])->name('tai_san_chung_riengs.update');
+    Route::delete('/{id}', [TaiSanChungRiengController::class, 'destroy'])->name('tai_san_chung_riengs.destroy');
 });
-  Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
-    Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
+Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
+Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
+Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

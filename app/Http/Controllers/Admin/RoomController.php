@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\NhaTros;
 use App\Models\Rooms;
@@ -37,6 +38,7 @@ class RoomController extends Controller
 
         // Lấy danh sách nhà trọ để đưa vào form select
         $nhaTros = NhaTros::all();
+        LogHelper::ghi('Xem danh sách phòng trọ', 'Phòng Trọ', 'Xem danh sách phòng trọ trong quản trị viên');
 
         return view('admin.phong_tro.index', compact('rooms', 'nhaTros'));
     }
@@ -44,6 +46,7 @@ class RoomController extends Controller
     public function create()
     {
         $nhaTros = NhaTros::all();
+        LogHelper::ghi('Vào form tạo phòng trọ', 'Phòng Trọ', 'Vào form tạo phòng trọ trong quản trị viên');
         return view('admin.phong_tro.create', compact('nhaTros'));
     }
 
@@ -79,14 +82,14 @@ class RoomController extends Controller
 
         $validated['images'] =json_encode($images) ;
         Rooms::create($validated);
-
+        LogHelper::ghi('Thêm phòng trọ mới', 'Phòng Trọ', 'Thêm phòng trọ mới trong quản trị viên');
         return redirect()->route('rooms.index')->with('success', 'Thêm phòng thành công.');
     }
 
     public function edit(Rooms $room)
     {
         $nhaTros = NhaTros::all();
-
+        LogHelper::ghi('Vào form sửa phòng trọ', 'Phòng Trọ', 'Vào form sửa phòng trọ trong quản trị viên');
         return view('admin.phong_tro.edit', compact('room', 'nhaTros'));
     }
 
@@ -122,13 +125,14 @@ if ($request->hasFile('images')) {
         $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
 
         $room->update($validated);
-
+        LogHelper::ghi('Cập nhật phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Cập nhật phòng trọ trong quản trị viên');
         return redirect()->route('rooms.index')->with('success', 'Cập nhật phòng thành công.');
     }
 
     public function destroy(Rooms $room)
     {
         $room->delete();
+        LogHelper::ghi('Xóa phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Xóa phòng trọ trong quản trị viên');
         return back()->with('success', 'Xóa phòng thành công.');
     }
     // App\Http\Controllers\RoomController.php

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\DichVu;
 use App\Models\NhaTros;
@@ -35,12 +36,15 @@ class NhaTroController extends Controller
     }
 
     $nhaTros = $query->latest()->paginate(10);
+        LogHelper::ghi('Xem danh sách nhà trọ', 'Nhà Trọ', 'Xem danh sách nhà trọ trong quản trị viên');
+
         return view('admin.nha_tro.index', compact('nhaTros'));
     }
 
     public function create()
     {
         $dichVus = DichVu::all();
+        LogHelper::ghi('Vào form tạo nhà trọ', 'Nhà Trọ', 'Vào form tạo nhà trọ trong quản trị viên');
         return view('admin.nha_tro.create', compact('dichVus'));
     }
 
@@ -94,6 +98,7 @@ class NhaTroController extends Controller
 
     $nhaTro->dichVus()->attach($syncData);
 }
+        LogHelper::ghi('Thêm nhà trọ mới', 'Nhà Trọ', 'Thêm nhà trọ mới trong quản trị viên');
 
 
         return redirect()->route('nha_tro.index')->with('success', 'Thêm nhà trọ thành công');
@@ -111,6 +116,7 @@ $pivotData = $nhaTro->dichVus->mapWithKeys(function ($item) {
         'kieu_tinh' => $item->pivot->kieu_tinh,
     ]];
 });
+        LogHelper::ghi('Vào form sửa nhà trọ', 'Nhà Trọ', 'Vào form sửa nhà trọ trong quản trị viên');
         return view('admin.nha_tro.edit', compact('nhaTro', 'dichVus','pivotData'));
     }
 
@@ -168,7 +174,7 @@ $pivotData = $nhaTro->dichVus->mapWithKeys(function ($item) {
         }
     }
         $nhaTro->dichVus()->sync($syncData);
-
+        LogHelper::ghi('Cập nhật nhà trọ với id ' . $nhaTro->id, 'Nhà Trọ', 'Cập nhật thông tin nhà trọ trong quản trị viên');
         return redirect()->route('nha_tro.index')->with('success', 'Cập nhật nhà trọ thành công');
     }
 
@@ -176,6 +182,7 @@ $pivotData = $nhaTro->dichVus->mapWithKeys(function ($item) {
     {
         $nhaTro = NhaTros::findOrFail($id);
         $nhaTro->delete();
+        LogHelper::ghi('Xóa nhà trọ với id ' . $nhaTro->id, 'Nhà Trọ', 'Xóa nhà trọ trong quản trị viên');
         return redirect()->route('nha_tro.index')->with('success', 'Xóa nhà trọ thành công');
     }
      private function messages()

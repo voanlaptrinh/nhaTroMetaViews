@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Log;
 use App\Models\NhaTros;
 use App\Models\Rooms;
 use App\Models\TaiSan;
@@ -14,11 +16,27 @@ use Illuminate\Support\Facades\DB;
 
 class TaiSanChungRiengController extends Controller
 {
-     public function index()
-    {
-        $list = TaiSanChungRieng::with(['nhaTro', 'room', 'taiSanChungs.taiSan', 'taiSanRiengs.taiSan'])->get();
-        return view('admin.tai_san_chung_riengs.index', compact('list'));
+    public function index(Request $request)
+{
+    $query = TaiSanChungRieng::with(['nhaTro', 'room', 'taiSanChungs.taiSan', 'taiSanRiengs.taiSan']);
+
+    if ($request->filled('ten_toa_nha')) {
+        $query->whereHas('nhaTro', function ($q) use ($request) {
+            $q->where('ten_toa_nha', 'like', '%' . $request->ten_toa_nha . '%');
+        });
     }
+
+    if ($request->filled('ma_phong')) {
+        $query->whereHas('room', function ($q) use ($request) {
+            $q->where('ma_phong', 'like', '%' . $request->ma_phong . '%');
+        });
+    }
+
+    $list = $query->paginate(20);
+    LogHelper::ghi('Xem danh sách tài sản chung riêng', 'Tài Sản Chung Riêng', 'Xem danh sách tài sản chung riêng trong quản trị viên');
+    return view('admin.tai_san_chung_riengs.index', compact('list'));
+}
+
 
     public function create()
     {
@@ -30,6 +48,7 @@ class TaiSanChungRiengController extends Controller
     $rooms = Rooms::whereNotIn('id', $usedRoomIds)->with('nhaTro')->get();
 
         $taiSans = TaiSan::all();
+        LogHelper::ghi('Vào form tạo tài sản chung riêng', 'Tài Sản Chung Riêng', 'Vào form tạo tài sản chung riêng trong quản trị viên');
         return view('admin.tai_san_chung_riengs.create', compact('nhaTros', 'rooms', 'taiSans'));
     }
 
@@ -70,7 +89,7 @@ class TaiSanChungRiengController extends Controller
                 ]);
             }
         }
-
+        LogHelper::ghi('Thêm tài sản chung riêng mới', 'Tài Sản Chung Riêng', 'Thêm tài sản chung riêng mới trong quản trị viên');
       
         return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Thêm mới thành công!');
    
@@ -82,6 +101,7 @@ class TaiSanChungRiengController extends Controller
         $nhaTros = NhaTros::all();
         $rooms = Rooms::with('nhaTro')->get();
         $taiSans = TaiSan::all();
+        LogHelper::ghi('Vào form sửa tài sản chung riêng', 'Tài Sản Chung Riêng', 'Vào form sửa tài sản chung riêng trong quản trị viên');
         return view('admin.tai_san_chung_riengs.edit', compact('taiSanChungRieng', 'nhaTros', 'rooms', 'taiSans'));
     }
 
@@ -112,6 +132,7 @@ class TaiSanChungRiengController extends Controller
             }
 
             DB::commit();
+            LogHelper::ghi('Cập nhật tài sản chung riêng với id ' . $tscr->id, 'Tài Sản Chung Riêng', 'Cập nhật tài sản chung riêng trong quản trị viên');
             return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Cập nhật thành công');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -123,6 +144,7 @@ class TaiSanChungRiengController extends Controller
     {
         $tscr = TaiSanChungRieng::findOrFail($id);
         $tscr->delete();
+        LogHelper::ghi('Xóa tài sản chung riêng với id ' . $tscr->id, 'Tài Sản Chung Riêng', 'Xóa tài sản chung riêng trong quản trị viên');
         return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Đã xóa thành công');
     }
 }

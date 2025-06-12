@@ -37,7 +37,7 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($dichVus as $dichvu)
+                            @forelse ($dichVus as $dichvu)
                                 <tr>
                                     <td>{{ $dichvu->ten_dich_vu }}</td>
                                     <td>{{ $dichvu->ma_dich_vu }}</td>
@@ -67,7 +67,11 @@
 
                                     </td>
                                 </tr>
-                            @endforeach
+                           @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Không có dữ liệu dịch vụ.</td>
+                                </tr>
+                            @endforelse
 
 
                         </tbody>

@@ -56,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($taiSans as $ts)
+                            @forelse ($taiSans as $ts)
                                 <tr>
                                     <td>{{ $ts->ma_tai_san }}</td>
                                     <td>{{ $ts->ten_tai_san }}</td>
@@ -83,7 +83,11 @@
                                         </button>
                                     </td>
                                 </tr>
-                            @endforeach
+                             @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Không có dữ liệu tài sản.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     <div class=" p-nav text-end d-flex justify-content-end">

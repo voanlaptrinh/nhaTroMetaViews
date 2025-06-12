@@ -57,6 +57,13 @@
                  <span>Tin tức</span>
              </a>
          </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['lien_he.index.admin']) ? '' : 'collapsed' }}"
+                 href="{{ route('lien_he.index.admin') }}">
+                 <i class="bi bi-person-lines-fill"></i>
+                 <span>Liên hệ</span>
+             </a>
+         </li>
 
 
          <li class="nav-item">

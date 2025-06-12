@@ -22,11 +22,19 @@
 
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách Tài sản chung riêng</h5>
-                        <a href="{{ route('tai_san_chung_riengs.create') }}" class="btn btn-success rounded-pill">Thêm mới</a>
+                        <a href="{{ route('tai_san_chung_riengs.create') }}" class="btn btn-success rounded-pill">Thêm
+                            mới</a>
                     </div>
                     <hr>
+                    <form method="GET" action="{{ route('tai_san_chung_riengs.index') }}" class="mb-3 d-flex gap-2">
+                        <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tìm theo tên tòa nhà"
+                            value="{{ request('ten_toa_nha') }}">
+                        <input type="text" name="ma_phong" class="form-control" placeholder="Tìm theo mã phòng"
+                            value="{{ request('ma_phong') }}">
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </form>
 
-               
+
 
                     <table class="table table-striped">
                         <thead>
@@ -40,12 +48,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($list as $item)
+                            @forelse ($list as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}</td>
                                     <td>{{ $item->room->ten_phong ?? 'Không có' }}
-                                        ({{ $item->room->ma_phong ?? 'Không có' }})</td>
+                                        ({{ $item->room->ma_phong ?? 'Không có' }})
+                                    </td>
                                     <td>
                                         @foreach ($item->taiSanChungs as $tsc)
                                             {{ $tsc->taiSan->ten_tai_san }}<br>
@@ -58,22 +67,80 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
-                                            class="btn btn-sm btn-warning">Sửa</a>
-                                        <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}" method="POST"
-                                            style="display:inline-block;"
+                                            class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                        <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
+                                            method="POST" style="display:inline-block;"
                                             onsubmit="return confirm('Bạn có chắc muốn xóa?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" type="submit">Xóa</button>
+                                            <button class="btn btn-sm btn-danger" type="submit"><i
+                                                    class="bi bi-trash text-white"></i></button>
                                         </form>
+                                        <button class="btn btn-sm btn-info btn-xem-chi-tiet" data-id="{{ $item->id }}"
+                                            data-toa-nha="{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}"
+                                            data-phong="{{ $item->room->ten_phong ?? 'Không có' }}"
+                                            data-ma-phong="{{ $item->room->ma_phong ?? 'Không có' }}"
+                                            data-ts-chung="{{ $item->taiSanChungs->pluck('taiSan.ten_tai_san')->implode(', ') }}"
+                                            data-ts-rieng="{{ $item->taiSanRiengs->pluck('taiSan.ten_tai_san')->implode(', ') }}">
+                                             <i class="bi bi-eye"></i>
+                                        </button>
+
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Không có dữ liệu.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class=" p-nav text-end d-flex justify-content-end">
+                    {{ $list->appends(request()->query())->links('pagination::bootstrap-4') }}
                 </div>
             </div>
 
         </div>
     </div>
+    <div class="modal fade" id="modalChiTiet" tabindex="-1" aria-labelledby="modalChiTietLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalChiTietLabel">Chi tiết tài sản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                 
+                    <p><strong>Tòa nhà:</strong> <span id="ct-toa-nha"></span></p>
+                    <p><strong>Phòng:</strong> <span id="ct-phong"></span></p>
+                    <p><strong>Mã phòng:</strong> <span id="ct-ma-phong"></span></p>
+                    <p><strong>Tài sản chung:</strong> <span id="ct-ts-chung"></span></p>
+                    <p><strong>Tài sản riêng:</strong> <span id="ct-ts-rieng"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn-xem-chi-tiet');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                   
+                    document.getElementById('ct-toa-nha').textContent = this.dataset.toaNha;
+                    document.getElementById('ct-phong').textContent = this.dataset.phong;
+                    document.getElementById('ct-ma-phong').textContent = this.dataset.maPhong;
+                    document.getElementById('ct-ts-chung').textContent = this.dataset.tsChung;
+                    document.getElementById('ct-ts-rieng').textContent = this.dataset.tsRieng;
+
+                    const modal = new bootstrap.Modal(document.getElementById('modalChiTiet'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
 @endsection

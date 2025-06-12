@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($tinTucs as $tt)
+                                @forelse ($tinTucs as $tt)
                                     <tr>
                                         <td>{{ $tt->tieu_de }}</td>
                                         <td>{{ $tt->tac_gia }}</td>
@@ -91,7 +91,11 @@
                                             </button>
                                         </td>
                                     </tr>
-                                @endforeach
+                                 @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">Không có dữ liệu tin tức.</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>

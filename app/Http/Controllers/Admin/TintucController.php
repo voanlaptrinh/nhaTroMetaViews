@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\TinTuc;
 use Illuminate\Http\Request;
@@ -26,12 +27,13 @@ class TintucController extends Controller
     }
 
     $tinTucs = $query->orderBy('created_at', 'desc')->paginate(10);
-
+    LogHelper::ghi('Xem danh sách tin tức', 'Tin Tức', 'Xem danh sách tin tức trong quản trị viên');
     return view('admin.tin_tuc.index', compact('tinTucs'));
 }
 
     public function create()
     {
+        LogHelper::ghi('Vào form tạo tin tức', 'Tin Tức', 'Vào form tạo tin tức trong quản trị viên');
         return view('admin.tin_tuc.create');
     }
 
@@ -55,12 +57,13 @@ class TintucController extends Controller
         }
 
         TinTuc::create($data);
-
+        LogHelper::ghi('Thêm tin tức mới', 'Tin Tức', 'Thêm tin tức mới trong quản trị viên');
         return redirect()->route('tin_tuc.index')->with('success', 'Thêm tin tức thành công.');
     }
 
     public function edit(TinTuc $tinTuc)
     {
+        LogHelper::ghi('Vào form sửa tin tức', 'Tin Tức', 'Vào form sửa tin tức trong quản trị viên');
         return view('admin.tin_tuc.edit', compact('tinTuc'));
     }
 
@@ -87,7 +90,7 @@ class TintucController extends Controller
         }
 
         $tinTuc->update($data);
-
+        LogHelper::ghi('Cập nhật tin tức với id ' . $tinTuc->id, 'Tin Tức', 'Cập nhật tin tức trong quản trị viên');
         return redirect()->route('tin_tuc.index')->with('success', 'Cập nhật tin tức thành công.');
     }
 
@@ -98,7 +101,7 @@ class TintucController extends Controller
         }
 
         $tinTuc->delete();
-
+        LogHelper::ghi('Xóa tin tức với id ' . $tinTuc->id, 'Tin Tức', 'Xóa tin tức trong quản trị viên');
         return redirect()->route('tin_tuc.index')->with('success', 'Xóa tin tức thành công.');
     }
 }
