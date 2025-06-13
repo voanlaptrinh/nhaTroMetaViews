@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\NhaTroController;
+use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
@@ -80,6 +81,15 @@ Route::prefix('tai-san-chung-rieng')->group(function () {
     Route::put('/{id}', [TaiSanChungRiengController::class, 'update'])->name('tai_san_chung_riengs.update');
     Route::delete('/{id}', [TaiSanChungRiengController::class, 'destroy'])->name('tai_san_chung_riengs.destroy');
 });
+Route::prefix('chinh-sach')->group(function () {
+    Route::get('/', [PolicyController::class, 'index'])->name('policies.index');
+    Route::get('/create', [PolicyController::class, 'create'])->name('policies.create');
+    Route::post('/store', [PolicyController::class, 'store'])->name('policies.store');
+    Route::get('/{policy}/edit', [PolicyController::class, 'edit'])->name('policies.edit');
+    Route::put('/{policy}', [PolicyController::class, 'update'])->name('policies.update');
+    Route::delete('/{policy}', [PolicyController::class, 'destroy'])->name('policies.destroy');
+});
+
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

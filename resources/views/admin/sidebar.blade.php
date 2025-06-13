@@ -64,6 +64,13 @@
                  <span>Liên hệ</span>
              </a>
          </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['policies.index', 'policies.create', 'policies.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('policies.index') }}">
+                <i class="bi bi-file-earmark-text"></i>
+                 <span>Chính sách</span>
+             </a>
+         </li>
 
 
          <li class="nav-item">

@@ -9,6 +9,9 @@
             <input type="text" name="ten_phong" class="form-control"
                 value="{{ old('ten_phong', optional($room)->ten_phong) }}" required>
         </div>
+        @error('ten_phong')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="col-lg-4">
         <label class="form-label">Chọn tòa nhà</label>
@@ -22,6 +25,9 @@
                 </option>
             @endforeach
         </select>
+        @error('nha_tro_id')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="col-lg-4">
         <label class="form-label">Chọn mã phòng</label>
@@ -34,11 +40,17 @@
         <label class="form-label">Diện tích (m²)</label>
         <input type="number" name="dien_tich" class="form-control"
             value="{{ old('dien_tich', optional($room)->dien_tich) }}">
+        @error('dien_tich')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="col-lg-4">
         <label class="form-label">Số khách tối đa</label>
         <input type="number" name="so_khach" class="form-control"
             value="{{ old('so_khach', optional($room)->so_khach) }}">
+        @error('so_khach')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
 
 
@@ -54,12 +66,18 @@
             </option>
             <option value="khac" {{ $loai_phong == 'khac' ? 'selected' : '' }}>Khác</option>
         </select>
+        @error('loai_phong')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="col-lg-4">
         <label class="form-label">Giá thuê (VNĐ)</label>
         <input type="number" name="gia_thue" class="form-control"
             value="{{ old('gia_thue', optional($room)->gia_thue ?? 0) }}">
+        @error('gia_thue')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="col-lg-4">
@@ -70,6 +88,9 @@
             <option value="1" {{ old('da_thue', optional($room)->da_thue) == 1 ? 'selected' : '' }}>Đã thuê
             </option>
         </select>
+        @error('da_thue')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="col-lg-4">
         <label class="form-label">Trạng thái</label>
@@ -81,6 +102,9 @@
             <option value="dang_sua" {{ $status == 'dang_sua' ? 'selected' : '' }}>Đang sửa</option>
             <option value="da_thue" {{ $status == 'da_thue' ? 'selected' : '' }}>Đã thuê</option>
         </select>
+        @error('trang_thai')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div>
         <label class="form-label">Ảnh phòng</label>
@@ -102,7 +126,7 @@
             <div id="existingImages" class="d-flex flex-wrap gap-2 mb-2">
                 @foreach ($images as $img)
                     <div class="position-relative">
-                        <img src="{{ asset($img) }}" class="rounded border whx-100" >
+                        <img src="{{ asset($img) }}" class="rounded border whx-100">
                         <input type="hidden" name="existing_images[]" value="{{ $img }}">
                         <button type="button"
                             class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-existing-image"
@@ -114,11 +138,16 @@
             </div>
         @endif
 
+        @error('images')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
         <div class="col-lg-12">
             <label class="form-label">Ghi chú</label>
             <textarea name="ghi_chu" class="form-control">{{ old('ghi_chu', optional($room)->ghi_chu) }}</textarea>
+            @error('ghi_chu')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
-
 
 
 
