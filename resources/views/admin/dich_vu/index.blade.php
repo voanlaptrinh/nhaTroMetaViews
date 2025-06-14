@@ -24,9 +24,9 @@
                         <a href="{{ route('dichvus.create') }}" class="btn btn-success rounded-pill">Thêm Dịch Vụ
                             Mới</a>
                     </div>
-
+<div class="table-responsive">
                     <!-- Table with stripped rows -->
-                    <table class="table table-striped">
+                    <table class="table table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th scope="col">Tên dịch vụ</th>
@@ -78,6 +78,7 @@
                     </table>
                     <!-- End Table with stripped rows -->
 
+                </div>
                 </div>
             </div>
 

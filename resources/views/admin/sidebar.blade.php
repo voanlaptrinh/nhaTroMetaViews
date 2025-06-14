@@ -71,14 +71,14 @@
                  <span>Chính sách</span>
              </a>
          </li>
-
-
          <li class="nav-item">
-             <a class="nav-link collapsed" href="">
-                 <i class="bi bi-file-earmark"></i>
-                 <span>Blank</span>
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['sliders.index', 'sliders.create', 'sliders.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('sliders.index') }}">
+                  <i class="bi bi-images me-2"></i> 
+                 <span>Sliders</span>
              </a>
-         </li><!-- End Blank Page Nav -->
+         </li>
+
 
      </ul>
 

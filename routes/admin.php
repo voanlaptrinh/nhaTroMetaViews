@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
 use App\Http\Controllers\Admin\TintucController;
@@ -89,7 +90,14 @@ Route::prefix('chinh-sach')->group(function () {
     Route::put('/{policy}', [PolicyController::class, 'update'])->name('policies.update');
     Route::delete('/{policy}', [PolicyController::class, 'destroy'])->name('policies.destroy');
 });
-
+Route::prefix('sliders')->group(function () {
+    Route::get('/', [SliderController::class, 'index'])->name('sliders.index');
+    Route::get('/create', [SliderController::class, 'create'])->name('sliders.create');
+    Route::post('/store', [SliderController::class, 'store'])->name('sliders.store');
+    Route::get('/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+    Route::put('/{slider}', [SliderController::class, 'update'])->name('sliders.update');
+    Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+});
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

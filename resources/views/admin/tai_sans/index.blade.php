@@ -42,8 +42,8 @@
                         </div>
                     </form>
 
-
-                    <table class="table table-striped">
+<div class="table-responsive">
+                    <table class="table table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th>Mã</th>
@@ -90,6 +90,7 @@
                             @endforelse
                         </tbody>
                     </table>
+</div>
                     <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $taiSans->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>

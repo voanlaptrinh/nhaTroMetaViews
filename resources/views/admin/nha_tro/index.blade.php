@@ -24,37 +24,37 @@
                         <a href="{{ route('nha_tro.create') }}" class="btn btn-success rounded-pill">Thêm nhà trọ</a>
                     </div>
                     <hr>
-<form method="GET" action="{{ route('nha_tro.index') }}" class="mb-3">
-    <div class="row">
-        <div class="col-md-2">
-            <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tên tòa nhà"
-                value="{{ request('ten_toa_nha') }}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="ma_toa_nha" class="form-control" placeholder="Mã tòa nhà"
-                value="{{ request('ma_toa_nha') }}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="dia_chi" class="form-control" placeholder="Địa chỉ"
-                value="{{ request('dia_chi') }}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="quan" class="form-control" placeholder="Quận/Huyện"
-                value="{{ request('quan') }}">
-        </div>
-        <div class="col-md-2">
-            <input type="text" name="thanh_pho" class="form-control" placeholder="Thành phố"
-                value="{{ request('thanh_pho') }}">
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
-        </div>
-    </div>
-</form>
+                    <form method="GET" action="{{ route('nha_tro.index') }}" class="mb-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tên tòa nhà"
+                                    value="{{ request('ten_toa_nha') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="ma_toa_nha" class="form-control" placeholder="Mã tòa nhà"
+                                    value="{{ request('ma_toa_nha') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="dia_chi" class="form-control" placeholder="Địa chỉ"
+                                    value="{{ request('dia_chi') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="quan" class="form-control" placeholder="Quận/Huyện"
+                                    value="{{ request('quan') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="thanh_pho" class="form-control" placeholder="Thành phố"
+                                    value="{{ request('thanh_pho') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </form>
 
 
 
-
+<div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -103,7 +103,8 @@
                             @endforelse
                         </tbody>
                     </table>
-                     <div class=" p-nav text-end d-flex justify-content-end">
+</div>
+                    <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $nhaTros->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
                 </div>

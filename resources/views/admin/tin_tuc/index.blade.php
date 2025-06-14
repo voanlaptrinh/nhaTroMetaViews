@@ -54,50 +54,51 @@
                     </form>
 
                     <div class="card-body">
-
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Tiêu đề</th>
-                                    <th>Tác giả</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($tinTucs as $tt)
+                        <div class="table-responsive">
+                            <table class="table table-striped table-responsive">
+                                <thead>
                                     <tr>
-                                        <td>{{ $tt->tieu_de }}</td>
-                                        <td>{{ $tt->tac_gia }}</td>
-                                        <td>{{ $tt->trang_thai == 'hien_thi' ? 'Hiện thị' : 'Bản nháp' }}</td>
-                                        <td>{{ $tt->created_at->format('d/m/Y') }}</td>
-                                        <td>
-                                            <a href="{{ route('tin_tuc.edit', $tt->id) }}"
-                                                class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('tin_tuc.destroy', $tt->id) }}" method="POST"
-                                                style="display:inline-block;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Xóa tin tức này?')"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
-                                            <button type="button" class="btn btn-info btn-sm btn-xem-chi-tiet"
-                                                data-bs-toggle="modal" data-bs-target="#modalChiTiet"
-                                                data-tieude="{{ $tt->tieu_de }}" data-noidung="{{ $tt->noi_dung }}"
-                                                data-mota="{{ $tt->mo_ta_ngan }}" data-tacgia="{{ $tt->tac_gia }}"
-                                                data-anh="{{ asset($tt->hinh_anh) }}">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </td>
+                                        <th>Tiêu đề</th>
+                                        <th>Tác giả</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Hành động</th>
                                     </tr>
-                                 @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">Không có dữ liệu tin tức.</td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @forelse ($tinTucs as $tt)
+                                        <tr>
+                                            <td>{{ $tt->tieu_de }}</td>
+                                            <td>{{ $tt->tac_gia }}</td>
+                                            <td>{{ $tt->trang_thai == 'hien_thi' ? 'Hiện thị' : 'Bản nháp' }}</td>
+                                            <td>{{ $tt->created_at->format('d/m/Y') }}</td>
+                                            <td>
+                                                <a href="{{ route('tin_tuc.edit', $tt->id) }}"
+                                                    class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                                <form action="{{ route('tin_tuc.destroy', $tt->id) }}" method="POST"
+                                                    style="display:inline-block;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Xóa tin tức này?')"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                                <button type="button" class="btn btn-info btn-sm btn-xem-chi-tiet"
+                                                    data-bs-toggle="modal" data-bs-target="#modalChiTiet"
+                                                    data-tieude="{{ $tt->tieu_de }}" data-noidung="{{ $tt->noi_dung }}"
+                                                    data-mota="{{ $tt->mo_ta_ngan }}" data-tacgia="{{ $tt->tac_gia }}"
+                                                    data-anh="{{ asset($tt->hinh_anh) }}">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Không có dữ liệu tin tức.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class=" p-nav text-end d-flex justify-content-end">
@@ -119,7 +120,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="d-flex">
-                                
+
                                 <h5 id="ct-tieu-de"></h5>
                             </div>
                             <p class="text-muted"><span id="ct-tac-gia"></span></p>
@@ -144,7 +145,8 @@
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
 
-                document.getElementById('ct-tieu-de').textContent = "Tiêu đề: " + button.getAttribute('data-tieude');
+                document.getElementById('ct-tieu-de').textContent = "Tiêu đề: " + button.getAttribute(
+                    'data-tieude');
                 document.getElementById('ct-tac-gia').textContent = "Tác giả: " + button.getAttribute(
                     'data-tacgia');
                 document.getElementById('ct-mo-ta').textContent = button.getAttribute('data-mota');

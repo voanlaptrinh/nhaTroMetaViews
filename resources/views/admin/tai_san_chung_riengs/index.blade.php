@@ -35,65 +35,68 @@
                     </form>
 
 
+                    <div class="table-responsive">
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nhà trọ</th>
-                                <th>Phòng trọ</th>
-                                <th>Tài sản chung</th>
-                                <th>Tài sản riêng</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($list as $item)
+                        <table class="table table-striped ">
+                            <thead>
                                 <tr>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}</td>
-                                    <td>{{ $item->room->ten_phong ?? 'Không có' }}
-                                        ({{ $item->room->ma_phong ?? 'Không có' }})
-                                    </td>
-                                    <td>
-                                        @foreach ($item->taiSanChungs as $tsc)
-                                            {{ $tsc->taiSan->ten_tai_san }}<br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($item->taiSanRiengs as $tsr)
-                                            {{ $tsr->taiSan->ten_tai_san }}<br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
-                                            class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
-                                        <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
-                                            method="POST" style="display:inline-block;"
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" type="submit"><i
-                                                    class="bi bi-trash text-white"></i></button>
-                                        </form>
-                                        <button class="btn btn-sm btn-info btn-xem-chi-tiet" data-id="{{ $item->id }}"
-                                            data-toa-nha="{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}"
-                                            data-phong="{{ $item->room->ten_phong ?? 'Không có' }}"
-                                            data-ma-phong="{{ $item->room->ma_phong ?? 'Không có' }}"
-                                            data-ts-chung="{{ $item->taiSanChungs->pluck('taiSan.ten_tai_san')->implode(', ') }}"
-                                            data-ts-rieng="{{ $item->taiSanRiengs->pluck('taiSan.ten_tai_san')->implode(', ') }}">
-                                             <i class="bi bi-eye"></i>
-                                        </button>
+                                    <th>ID</th>
+                                    <th>Nhà trọ</th>
+                                    <th>Phòng trọ</th>
+                                    <th>Tài sản chung</th>
+                                    <th>Tài sản riêng</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($list as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}</td>
+                                        <td>{{ $item->room->ten_phong ?? 'Không có' }}
+                                            ({{ $item->room->ma_phong ?? 'Không có' }})
+                                        </td>
+                                        <td>
+                                            @foreach ($item->taiSanChungs as $tsc)
+                                                {{ $tsc->taiSan->ten_tai_san }}<br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach ($item->taiSanRiengs as $tsr)
+                                                {{ $tsr->taiSan->ten_tai_san }}<br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
+                                                class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                            <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
+                                                method="POST" style="display:inline-block;"
+                                                onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" type="submit"><i
+                                                        class="bi bi-trash text-white"></i></button>
+                                            </form>
+                                            <button class="btn btn-sm btn-info btn-xem-chi-tiet"
+                                                data-id="{{ $item->id }}"
+                                                data-toa-nha="{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}"
+                                                data-phong="{{ $item->room->ten_phong ?? 'Không có' }}"
+                                                data-ma-phong="{{ $item->room->ma_phong ?? 'Không có' }}"
+                                                data-ts-chung="{{ $item->taiSanChungs->pluck('taiSan.ten_tai_san')->implode(', ') }}"
+                                                data-ts-rieng="{{ $item->taiSanRiengs->pluck('taiSan.ten_tai_san')->implode(', ') }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
 
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">Không có dữ liệu.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">Không có dữ liệu.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class=" p-nav text-end d-flex justify-content-end">
                     {{ $list->appends(request()->query())->links('pagination::bootstrap-4') }}
@@ -110,7 +113,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
-                 
+
                     <p><strong>Tòa nhà:</strong> <span id="ct-toa-nha"></span></p>
                     <p><strong>Phòng:</strong> <span id="ct-phong"></span></p>
                     <p><strong>Mã phòng:</strong> <span id="ct-ma-phong"></span></p>
@@ -129,7 +132,7 @@
 
             buttons.forEach(button => {
                 button.addEventListener('click', function() {
-                   
+
                     document.getElementById('ct-toa-nha').textContent = this.dataset.toaNha;
                     document.getElementById('ct-phong').textContent = this.dataset.phong;
                     document.getElementById('ct-ma-phong').textContent = this.dataset.maPhong;

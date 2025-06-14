@@ -77,85 +77,87 @@
 
 
                     </div>
-
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tòa nhà</th>
-                                <th>Tên phòng</th>
-                                <th>Mã phòng</th>
-                                <th>Diện tích (m²)</th>
-                                <th>Giá thuê</th>
-                                <th>Loại phòng</th>
-                                <th>Trạng thái</th>
-                                <th>Đã thuê</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($rooms as $room)
+                    <div class="table-responsive">
+                        <table class="table table-striped table-responsive">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $room->nhaTro->ten_toa_nha ?? 'N/A' }}</td>
-                                    <td>{{ $room->ten_phong }}</td>
-                                    <td>{{ $room->ma_phong }}</td>
-                                    <td>{{ $room->dien_tich }} m²</td>
-                                    <td>{{ number_format($room->gia_thue) }} VNĐ</td>
-                                    <td>
-                                        @if ($room->loai_phong == 'van_phong')
-                                            Văn phòng
-                                        @elseif($room->loai_phong == 'can_ho')
-                                            Căn Hộ
-                                        @elseif($room->loai_phong == 'phong_cho_thue')
-                                            Phòng cho thuê
-                                        @else
-                                            Khác
-                                        @endif
-
-
-
-
-
-                                    <td>
-                                        <span class="badge bg-{{ $room->status == 'trong' ? 'success' : 'secondary' }}">
-                                            {{ ucfirst($room->status) }}
-                                        </span>
-                                    </td>
-                                    <td>{{ $room->da_thue ? 'Có' : 'Không' }}</td>
-                                    <td>
-                                        <a href="{{ route('rooms.edit', $room->id) }}"
-                                            class="btn btn-sm btn-warning"><i
-                                                class="bi bi-wrench"></i></a>
-
-                                        <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
-                                            style="display:inline-block"
-                                            onsubmit="return confirm('Bạn có chắc muốn xoá phòng này không?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger"><i
-                                                    class="bi bi-trash text-white"></i></button>
-                                        </form>
-                                        <button class="btn btn-sm btn-info btn-show-detail" data-id="{{ $room->id }}"
-                                            data-ten-phong="{{ $room->ten_phong }}" data-ma-phong="{{ $room->ma_phong }}"
-                                            data-nha-tro="{{ $room->nhaTro->ten_toa_nha ?? 'N/A' }}"
-                                            data-dien-tich="{{ $room->dien_tich }}"
-                                            data-gia-thue="{{ number_format($room->gia_thue) }}"
-                                            data-loai-phong="{{ $room->loai_phong }}"
-                                            data-trang-thai="{{ ucfirst($room->status) }}"
-                                            data-da-thue="{{ $room->da_thue ? 'Có' : 'Không' }}">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-
-                                    </td>
+                                    <th>#</th>
+                                    <th>Tòa nhà</th>
+                                    <th>Tên phòng</th>
+                                    <th>Mã phòng</th>
+                                    <th>Diện tích (m²)</th>
+                                    <th>Giá thuê</th>
+                                    <th>Loại phòng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Đã thuê</th>
+                                    <th>Thao tác</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="11" class="text-center">Không có phòng nào.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse ($rooms as $room)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $room->nhaTro->ten_toa_nha ?? 'N/A' }}</td>
+                                        <td>{{ $room->ten_phong }}</td>
+                                        <td>{{ $room->ma_phong }}</td>
+                                        <td>{{ $room->dien_tich }} m²</td>
+                                        <td>{{ number_format($room->gia_thue) }} VNĐ</td>
+                                        <td>
+                                            @if ($room->loai_phong == 'van_phong')
+                                                Văn phòng
+                                            @elseif($room->loai_phong == 'can_ho')
+                                                Căn Hộ
+                                            @elseif($room->loai_phong == 'phong_cho_thue')
+                                                Phòng cho thuê
+                                            @else
+                                                Khác
+                                            @endif
+
+
+
+
+
+                                        <td>
+                                            <span
+                                                class="badge bg-{{ $room->status == 'trong' ? 'success' : 'secondary' }}">
+                                                {{ ucfirst($room->status) }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $room->da_thue ? 'Có' : 'Không' }}</td>
+                                        <td>
+                                            <a href="{{ route('rooms.edit', $room->id) }}"
+                                                class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+
+                                            <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
+                                                style="display:inline-block"
+                                                onsubmit="return confirm('Bạn có chắc muốn xoá phòng này không?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger"><i
+                                                        class="bi bi-trash text-white"></i></button>
+                                            </form>
+                                            <button class="btn btn-sm btn-info btn-show-detail"
+                                                data-id="{{ $room->id }}" data-ten-phong="{{ $room->ten_phong }}"
+                                                data-ma-phong="{{ $room->ma_phong }}"
+                                                data-nha-tro="{{ $room->nhaTro->ten_toa_nha ?? 'N/A' }}"
+                                                data-dien-tich="{{ $room->dien_tich }}"
+                                                data-gia-thue="{{ number_format($room->gia_thue) }}"
+                                                data-loai-phong="{{ $room->loai_phong }}"
+                                                data-trang-thai="{{ ucfirst($room->status) }}"
+                                                data-da-thue="{{ $room->da_thue ? 'Có' : 'Không' }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="11" class="text-center">Không có phòng nào.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                     <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $rooms->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
@@ -217,7 +219,7 @@
                     document.getElementById('modal-loai-phong').textContent = convertLoaiPhong(this
                         .dataset.loaiPhong);
                     document.getElementById('modal-trang-thai').textContent = this.dataset
-                    .trangThai;
+                        .trangThai;
                     document.getElementById('modal-da-thue').textContent = this.dataset.daThue;
 
 

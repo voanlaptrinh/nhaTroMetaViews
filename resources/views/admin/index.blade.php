@@ -33,6 +33,10 @@
     <link href="{{ asset('/assets/css/toastr.min.css') }}" rel="stylesheet">
      <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet" />
 
+<!-- Trong <head> -->
+<link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
+
+<!-- Trước </body> -->
 
     <!-- Theme Bootstrap 5 -->
     <link href="{{ asset('/assets/css/select2-bootstrap4.min.css') }}" rel="stylesheet" />
@@ -789,7 +793,43 @@
             }
         })
     </script>
+<script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
+<script>
 
+    let cropper;
+    const imageInput = document.getElementById('imageInput');
+    const previewImage = document.getElementById('previewImage');
+    const croppedImageInput = document.getElementById('croppedImage');
+
+    imageInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            previewImage.src = event.target.result;
+            previewImage.style.display = 'block';
+
+            if (cropper) {
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(previewImage, {
+                aspectRatio: 16 / 9, // bạn có thể đổi thành 1 nếu muốn ảnh vuông
+                viewMode: 1,
+                autoCropArea: 1,
+                cropend() {
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 1280,
+                        height: 720,
+                    });
+                    croppedImageInput.value = canvas.toDataURL('image/png');
+                }
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
 </body>
 
 

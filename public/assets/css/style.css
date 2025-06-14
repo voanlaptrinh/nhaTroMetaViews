@@ -396,11 +396,22 @@ h6 {
   padding-left: 10px;
   cursor: pointer;
   color: #012970;
+
+}
+
+#clock {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .header .search-bar {
-  min-width: 360px;
-  padding: 0 20px;
+  min-width: 200px;
+  padding: 10px 20px;
+  background: #4154f13b;
+  text-align: center;
+  color: #000000;
+  border-radius: 10px;
+  font-weight: 900;
 }
 
 @media (max-width: 1199px) {
@@ -411,11 +422,12 @@ h6 {
     right: 0;
     padding: 20px;
     box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
-    background: white;
+    background: #8c99ffc2;
     z-index: 9999;
     transition: 0.3s;
     visibility: hidden;
     opacity: 0;
+    border: 1.2px solid #693030;
   }
 
   .header .search-bar-show {
@@ -1240,46 +1252,47 @@ h6 {
   color: #012970;
 }
 
- .checkbox-wrapper-61 input[type="checkbox"] {
-        visibility: hidden;
-        display: none;
-    }
+.checkbox-wrapper-61 input[type="checkbox"] {
+  visibility: hidden;
+  display: none;
+}
 
-    .checkbox-wrapper-61 *,
-    .checkbox-wrapper-61 ::after,
-    .checkbox-wrapper-61 ::before {
-        box-sizing: border-box;
-    }
+.checkbox-wrapper-61 *,
+.checkbox-wrapper-61 ::after,
+.checkbox-wrapper-61 ::before {
+  box-sizing: border-box;
+}
 
-    .checkbox-wrapper-61 {
-        position: relative;
-        display: block;
-        overflow: hidden;
-    }
+.checkbox-wrapper-61 {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
 
-    .checkbox-wrapper-61 .check {
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        opacity: 0;
-    }
+.checkbox-wrapper-61 .check {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  opacity: 0;
+}
 
-    .checkbox-wrapper-61 .label svg {
-        vertical-align: middle;
-    }
+.checkbox-wrapper-61 .label svg {
+  vertical-align: middle;
+}
 
-    .checkbox-wrapper-61 .path1 {
-        stroke-dasharray: 400;
-        stroke-dashoffset: 400;
-        transition: .5s stroke-dashoffset;
-        opacity: 0;
-    }
+.checkbox-wrapper-61 .path1 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  transition: .5s stroke-dashoffset;
+  opacity: 0;
+}
 
-    .checkbox-wrapper-61 .check:checked+label svg g path {
-        stroke-dashoffset: 0;
-        opacity: 1;
-    }
-    .whx-100{
-      width: 100px;
-      height: 100px;
-    }
+.checkbox-wrapper-61 .check:checked+label svg g path {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.whx-100 {
+  width: 100px;
+  height: 100px;
+}
