@@ -63,6 +63,7 @@
                     <img src="{{ asset($slider->image) }}" height="80">
                 </div>
             @endif
+            
         </div>
     </div>
 
