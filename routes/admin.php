@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\RoomController;
@@ -97,6 +98,14 @@ Route::prefix('sliders')->group(function () {
     Route::get('/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
     Route::put('/{slider}', [SliderController::class, 'update'])->name('sliders.update');
     Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+});
+Route::prefix('feedbacks')->name('feedbacks.')->group(function () {
+    Route::get('/', [FeedbackController::class, 'index'])->name('index');           // Danh sách
+    Route::get('/create', [FeedbackController::class, 'create'])->name('create');   // Form thêm
+    Route::post('/store', [FeedbackController::class, 'store'])->name('store');     // Lưu mới
+    Route::get('/edit/{feedback}', [FeedbackController::class, 'edit'])->name('edit'); // Form sửa
+    Route::put('/update/{feedback}', [FeedbackController::class, 'update'])->name('update'); // Cập nhật
+    Route::post('/delete/{feedback}', [FeedbackController::class, 'destroy'])->name('destroy'); // Xóa
 });
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
