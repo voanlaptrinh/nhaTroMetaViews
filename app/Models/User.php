@@ -7,20 +7,46 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+   /**
+     * Các trường có thể gán giá trị hàng loạt.
+     */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'phone',
+        'avatar',
+        'birthday',
+        'active',
+        'cmt_mat_truoc',
+        'cmt_mat_sau',
+        'cmnd',
+        'ho_chieu',
+        'gioi_tinh',
+        'ngay_cap_cmnd',
+        'noi_cap_cmnd',
+        'thanh_pho',
+        'huyen',
+        'xa',
+        'address',
+        'stk',
+        'ngan_hang',
+        'nghe_nghiep',
+        'noi_lam_viec',
+        'ma_van_tay',
+        'note',
     ];
 
     /**
@@ -38,8 +64,13 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    /**
+     * Kiểu dữ liệu cho các trường.
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday' => 'date',
+        'active' => 'boolean',
     ];
     public function congViecs()
 {
