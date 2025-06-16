@@ -26,13 +26,22 @@
                             mới</a>
                     </div>
                     <hr>
-                    <form method="GET" action="{{ route('tai_san_chung_riengs.index') }}" class="mb-3 d-flex gap-2">
-                        <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tìm theo tên tòa nhà"
-                            value="{{ request('ten_toa_nha') }}">
-                        <input type="text" name="ma_phong" class="form-control" placeholder="Tìm theo mã phòng"
-                            value="{{ request('ma_phong') }}">
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    </form>
+                    <form method="GET" action="{{ route('tai_san_chung_riengs.index') }}" class="mb-3">
+    <div class="row g-2">
+        <div class="col-md-4">
+            <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tìm theo tên tòa nhà"
+                value="{{ request('ten_toa_nha') }}">
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="ma_phong" class="form-control" placeholder="Tìm theo mã phòng"
+                value="{{ request('ma_phong') }}">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+        </div>
+    </div>
+</form>
+
 
 
                     <div class="table-responsive">

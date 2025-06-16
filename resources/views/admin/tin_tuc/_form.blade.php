@@ -15,6 +15,9 @@
 
                 <input type="file" name="hinh_anh" id="hinh_anh" accept="image/*">
             </div>
+            @error('hinh_anh')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="col-lg-10">
             <div class="row g-3">
@@ -30,6 +33,9 @@
                     <label for="tac_gia" class="form-label">Tác giả</label>
                     <input type="text" class="form-control" name="tac_gia"
                         value="{{ old('tac_gia', $tinTuc->tac_gia ?? '') }}">
+                    @error('tac_gia')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-lg-12">
                     <label for="trang_thai" class="form-label">Trạng thái</label>
@@ -41,6 +47,9 @@
                             {{ old('trang_thai', $tinTuc->trang_thai ?? '') == 'nhap' ? 'selected' : '' }}>Bản
                             nháp</option>
                     </select>
+                    @error('trang_thai')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -49,6 +58,9 @@
     <div class="mb-3">
         <label for="mo_ta_ngan" class="form-label">Mô tả ngắn</label>
         <textarea class="form-control" name="mo_ta_ngan">{{ old('mo_ta_ngan', $tinTuc->mo_ta_ngan ?? '') }}</textarea>
+        @error('mo_ta_ngan')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="mb-3">
@@ -102,7 +114,7 @@
 
 <div class="text-end">
     <button type="submit" class="btn btn-success">Lưu</button>
-<a href="{{ route('tin_tuc.index') }}" class="btn btn-secondary">Quay lại</a>
+    <a href="{{ route('tin_tuc.index') }}" class="btn btn-secondary">Quay lại</a>
 </div>
 <script>
     const input = document.getElementById('hinh_anh');

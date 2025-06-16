@@ -39,12 +39,24 @@ class TintucController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'tieu_de' => 'required|string|max:255',
-            'mo_ta_ngan' => 'nullable|string',
-            'noi_dung' => 'required',
-            'hinh_anh' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+     $request->validate([
+    'tieu_de' => 'required|string|max:255',
+    'mo_ta_ngan' => 'nullable|string',
+    'noi_dung' => 'required',
+    'hinh_anh' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+], [
+    'tieu_de.required' => 'Tiêu đề không được để trống.',
+    'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+    'tieu_de.string' => 'Tiêu đề phải là một chuỗi ký tự.',
+
+    'mo_ta_ngan.string' => 'Mô tả ngắn phải là một chuỗi ký tự.',
+
+    'noi_dung.required' => 'Nội dung không được để trống.',
+
+    'hinh_anh.image' => 'Tệp tải lên phải là hình ảnh.',
+    'hinh_anh.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg hoặc gif.',
+ 
+]);
 
         $data = $request->only('tieu_de', 'mo_ta_ngan', 'noi_dung', 'tac_gia', 'trang_thai');
         $data['slug'] = Str::slug($request->tieu_de);
@@ -69,12 +81,24 @@ class TintucController extends Controller
 
     public function update(Request $request, TinTuc $tinTuc)
     {
-        $request->validate([
-            'tieu_de' => 'required|string|max:255',
-            'mo_ta_ngan' => 'nullable|string',
-            'noi_dung' => 'required',
-            'hinh_anh' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+       $request->validate([
+    'tieu_de' => 'required|string|max:255',
+    'mo_ta_ngan' => 'nullable|string',
+    'noi_dung' => 'required',
+    'hinh_anh' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+], [
+    'tieu_de.required' => 'Tiêu đề không được để trống.',
+    'tieu_de.string' => 'Tiêu đề phải là chuỗi ký tự.',
+    'tieu_de.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+
+    'mo_ta_ngan.string' => 'Mô tả ngắn phải là chuỗi ký tự.',
+
+    'noi_dung.required' => 'Nội dung không được để trống.',
+
+    'hinh_anh.image' => 'Tệp tải lên phải là hình ảnh.',
+    'hinh_anh.mimes' => 'Hình ảnh phải thuộc định dạng: jpeg, png, jpg, gif.',
+]);
+
 
         $data = $request->only('tieu_de', 'mo_ta_ngan', 'noi_dung', 'tac_gia', 'trang_thai');
         $data['slug'] = Str::slug($request->tieu_de);

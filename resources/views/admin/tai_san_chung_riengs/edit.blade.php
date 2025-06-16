@@ -38,6 +38,9 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('nha_tro_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6">
@@ -77,6 +80,9 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                 @error('tai_san_chung_ids[]')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                             </div>
 
                             <hr>
@@ -108,6 +114,9 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                @error('tai_san_rieng_ids[]')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                             </div>
 
                             <div class="text-end">

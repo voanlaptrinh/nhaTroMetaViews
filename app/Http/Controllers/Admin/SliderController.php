@@ -22,14 +22,29 @@ class SliderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'cropped_image' => 'required|string',
-            'link' => 'nullable|url',
-            'position' => 'nullable|integer',
-            'active' => 'nullable|boolean',
-        ]);
+       $request->validate([
+    'title' => 'nullable|string|max:255',
+    'subtitle' => 'nullable|string|max:255',
+    'cropped_image' => 'required|string',
+    'link' => 'nullable|url',
+    'position' => 'nullable|integer',
+    'active' => 'nullable|boolean',
+], [
+    'title.string' => 'Tiêu đề phải là chuỗi.',
+    'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+
+    'subtitle.string' => 'Phụ đề phải là chuỗi.',
+    'subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
+
+    'cropped_image.required' => 'Vui lòng chọn và cắt ảnh.',
+
+    'link.url' => 'Liên kết không hợp lệ. Vui lòng nhập đúng định dạng URL.',
+
+    'position.integer' => 'Vị trí phải là số nguyên.',
+
+    'active.boolean' => 'Trạng thái hiển thị phải là true hoặc false.',
+]);
+
 
         $imagePath = $this->saveBase64Image($request->input('cropped_image'));
 
@@ -52,14 +67,29 @@ class SliderController extends Controller
 
     public function update(Request $request, Slider $slider)
     {
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'cropped_image' => 'nullable|string',
-            'link' => 'nullable|url',
-            'position' => 'nullable|integer',
-            'active' => 'nullable|boolean',
-        ]);
+      $request->validate([
+    'title' => 'nullable|string|max:255',
+    'subtitle' => 'nullable|string|max:255',
+    'cropped_image' => 'required|string',
+    'link' => 'nullable|url',
+    'position' => 'nullable|integer',
+    'active' => 'nullable|boolean',
+], [
+    'title.string' => 'Tiêu đề phải là chuỗi.',
+    'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+
+    'subtitle.string' => 'Phụ đề phải là chuỗi.',
+    'subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
+
+    'cropped_image.required' => 'Vui lòng chọn và cắt ảnh.',
+
+    'link.url' => 'Liên kết không hợp lệ. Vui lòng nhập đúng định dạng URL.',
+
+    'position.integer' => 'Vị trí phải là số nguyên.',
+
+    'active.boolean' => 'Trạng thái hiển thị phải là true hoặc false.',
+]);
+
 
         if ($request->filled('cropped_image')) {
             $imagePath = $this->saveBase64Image($request->input('cropped_image'));

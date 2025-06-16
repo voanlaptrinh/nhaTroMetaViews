@@ -17,53 +17,65 @@ use Illuminate\Support\Facades\DB;
 class TaiSanChungRiengController extends Controller
 {
     public function index(Request $request)
-{
-    $query = TaiSanChungRieng::with(['nhaTro', 'room', 'taiSanChungs.taiSan', 'taiSanRiengs.taiSan']);
+    {
+        $query = TaiSanChungRieng::with(['nhaTro', 'room', 'taiSanChungs.taiSan', 'taiSanRiengs.taiSan']);
 
-    if ($request->filled('ten_toa_nha')) {
-        $query->whereHas('nhaTro', function ($q) use ($request) {
-            $q->where('ten_toa_nha', 'like', '%' . $request->ten_toa_nha . '%');
-        });
+        if ($request->filled('ten_toa_nha')) {
+            $query->whereHas('nhaTro', function ($q) use ($request) {
+                $q->where('ten_toa_nha', 'like', '%' . $request->ten_toa_nha . '%');
+            });
+        }
+
+        if ($request->filled('ma_phong')) {
+            $query->whereHas('room', function ($q) use ($request) {
+                $q->where('ma_phong', 'like', '%' . $request->ma_phong . '%');
+            });
+        }
+
+        $list = $query->paginate(20);
+        LogHelper::ghi('Xem danh sách tài sản chung riêng', 'Tài Sản Chung Riêng', 'Xem danh sách tài sản chung riêng trong quản trị viên');
+        return view('admin.tai_san_chung_riengs.index', compact('list'));
     }
-
-    if ($request->filled('ma_phong')) {
-        $query->whereHas('room', function ($q) use ($request) {
-            $q->where('ma_phong', 'like', '%' . $request->ma_phong . '%');
-        });
-    }
-
-    $list = $query->paginate(20);
-    LogHelper::ghi('Xem danh sách tài sản chung riêng', 'Tài Sản Chung Riêng', 'Xem danh sách tài sản chung riêng trong quản trị viên');
-    return view('admin.tai_san_chung_riengs.index', compact('list'));
-}
 
 
     public function create()
     {
         $nhaTros = NhaTros::all();
-          // Lấy ID các phòng đã được sử dụng trong bảng tài_sản_chung_riêng
-    $usedRoomIds = TaiSanChungRieng::whereNotNull('room_id')->pluck('room_id')->toArray();
+        // Lấy ID các phòng đã được sử dụng trong bảng tài_sản_chung_riêng
+        $usedRoomIds = TaiSanChungRieng::whereNotNull('room_id')->pluck('room_id')->toArray();
 
-    // Ban đầu chưa chọn nhà trọ, nên lấy tất cả phòng chưa dùng
-    $rooms = Rooms::whereNotIn('id', $usedRoomIds)->with('nhaTro')->get();
+        // Ban đầu chưa chọn nhà trọ, nên lấy tất cả phòng chưa dùng
+        $rooms = Rooms::whereNotIn('id', $usedRoomIds)->with('nhaTro')->get();
 
         $taiSans = TaiSan::all();
         LogHelper::ghi('Vào form tạo tài sản chung riêng', 'Tài Sản Chung Riêng', 'Vào form tạo tài sản chung riêng trong quản trị viên');
         return view('admin.tai_san_chung_riengs.create', compact('nhaTros', 'rooms', 'taiSans'));
     }
 
-   public function store(Request $request)
-{
-    $request->validate([
-        'nha_tro_id' => 'required|exists:nha_tros,id',
-        'room_id' => 'nullable|exists:rooms,id',
-        'tai_san_chung_ids' => 'nullable|array',
-        'tai_san_chung_ids.*' => 'exists:tai_sans,id',
-        'tai_san_rieng_ids' => 'nullable|array',
-        'tai_san_rieng_ids.*' => 'exists:tai_sans,id',
-    ]);
+    public function store(Request $request)
+    {
+       $request->validate([
+    'nha_tro_id' => 'required|exists:nha_tros,id',
+    'room_id' => 'nullable|exists:rooms,id',
+    'tai_san_chung_ids' => 'nullable|array',
+    'tai_san_chung_ids.*' => 'exists:tai_sans,id',
+    'tai_san_rieng_ids' => 'nullable|array',
+    'tai_san_rieng_ids.*' => 'exists:tai_sans,id',
+], [
+    'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+    'nha_tro_id.exists' => 'Nhà trọ đã chọn không tồn tại.',
 
-  
+    'room_id.exists' => 'Phòng đã chọn không tồn tại.',
+
+    'tai_san_chung_ids.array' => 'Danh sách tài sản chung không hợp lệ.',
+    'tai_san_chung_ids.*.exists' => 'Một hoặc nhiều tài sản chung không hợp lệ.',
+
+    'tai_san_rieng_ids.array' => 'Danh sách tài sản riêng không hợp lệ.',
+    'tai_san_rieng_ids.*.exists' => 'Một hoặc nhiều tài sản riêng không hợp lệ.',
+]);
+
+
+
         // Tạo mới bản ghi tài sản chung riêng
         $tscr = TaiSanChungRieng::create([
             'nha_tro_id' => $request->nha_tro_id,
@@ -90,10 +102,9 @@ class TaiSanChungRiengController extends Controller
             }
         }
         LogHelper::ghi('Thêm tài sản chung riêng mới', 'Tài Sản Chung Riêng', 'Thêm tài sản chung riêng mới trong quản trị viên');
-      
+
         return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Thêm mới thành công!');
-   
-}
+    }
 
     public function edit($id)
     {

@@ -34,6 +34,9 @@
         <select name="ma_phong" id="ma_phong" class="form-select" required data-selected="{{ $selectedMaPhong }}">
             <option value="">-- Chọn mã phòng --</option>
         </select>
+         @error('ma_phong')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="col-lg-4">

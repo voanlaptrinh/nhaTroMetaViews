@@ -78,6 +78,27 @@
                  <span>Sliders</span>
              </a>
          </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['feedbacks.index', 'feedbacks.create', 'feedbacks.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('feedbacks.index') }}">
+                 <i class="bi bi-chat-left-text"></i>
+                 <span>Cảm nghĩ</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['web-config.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('web-config.edit') }}">
+                 <i class="bi bi-gear"></i>
+                 <span>Cài đặt web</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['about_us.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('about_us.edit') }}">
+                <i class="bi bi-people me-2"></i> 
+                 <span>Về chúng tôi</span>
+             </a>
+         </li>
 
 
      </ul>

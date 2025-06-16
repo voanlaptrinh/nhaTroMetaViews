@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
 use App\Http\Controllers\Admin\TintucController;
+use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
@@ -107,6 +109,19 @@ Route::prefix('feedbacks')->name('feedbacks.')->group(function () {
     Route::put('/update/{feedback}', [FeedbackController::class, 'update'])->name('update'); // Cập nhật
     Route::post('/delete/{feedback}', [FeedbackController::class, 'destroy'])->name('destroy'); // Xóa
 });
+Route::prefix('web-config')->name('web-config.')->group(function () {
+    Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
+    Route::put('/', [WebConfigController::class, 'update'])->name('update');
+});
+Route::prefix('web-config')->name('web-config.')->group(function () {
+  Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
+    Route::put('/', [WebConfigController::class, 'update'])->name('update');
+});
+Route::prefix('about_us')->name('about_us.')->group(function () {
+  Route::get('/', [AboutUsController::class, 'edit'])->name('edit');
+    Route::put('/', [AboutUsController::class, 'update'])->name('update');
+});
+
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

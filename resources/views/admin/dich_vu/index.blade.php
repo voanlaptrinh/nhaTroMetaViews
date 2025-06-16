@@ -24,61 +24,64 @@
                         <a href="{{ route('dichvus.create') }}" class="btn btn-success rounded-pill">Thêm Dịch Vụ
                             Mới</a>
                     </div>
-<div class="table-responsive">
-                    <!-- Table with stripped rows -->
-                    <table class="table table-striped table-responsive">
-                        <thead>
-                            <tr>
-                                <th scope="col">Tên dịch vụ</th>
-                                <th scope="col">Mã dịch vụ</th>
-                                <th scope="col">Đơn vị tính</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @forelse ($dichVus as $dichvu)
+                    <div class="table-responsive">
+                        <!-- Table with stripped rows -->
+                        <table class="table table-striped table-responsive">
+                            <thead>
                                 <tr>
-                                    <td>{{ $dichvu->ten_dich_vu }}</td>
-                                    <td>{{ $dichvu->ma_dich_vu }}</td>
-                                    <td>{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}
-                                    </td>
-                                 
-                                    <td>
-                                        <a href="{{ route('dichvus.edit', $dichvu->id) }}" class="btn btn-warning"><i
-                                                class="bi bi-wrench"></i></a>
-                                        <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
-                                            style="display:inline-block" class="btn btn-danger"
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
-                                                    class="bi bi-trash text-white"></i></button>
-                                        </form>
-                                        <button type="button" class="btn btn-info btn-xem-chi-tiet"
-                                            data-ten="{{ $dichvu->ten_dich_vu }}" data-ma="{{ $dichvu->ma_dich_vu }}"
-                                            data-donvi="{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}"
-                                            data-dongia="{{ number_format($dichvu->don_gia) }}"
-                                            data-mota="{{ $dichvu->mo_ta }}" data-bs-toggle="modal"
-                                            data-bs-target="#modalChiTiet">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-
-                                    </td>
+                                    <th scope="col">Tên dịch vụ</th>
+                                    <th scope="col">Mã dịch vụ</th>
+                                    <th scope="col">Đơn vị tính</th>
+                                    <th scope="col">Thao tác</th>
                                 </tr>
-                           @empty
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">Không có dữ liệu dịch vụ.</td>
-                                </tr>
-                            @endforelse
+                            </thead>
+                            <tbody>
+
+                                @forelse ($dichVus as $dichvu)
+                                    <tr>
+                                        <td>{{ $dichvu->ten_dich_vu }}</td>
+                                        <td>{{ $dichvu->ma_dich_vu }}</td>
+                                        <td>{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}
+                                        </td>
+
+                                        <td>
+                                            <a href="{{ route('dichvus.edit', $dichvu->id) }}" class="btn btn-warning"><i
+                                                    class="bi bi-wrench"></i></a>
+                                            <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
+                                                style="display:inline-block" class="btn btn-danger"
+                                                onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
+                                                        class="bi bi-trash text-white"></i></button>
+                                            </form>
+                                            <button type="button" class="btn btn-info btn-xem-chi-tiet"
+                                                data-ten="{{ $dichvu->ten_dich_vu }}" data-ma="{{ $dichvu->ma_dich_vu }}"
+                                                data-donvi="{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}"
+                                                data-dongia="{{ number_format($dichvu->don_gia) }}"
+                                                data-mota="{{ $dichvu->mo_ta }}" data-bs-toggle="modal"
+                                                data-bs-target="#modalChiTiet">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">Không có dữ liệu dịch vụ.</td>
+                                    </tr>
+                                @endforelse
 
 
-                        </tbody>
-                    </table>
-                    <!-- End Table with stripped rows -->
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
 
-                </div>
+                    </div>
+                     <div class=" p-nav text-end d-flex justify-content-end">
+                        {{ $nhaTros->appends(request()->query())->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
 
