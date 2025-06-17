@@ -1296,3 +1296,48 @@ h6 {
   width: 100px;
   height: 100px;
 }
+
+.image-container-user .thumbnail {
+  border: 1px solid hsla(0, 0%, 78.4%, .5);
+  border-radius: 8px;
+}
+
+.image-container-user {
+  width: fit-content;
+}
+
+.image-container-user .empty-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.image-container-user .control-btns>label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+}
+
+.image-container-user .control-btns>label {
+  left: calc(100% - 15px);
+}
+
+.image-container-user .control-btns>label:first-child {
+  top: -8px;
+}
+
+.image-container-user .control-btns>label:last-child {
+  bottom: -8px;
+}
+
+.image-container-user .control-btns>label {
+  border: 0;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #c5c5c5;
+  cursor: pointer;
+}
