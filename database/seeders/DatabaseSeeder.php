@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
          $this->call(DichVuSeeder::class);
          $this->call(TaiSanSeeder::class);
+         $this->call(PermissionSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

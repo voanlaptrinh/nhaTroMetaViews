@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
 use App\Http\Controllers\Admin\TintucController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -121,7 +122,22 @@ Route::prefix('about_us')->name('about_us.')->group(function () {
   Route::get('/', [AboutUsController::class, 'edit'])->name('edit');
     Route::put('/', [AboutUsController::class, 'update'])->name('update');
 });
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
+// Form thêm người dùng
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+
+// Lưu người dùng mới
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+// Form sửa người dùng
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+
+// Cập nhật người dùng
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+// Xoá người dùng
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

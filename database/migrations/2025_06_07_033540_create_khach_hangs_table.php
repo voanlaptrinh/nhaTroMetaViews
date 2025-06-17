@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('ho_chieu')->nullable();
             $table->string('full_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('birthday')->nullable();
             $table->string('gioi_tinh')->nullable();
             $table->string('ngay_cap_cmnd')->nullable();
@@ -30,11 +31,13 @@ return new class extends Migration
             $table->string('xa')->nullable(); //Xã phường
             $table->string('address')->nullable(); //Địa chỉ đầy đủ
             $table->string('stk')->nullable(); //số tài khoản
-            $table->string('ngan_hang')->nullable(); 
-            $table->string('nghe_nghiep')->nullable(); 
-            $table->string('noi_lam_viec')->nullable(); 
-            $table->string('ma_van_tay')->nullable(); 
-            $table->string('note')->nullable(); 
+            $table->string('ngan_hang')->nullable();
+            $table->string('nghe_nghiep')->nullable();
+            $table->string('noi_lam_viec')->nullable();
+            $table->string('ma_van_tay')->nullable();
+            $table->string('note')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
