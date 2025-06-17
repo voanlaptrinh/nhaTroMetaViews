@@ -2,7 +2,7 @@
 @section('contentadmin')
 <div class="container">
     <h2>Danh sách người dùng</h2>
-    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Thêm người dùng</a>
+    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Thêm người dùng</a>
 
     <table class="table table-bordered">
         <thead>
@@ -28,8 +28,8 @@
                     <td>{{ $user->birthday }}</td>
                     <td>{{ $user->active ? 'Có' : 'Không' }}</td>
                     <td>
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                        <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display:inline-block;">
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                        <form method="POST" action="{{ route('admin.users.destroy', $user->id) }}" style="display:inline-block;">
                             @csrf @method('DELETE')
                             <button onclick="return confirm('Xoá người dùng này?')" class="btn btn-danger btn-sm">Xoá</button>
                         </form>

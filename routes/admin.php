@@ -115,29 +115,22 @@ Route::prefix('web-config')->name('web-config.')->group(function () {
     Route::put('/', [WebConfigController::class, 'update'])->name('update');
 });
 Route::prefix('web-config')->name('web-config.')->group(function () {
-  Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
+    Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
     Route::put('/', [WebConfigController::class, 'update'])->name('update');
 });
 Route::prefix('about_us')->name('about_us.')->group(function () {
-  Route::get('/', [AboutUsController::class, 'edit'])->name('edit');
+    Route::get('/', [AboutUsController::class, 'edit'])->name('edit');
     Route::put('/', [AboutUsController::class, 'update'])->name('update');
 });
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-// Form thêm người dùng
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-
-// Lưu người dùng mới
-Route::post('/users', [UserController::class, 'store'])->name('users.store');
-
-// Form sửa người dùng
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-
-// Cập nhật người dùng
-Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-
+Route::prefix('khach-hang')->name('admin.users.')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/create', [UserController::class, 'create'])->name('create');
+    Route::post('/', [UserController::class, 'store'])->name('store');
+    Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+    Route::put('/{user}', [UserController::class, 'update'])->name('update');
+    Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+});
 // Xoá người dùng
-Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

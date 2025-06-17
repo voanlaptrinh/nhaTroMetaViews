@@ -47,7 +47,14 @@
                  <span>Tài sản</span>
              </a>
          </li>
-
+          <li class="nav-heading">Khách hàng</li>
+<li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.users.index', 'admin.users.create', 'admin.users.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('admin.users.index') }}">
+                <i class="bi bi-person-circle"></i>
+                 <span>Khách hàng</span>
+             </a>
+         </li>
 
          <li class="nav-heading">Hiện thị trang chủ</li>
          <li class="nav-item">
