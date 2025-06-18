@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -56,7 +57,7 @@ class SliderController extends Controller
             'position' => $request->position ?? 0,
             'active' => $request->boolean('active'),
         ]);
-
+  LogHelper::ghi('Thêm mới slider' , 'Slider', 'Đã thêm mới silder trong quản trị viên');
         return redirect()->route('sliders.index')->with('success', 'Thêm slider thành công.');
     }
 
@@ -102,7 +103,7 @@ class SliderController extends Controller
         $slider->position = $request->position ?? 0;
         $slider->active = $request->boolean('active');
         $slider->save();
-
+  LogHelper::ghi('Cập nhật Slider với id ' . $slider->id, 'Slider', 'Cập nhật thông tin Slider trong quản trị viên');
         return redirect()->route('sliders.index')->with('success', 'Cập nhật slider thành công.');
     }
 
@@ -113,6 +114,7 @@ class SliderController extends Controller
         }
 
         $slider->delete();
+        LogHelper::ghi('Xóa Slider với id ' . $slider->title, 'Slider', 'Xóa thông tin Slider trong quản trị viên');
         return redirect()->route('sliders.index')->with('success', 'Xóa slider thành công.');
     }
 
@@ -126,7 +128,7 @@ class SliderController extends Controller
             throw new \Exception('Định dạng ảnh không hợp lệ.');
         }
 
-        $imageName = time() . '_' . \Str::random(10) . '.' . $type;
+        $imageName = time() . '_' . Str::random(10) . '.' . $type;
         $directory = public_path('uploads/sliders');
         $imagePath = $directory . '/' . $imageName;
 

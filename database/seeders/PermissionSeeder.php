@@ -24,10 +24,55 @@ class PermissionSeeder extends Seeder
             'Sửa người dùng',
             'Xóa người dùng',
             'Xem người dùng',
-            'Thêm quyền',
-            'Sửa quyền',
-            'Xóa quyền',
-            'Xem quyền',
+            'Thêm vai trò',
+            'Sửa vai trò',
+            'Xóa vai trò',
+            'Xem vai trò',
+            'Thêm dịch vụ',
+            'Xem dịch vụ',
+            'Sửa dịch vụ',
+            'Xóa dịch vụ',
+            'Thêm nhà trọ',
+            'Sửa nhà trọ',
+            'Xóa nhà trọ',
+            'Xem nhà trọ',
+            'Thêm tài sản trọ',
+            'Sửa tài sản trọ',
+            'Xóa tài sản trọ',
+            'Xem tài sản trọ',
+            'Xem phòng trọ',
+            'Sửa phòng trọ',
+            'Thêm phòng trọ',
+            'Xóa phòng trọ',
+            'Thêm tài sản',
+            'Sửa tài sản',
+            'Xóa tài sản',
+            'Xem tài sản',
+            'Xem khách hàng',
+            'Thêm khách hàng',
+            'Sửa khách hàng',
+            'Xóa khách hàng',
+            'Thêm tin tức',
+            'Xem tin tức',
+            'Sửa tin tức',
+            'Xóa tin tức',
+            'Xem liên hệ',
+            'Thêm chính sách',
+            'Xem chính sách',
+            'Sửa chính sách',
+            'Xóa chính sách',
+            'Thêm slider',
+            'Xem slider',
+            'Sửa slider',
+            'Xóa slider',
+            'Thêm cảm nghĩ',
+            'Xem cảm nghĩ',
+            'Sửa cảm nghĩ',
+            'Xóa cảm nghĩ',
+            'Cài đặt web',
+            'Về chúng tôi'
+
+
         ];
 
         foreach ($permissions as $permission) {
@@ -37,7 +82,7 @@ class PermissionSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
         $adminRole->syncPermissions($permissions);
 
-Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
+        Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
 
         // Gán Super Admin cho User ID 1
         $admin = User::find(1);

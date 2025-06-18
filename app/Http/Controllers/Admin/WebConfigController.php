@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\WebConfig;
 use Illuminate\Http\Request;
@@ -67,7 +68,7 @@ class WebConfigController extends Controller
         }
 
         $config->update($data);
-
+  LogHelper::ghi('Sửa cài đặt web ', 'WebSetting', 'Cập nhật thông tin web trong quản trị viên');
         return redirect()->route('web-config.edit')->with('success', 'Cập nhật cấu hình website thành công!');
     }
 }

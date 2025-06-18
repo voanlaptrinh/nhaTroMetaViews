@@ -145,8 +145,8 @@
             <div class="text-danger">{{ $message }}</div>
         @enderror
         <div class="col-lg-12">
-            <label class="form-label">Ghi chú</label>
-            <textarea name="ghi_chu" class="form-control">{{ old('ghi_chu', optional($room)->ghi_chu) }}</textarea>
+            <label class="form-label">Mô tả</label>
+            <textarea name="ghi_chu" id="tyni" class="form-control">{{ old('ghi_chu', optional($room)->ghi_chu) }}</textarea>
             @error('ghi_chu')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

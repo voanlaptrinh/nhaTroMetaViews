@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -149,7 +150,7 @@ class UserController extends Controller
 
         $user->assignRole('nguoi-thue-tro');
         $user->save();
-
+LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên');
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
@@ -275,7 +276,7 @@ if ($request->filled('password')) {
         }
 
         $user->save();
-
+  LogHelper::ghi('Cập nhật khách hàng với id ' . $user->id, 'Khách hàng', 'Cập nhật thông tin Khách hàng trong quản trị viên');
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 

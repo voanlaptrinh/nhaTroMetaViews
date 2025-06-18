@@ -47,7 +47,7 @@ class DichVuSeeder extends Seeder
         ]);
         DB::table('dich_vus')->insert([
             [
-                'ten_dich_vu' => 'Nước sạch theo đầu người',
+                'ten_dich_vu' => 'Nước sạch',
                 'ma_dich_vu' => 'nuoc',
                 'don_vi_tinh_id' => 1, // m3
                 'mo_ta' => 'Tính theo số người có trong phòng trọ đó',

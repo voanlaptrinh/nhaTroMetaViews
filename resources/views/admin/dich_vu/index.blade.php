@@ -80,7 +80,7 @@
 
                     </div>
                      <div class=" p-nav text-end d-flex justify-content-end">
-                        {{ $nhaTros->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        {{ $dichVus->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

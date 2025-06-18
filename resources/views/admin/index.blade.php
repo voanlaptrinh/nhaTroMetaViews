@@ -31,12 +31,12 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/toastr.min.css') }}" rel="stylesheet">
-     <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet" />
 
-<!-- Trong <head> -->
-<link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
+    <!-- Trong <head> -->
+    <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
 
-<!-- Trước </body> -->
+    <!-- Trước </body> -->
 
     <!-- Theme Bootstrap 5 -->
     <link href="{{ asset('/assets/css/select2-bootstrap4.min.css') }}" rel="stylesheet" />
@@ -56,7 +56,7 @@
     <main id="main" class="main">
 
         @yield('contentadmin')
-       
+
 
     </main><!-- End #main -->
 
@@ -66,7 +66,7 @@
 
 
 
-    
+
     <!-- ======= Footer ======= -->
     @include('admin.footer')
     <!-- End Footer -->
@@ -84,12 +84,12 @@
     <!-- Toastr JS -->
     <script src="{{ asset('/assets/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('/assets/js/toastr.min.js') }}"></script>
-   
+
 
 
     <script type="text/javascript" src="{{ asset('/assets/js/monment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/assets/js/daterangepicker.min.js') }}"></script>
- <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
     <script>
         @if (Session::has('success'))
             toastr.success("{{ Session::get('success') }}");
@@ -107,9 +107,9 @@
             toastr.warning("{{ Session::get('warning') }}");
         @endif
     </script>
- <script src="{{ asset('/assets/js/style.js') }}"></script>
-
- <script src="{{ asset('/source/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/style.js') }}"></script>
+<script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
+    <script src="{{ asset('/source/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '#tyni',
@@ -149,44 +149,134 @@
                 });
             }
         })
-    </script>
-<script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
-<script>
+  
+    
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            let cropper;
+            const imageInput = document.getElementById('imageInput');
+            const previewImage = document.getElementById('previewImage');
+            const croppedImageInput = document.getElementById('croppedImage');
 
-    let cropper;
-    const imageInput = document.getElementById('imageInput');
-    const previewImage = document.getElementById('previewImage');
-    const croppedImageInput = document.getElementById('croppedImage');
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
 
-    imageInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewImage.style.display = 'block';
 
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            previewImage.src = event.target.result;
-            previewImage.style.display = 'block';
+                    if (cropper) {
+                        cropper.destroy();
+                    }
 
-            if (cropper) {
-                cropper.destroy();
+                    cropper = new Cropper(previewImage, {
+                        aspectRatio: 16 / 9,
+                        viewMode: 1,
+                        autoCropArea: 1,
+                        cropend() {
+                            const canvas = cropper.getCroppedCanvas({
+                                width: 1280,
+                                height: 720,
+                            });
+                            croppedImageInput.value = canvas.toDataURL('image/png');
+                        }
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinceSelect = document.getElementById('province-select');
+            const districtSelect = document.getElementById('district-select');
+            const wardSelect = document.getElementById('ward-select');
+
+            let provinceData = [];
+
+            // Hàm để reset và điền option cho select box
+            function populateSelect(selectElement, items, defaultOptionText) {
+                selectElement.innerHTML = `<option value="">-- ${defaultOptionText} --</option>`;
+                items.forEach(item => {
+                    // Giá trị của option sẽ là tên (ví dụ: "Hồ Chí Minh")
+                    // để khớp với giá trị bạn đang lưu trong DB
+                    const option = new Option(item.name, item.name);
+                    selectElement.add(option);
+                });
             }
 
-            cropper = new Cropper(previewImage, {
-                aspectRatio: 16 / 9, // bạn có thể đổi thành 1 nếu muốn ảnh vuông
-                viewMode: 1,
-                autoCropArea: 1,
-                cropend() {
-                    const canvas = cropper.getCroppedCanvas({
-                        width: 1280,
-                        height: 720,
-                    });
-                    croppedImageInput.value = canvas.toDataURL('image/png');
+            // Tải dữ liệu JSON
+            fetch("{{ asset('data/tinh_thanh.json') }}")
+                .then(response => response.json())
+                .then(data => {
+                    provinceData = data;
+                    populateSelect(provinceSelect, provinceData, 'Chọn Tỉnh/Thành phố');
+
+                    // Xử lý cho trường hợp EDIT: load lại địa chỉ cũ
+                    const oldProvince = provinceSelect.getAttribute('data-old');
+                    if (oldProvince) {
+                        provinceSelect.value = oldProvince;
+                        // Kích hoạt sự kiện change để load quận/huyện tương ứng
+                        provinceSelect.dispatchEvent(new Event('change'));
+                    }
+                })
+                .catch(error => console.error('Lỗi khi tải dữ liệu tỉnh thành:', error));
+
+            // Bắt sự kiện thay đổi của Tỉnh/Thành
+            provinceSelect.addEventListener('change', function() {
+                const selectedProvinceName = this.value;
+                districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+                wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+                districtSelect.disabled = true;
+                wardSelect.disabled = true;
+
+                if (selectedProvinceName) {
+                    const selectedProvince = provinceData.find(p => p.name === selectedProvinceName);
+                    if (selectedProvince && selectedProvince.districts) {
+                        populateSelect(districtSelect, selectedProvince.districts, 'Chọn Quận/Huyện');
+                        districtSelect.disabled = false;
+
+                        // Xử lý cho trường hợp EDIT: load lại quận/huyện cũ
+                        const oldDistrict = districtSelect.getAttribute('data-old');
+                        if (oldDistrict) {
+                            districtSelect.value = oldDistrict;
+                            districtSelect.dispatchEvent(new Event('change'));
+                        }
+                    }
                 }
             });
-        };
-        reader.readAsDataURL(file);
-    });
-</script>
+
+            // Bắt sự kiện thay đổi của Quận/Huyện
+            districtSelect.addEventListener('change', function() {
+                const selectedProvinceName = provinceSelect.value;
+                const selectedDistrictName = this.value;
+
+                wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+                wardSelect.disabled = true;
+
+                if (selectedDistrictName) {
+                    const selectedProvince = provinceData.find(p => p.name === selectedProvinceName);
+                    const selectedDistrict = selectedProvince?.districts.find(d => d.name ===
+                        selectedDistrictName);
+                    if (selectedDistrict && selectedDistrict.wards) {
+                        populateSelect(wardSelect, selectedDistrict.wards, 'Chọn Phường/Xã');
+                        wardSelect.disabled = false;
+
+                        // Xử lý cho trường hợp EDIT: load lại phường/xã cũ
+                        const oldWard = wardSelect.getAttribute('data-old');
+                        if (oldWard) {
+                            wardSelect.value = oldWard;
+                            // Sau khi chọn xong, xóa thuộc tính data-old để tránh chọn lại khi người dùng thay đổi
+                            wardSelect.removeAttribute('data-old');
+                            districtSelect.removeAttribute('data-old');
+                            provinceSelect.removeAttribute('data-old');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 

@@ -28,28 +28,42 @@
 
 <div class="row mb-3">
     <div class="col">
-        <label>Phường</label>
-        <input type="text" name="phuong" value="{{ old('phuong', optional($nhaTro)->phuong) }}"
-            class="form-control">
-        @error('phuong')
+        <label>Thành phố</label>
+        <select name="thanh_pho" id="province-select" class="form-control"
+                                data-old="{{ old('thanh_pho', $nhaTro->thanh_pho ?? '') }}">
+                                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                            </select>
+        {{-- <input type="text" name="thanh_pho" value="{{ old('thanh_pho', optional($nhaTro)->thanh_pho) }}"
+            class="form-control"> --}}
+        @error('thanh_pho')
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
-    <div class="col">
+       <div class="col">
         <label>Quận</label>
-        <input type="text" name="quan" value="{{ old('quan', optional($nhaTro)->quan) }}" class="form-control">
+         <select name="quan" id="district-select" class="form-control"
+                                data-old="{{ old('quan', $nhaTro->quan ?? '') }}" disabled>
+                                <option value="">-- Chọn Quận/Huyện --</option>
+                            </select>
+        {{-- <input type="text" name="quan" value="{{ old('quan', optional($nhaTro)->quan) }}" class="form-control"> --}}
         @error('quan')
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
     <div class="col">
-        <label>Thành phố</label>
-        <input type="text" name="thanh_pho" value="{{ old('thanh_pho', optional($nhaTro)->thanh_pho) }}"
-            class="form-control">
-        @error('thanh_pho')
+        <label>Phường</label>
+         <select name="phuong" id="ward-select" class="form-control"
+                                data-old="{{ old('phuong', $nhaTro->phuong ?? '') }}" disabled>
+                                <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
+        {{-- <input type="text" name="phuong" value="{{ old('phuong', optional($nhaTro)->phuong) }}"
+            class="form-control"> --}}
+        @error('phuong')
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
+ 
+    
 </div>
 
 <div class="row mb-3">
