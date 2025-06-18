@@ -68,7 +68,7 @@ class FeedbackController extends Controller
         }
 
         Feedback::create($data);
-LogHelper::ghi('Đã Thêm mới một cảm nghĩ ' , 'Cảm nghĩ', 'Thêm mới cảm nghĩ trong quản trị viên');
+        LogHelper::ghi('Đã Thêm mới một cảm nghĩ ', 'Cảm nghĩ', 'Thêm mới cảm nghĩ trong quản trị viên');
 
         return redirect()->route('feedbacks.index')->with('success', 'Thêm cảm nghĩ thành công.');
     }
@@ -103,6 +103,9 @@ LogHelper::ghi('Đã Thêm mới một cảm nghĩ ' , 'Cảm nghĩ', 'Thêm m�
         ]);
 
         if ($request->hasFile('image')) {
+            if (!empty($feedback->image) && file_exists(public_path($feedback->image))) {
+                unlink(public_path($feedback->image));
+            }
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/feedbacks'), $filename);
@@ -110,7 +113,7 @@ LogHelper::ghi('Đã Thêm mới một cảm nghĩ ' , 'Cảm nghĩ', 'Thêm m�
         }
 
         $feedback->update($data);
-LogHelper::ghi('Đã sửa mới một cảm nghĩ ' . $feedback->name , 'Cảm nghĩ', 'Sửa cảm nghĩ trong quản trị viên');
+        LogHelper::ghi('Đã sửa mới một cảm nghĩ ' . $feedback->name, 'Cảm nghĩ', 'Sửa cảm nghĩ trong quản trị viên');
 
         return redirect()->route('feedbacks.index')->with('success', 'Cập nhật cảm nghĩ thành công.');
     }
@@ -118,8 +121,12 @@ LogHelper::ghi('Đã sửa mới một cảm nghĩ ' . $feedback->name , 'Cảm 
 
     public function destroy(Feedback $feedback)
     {
+        // Xóa ảnh nếu có
+    if (!empty($feedback->image) && file_exists(public_path($feedback->image))) {
+        unlink(public_path($feedback->image));
+    }
         $feedback->delete();
-LogHelper::ghi('Xóa một cảm nghĩ ' . $feedback->name , 'Cảm nghĩ', 'Xóa quản lý trong quản trị viên');
+        LogHelper::ghi('Xóa một cảm nghĩ ' . $feedback->name, 'Cảm nghĩ', 'Xóa quản lý trong quản trị viên');
 
         return redirect()->route('feedbacks.index')->with('success', 'Xóa cảm nghĩ thành công.');
     }

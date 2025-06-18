@@ -60,6 +60,12 @@ class WebConfigController extends Controller
         // Xử lý upload ảnh
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
+
+if (!empty($config->$field) && file_exists(public_path($config->$field))) {
+                @unlink(public_path($config->$field));
+            }
+
+
                 $file = $request->file($field);
                 $filename = $field . '_' . time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('uploads'), $filename);

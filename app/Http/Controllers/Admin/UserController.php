@@ -150,7 +150,7 @@ class UserController extends Controller
 
         $user->assignRole('nguoi-thue-tro');
         $user->save();
-LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên');
+        LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên');
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
@@ -228,14 +228,14 @@ LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người d�
             'note.string' => 'Ghi chú không hợp lệ.',
         ]);
 
-       
-// Nếu có mật khẩu mới thì hash, nếu không thì bỏ khỏi validated
-if ($request->filled('password')) {
-    $validated['password'] = Hash::make($request->password);
-} else {
-    unset($validated['password']); // tránh bị gán null
-}
- $user->fill($validated);
+
+        // Nếu có mật khẩu mới thì hash, nếu không thì bỏ khỏi validated
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']); // tránh bị gán null
+        }
+        $user->fill($validated);
 
         // Tạo thư mục lưu ảnh
         $uploadPath = public_path('uploads/users');
@@ -245,6 +245,12 @@ if ($request->filled('password')) {
 
         // Upload avatar
         if ($request->hasFile('avatar')) {
+
+ // Xóa ảnh cũ nếu có
+    if (!empty($user->avatar) && file_exists(public_path($user->avatar))) {
+        @unlink(public_path($user->avatar));
+    }
+
             $file = $request->file('avatar');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
@@ -253,6 +259,11 @@ if ($request->filled('password')) {
 
         // Upload CMT mặt trước
         if ($request->hasFile('cmt_mat_truoc')) {
+  if (!empty($user->cmt_mat_truoc) && file_exists(public_path($user->cmt_mat_truoc))) {
+        @unlink(public_path($user->cmt_mat_truoc));
+    }
+
+
             $file = $request->file('cmt_mat_truoc');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
@@ -261,6 +272,11 @@ if ($request->filled('password')) {
 
         // Upload CMT mặt sau
         if ($request->hasFile('cmt_mat_sau')) {
+  if (!empty($user->cmt_mat_sau) && file_exists(public_path($user->cmt_mat_sau))) {
+        @unlink(public_path($user->cmt_mat_sau));
+    }
+
+
             $file = $request->file('cmt_mat_sau');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
@@ -269,6 +285,11 @@ if ($request->filled('password')) {
 
         // Upload hộ chiếu
         if ($request->hasFile('ho_chieu')) {
+
+ if (!empty($user->ho_chieu) && file_exists(public_path($user->ho_chieu))) {
+        @unlink(public_path($user->ho_chieu));
+    }
+
             $file = $request->file('ho_chieu');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
@@ -276,12 +297,24 @@ if ($request->filled('password')) {
         }
 
         $user->save();
-  LogHelper::ghi('Cập nhật khách hàng với id ' . $user->id, 'Khách hàng', 'Cập nhật thông tin Khách hàng trong quản trị viên');
+        LogHelper::ghi('Cập nhật khách hàng với id ' . $user->id, 'Khách hàng', 'Cập nhật thông tin Khách hàng trong quản trị viên');
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
     {
+         // Danh sách các cột chứa đường dẫn ảnh
+    $imageFields = ['avatar', 'cmt_mat_truoc', 'cmt_mat_sau', 'ho_chieu'];
+
+    // Xóa từng ảnh nếu có
+    foreach ($imageFields as $field) {
+        if (!empty($user->$field)) {
+            $imagePath = public_path($user->$field);
+            if (file_exists($imagePath)) {
+                @unlink($imagePath); // Xóa file vật lý
+            }
+        }
+    }
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }

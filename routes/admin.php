@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PolicyController;
+use App\Http\Controllers\Admin\RolesControler;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
@@ -31,9 +32,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
 
- Route::prefix('dashboard')->group(function () {
-    Route::get('/',[DashboardController::class, 'index'])->name('dashboard.index');
- });
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+    });
 
 
     Route::prefix('dich-vus')->group(function () {
@@ -140,6 +141,16 @@ Route::prefix('admin')->group(function () {
     });
     // Xoá người dùng
     Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
+
+
+    Route::prefix('vai-tro')->name('roles.')->group(function () {
+        Route::get('/', [RolesControler::class, 'index'])->name('index');
+        Route::get('/create', [RolesControler::class, 'create'])->name('create');
+        Route::post('/', [RolesControler::class, 'store'])->name('store');
+        Route::get('/{role}/edit', [RolesControler::class, 'edit'])->name('edit');
+        Route::put('/{role}', [RolesControler::class, 'update'])->name('update');
+        Route::delete('/{role}', [RolesControler::class, 'destroy'])->name('destroy');
+    });
 });
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

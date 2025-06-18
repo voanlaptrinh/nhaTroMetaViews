@@ -47,11 +47,19 @@
                  <span>Tài sản</span>
              </a>
          </li>
-          <li class="nav-heading">Khách hàng</li>
-<li class="nav-item">
+           <li class="nav-heading">Phân quyền</li>
+            <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('roles.index') }}">
+                 <i class="bi bi-person-circle"></i>
+                 <span>Vai trò</span>
+             </a>
+         </li>
+         <li class="nav-heading">Khách hàng</li>
+         <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.users.index', 'admin.users.create', 'admin.users.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('admin.users.index') }}">
-                <i class="bi bi-person-circle"></i>
+                 <i class="bi bi-person-circle"></i>
                  <span>Khách hàng</span>
              </a>
          </li>
@@ -74,14 +82,14 @@
          <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['policies.index', 'policies.create', 'policies.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('policies.index') }}">
-                <i class="bi bi-file-earmark-text"></i>
+                 <i class="bi bi-file-earmark-text"></i>
                  <span>Chính sách</span>
              </a>
          </li>
          <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['sliders.index', 'sliders.create', 'sliders.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('sliders.index') }}">
-                  <i class="bi bi-images me-2"></i> 
+                 <i class="bi bi-images me-2"></i>
                  <span>Sliders</span>
              </a>
          </li>
@@ -102,7 +110,7 @@
          <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['about_us.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('about_us.edit') }}">
-                <i class="bi bi-people me-2"></i> 
+                 <i class="bi bi-people me-2"></i>
                  <span>Về chúng tôi</span>
              </a>
          </li>

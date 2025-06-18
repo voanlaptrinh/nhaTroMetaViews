@@ -97,15 +97,16 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="https://bootstrapmade.com/content/demo/NiceAdmin/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <img src="{{ asset(Auth::user()->avatar ?? '/assets/img/default-avatar.png') }}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name ?? 'Không có'}}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
-            </li>
+           <li class="dropdown-header">
+  <h6>{{ Auth::user()->username ?? 'Không có'}}</h6>
+  <span>{{ Auth::user()->getRoleNames()->first() ?? 'Không có vai trò' }}</span>
+</li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -141,10 +142,14 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+              <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="dropdown-item d-flex align-items-center">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Sign Out</span>
+    </button>
+</form>
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

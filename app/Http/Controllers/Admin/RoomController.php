@@ -52,60 +52,60 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
-      $validated = $request->validate([
-    'nha_tro_id' => 'required|exists:nha_tros,id',
-    'ten_phong' => 'required|string|max:255',
-    'ma_phong' => 'nullable|string|max:255',
-    'dien_tich' => 'nullable|integer|min:0',
-    'so_khach' => 'nullable|integer|min:1',
-    'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
-    'gia_thue' => 'nullable|integer|min:0',
-    'status' => 'required|string',
-    'images' => 'nullable|array',
-    'images.*' => 'image|mimes:jpeg,png,jpg',
-    'ghi_chu' => 'nullable|string',
-], [
-    // nhà trọ
-    'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
-    'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
+        $validated = $request->validate([
+            'nha_tro_id' => 'required|exists:nha_tros,id',
+            'ten_phong' => 'required|string|max:255',
+            'ma_phong' => 'nullable|string|max:255',
+            'dien_tich' => 'nullable|integer|min:0',
+            'so_khach' => 'nullable|integer|min:1',
+            'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
+            'gia_thue' => 'nullable|integer|min:0',
+            'status' => 'required|string',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg',
+            'ghi_chu' => 'nullable|string',
+        ], [
+            // nhà trọ
+            'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+            'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
 
-    // tên phòng
-    'ten_phong.required' => 'Tên phòng không được để trống.',
-    'ten_phong.string' => 'Tên phòng phải là chuỗi.',
-    'ten_phong.max' => 'Tên phòng không được vượt quá 255 ký tự.',
+            // tên phòng
+            'ten_phong.required' => 'Tên phòng không được để trống.',
+            'ten_phong.string' => 'Tên phòng phải là chuỗi.',
+            'ten_phong.max' => 'Tên phòng không được vượt quá 255 ký tự.',
 
-    // mã phòng
-    'ma_phong.string' => 'Mã phòng phải là chuỗi.',
-    'ma_phong.max' => 'Mã phòng không được vượt quá 255 ký tự.',
+            // mã phòng
+            'ma_phong.string' => 'Mã phòng phải là chuỗi.',
+            'ma_phong.max' => 'Mã phòng không được vượt quá 255 ký tự.',
 
-    // diện tích
-    'dien_tich.integer' => 'Diện tích phải là số nguyên.',
-    'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
+            // diện tích
+            'dien_tich.integer' => 'Diện tích phải là số nguyên.',
+            'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
 
-    // số khách
-    'so_khach.integer' => 'Số khách phải là số nguyên.',
-    'so_khach.min' => 'Số khách tối thiểu là 1.',
+            // số khách
+            'so_khach.integer' => 'Số khách phải là số nguyên.',
+            'so_khach.min' => 'Số khách tối thiểu là 1.',
 
-    // loại phòng
-    'loai_phong.required' => 'Vui lòng chọn loại phòng.',
-    'loai_phong.in' => 'Loại phòng không hợp lệ.',
+            // loại phòng
+            'loai_phong.required' => 'Vui lòng chọn loại phòng.',
+            'loai_phong.in' => 'Loại phòng không hợp lệ.',
 
-    // giá thuê
-    'gia_thue.integer' => 'Giá thuê phải là số nguyên.',
-    'gia_thue.min' => 'Giá thuê không được nhỏ hơn 0.',
+            // giá thuê
+            'gia_thue.integer' => 'Giá thuê phải là số nguyên.',
+            'gia_thue.min' => 'Giá thuê không được nhỏ hơn 0.',
 
-    // trạng thái
-    'status.required' => 'Vui lòng nhập trạng thái.',
-    'status.string' => 'Trạng thái phải là chuỗi.',
+            // trạng thái
+            'status.required' => 'Vui lòng nhập trạng thái.',
+            'status.string' => 'Trạng thái phải là chuỗi.',
 
-    // ảnh
-    'images.array' => 'Trường ảnh phải là mảng.',
-    'images.*.image' => 'Ảnh không đúng định dạng.',
-    'images.*.mimes' => 'Ảnh phải có định dạng jpeg, png hoặc jpg.',
+            // ảnh
+            'images.array' => 'Trường ảnh phải là mảng.',
+            'images.*.image' => 'Ảnh không đúng định dạng.',
+            'images.*.mimes' => 'Ảnh phải có định dạng jpeg, png hoặc jpg.',
 
-    // ghi chú
-    'ghi_chu.string' => 'Ghi chú phải là chuỗi.',
-]);
+            // ghi chú
+            'ghi_chu.string' => 'Ghi chú phải là chuỗi.',
+        ]);
 
         $images = [];
 
@@ -132,65 +132,84 @@ class RoomController extends Controller
 
     public function update(Request $request, Rooms $room)
     {
-       $validated = $request->validate([
-    'nha_tro_id' => 'required|exists:nha_tros,id',
-    'ten_phong' => 'required|string|max:255',
-    'ma_phong' => 'nullable|string|max:255',
-    'dien_tich' => 'nullable|integer|min:0',
-    'so_khach' => 'nullable|integer|min:1',
-    'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
-    'gia_thue' => 'nullable|integer|min:0',
-    'status' => 'required|string',
-    'images' => 'nullable|array',
-    'images.*' => 'image|mimes:jpeg,png,jpg',
-    'ghi_chu' => 'nullable|string',
-], [
-    // nhà trọ
-    'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
-    'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
+        $validated = $request->validate([
+            'nha_tro_id' => 'required|exists:nha_tros,id',
+            'ten_phong' => 'required|string|max:255',
+            'ma_phong' => 'nullable|string|max:255',
+            'dien_tich' => 'nullable|integer|min:0',
+            'so_khach' => 'nullable|integer|min:1',
+            'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
+            'gia_thue' => 'nullable|integer|min:0',
+            'status' => 'required|string',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg',
+            'ghi_chu' => 'nullable|string',
+        ], [
+            // nhà trọ
+            'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+            'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
 
-    // tên phòng
-    'ten_phong.required' => 'Tên phòng là bắt buộc.',
-    'ten_phong.string' => 'Tên phòng phải là chuỗi ký tự.',
-    'ten_phong.max' => 'Tên phòng không được vượt quá 255 ký tự.',
+            // tên phòng
+            'ten_phong.required' => 'Tên phòng là bắt buộc.',
+            'ten_phong.string' => 'Tên phòng phải là chuỗi ký tự.',
+            'ten_phong.max' => 'Tên phòng không được vượt quá 255 ký tự.',
 
-    // mã phòng
-    'ma_phong.string' => 'Mã phòng phải là chuỗi.',
-    'ma_phong.max' => 'Mã phòng không được vượt quá 255 ký tự.',
+            // mã phòng
+            'ma_phong.string' => 'Mã phòng phải là chuỗi.',
+            'ma_phong.max' => 'Mã phòng không được vượt quá 255 ký tự.',
 
-    // diện tích
-    'dien_tich.integer' => 'Diện tích phải là số nguyên.',
-    'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
+            // diện tích
+            'dien_tich.integer' => 'Diện tích phải là số nguyên.',
+            'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
 
-    // số khách
-    'so_khach.integer' => 'Số khách phải là số nguyên.',
-    'so_khach.min' => 'Số khách tối thiểu là 1 người.',
+            // số khách
+            'so_khach.integer' => 'Số khách phải là số nguyên.',
+            'so_khach.min' => 'Số khách tối thiểu là 1 người.',
 
-    // loại phòng
-    'loai_phong.required' => 'Vui lòng chọn loại phòng.',
-    'loai_phong.in' => 'Loại phòng không hợp lệ.',
+            // loại phòng
+            'loai_phong.required' => 'Vui lòng chọn loại phòng.',
+            'loai_phong.in' => 'Loại phòng không hợp lệ.',
 
-    // giá thuê
-    'gia_thue.integer' => 'Giá thuê phải là số nguyên.',
-    'gia_thue.min' => 'Giá thuê không được âm.',
+            // giá thuê
+            'gia_thue.integer' => 'Giá thuê phải là số nguyên.',
+            'gia_thue.min' => 'Giá thuê không được âm.',
 
-    // trạng thái
-    'status.required' => 'Vui lòng nhập trạng thái.',
-    'status.string' => 'Trạng thái phải là chuỗi ký tự.',
+            // trạng thái
+            'status.required' => 'Vui lòng nhập trạng thái.',
+            'status.string' => 'Trạng thái phải là chuỗi ký tự.',
 
-    // ảnh
-    'images.array' => 'Trường ảnh không hợp lệ.',
-    'images.*.image' => 'Tệp tải lên phải là hình ảnh.',
-    'images.*.mimes' => 'Ảnh chỉ được chấp nhận các định dạng: jpeg, png, jpg.',
+            // ảnh
+            'images.array' => 'Trường ảnh không hợp lệ.',
+            'images.*.image' => 'Tệp tải lên phải là hình ảnh.',
+            'images.*.mimes' => 'Ảnh chỉ được chấp nhận các định dạng: jpeg, png, jpg.',
 
 
-    // ghi chú
-    'ghi_chu.string' => 'Ghi chú phải là chuỗi văn bản.',
-]);
+            // ghi chú
+            'ghi_chu.string' => 'Ghi chú phải là chuỗi văn bản.',
+        ]);
 
-        $images = $request->input('existing_images', []);
-        $images = is_array($images) ? $images : [];
 
+        // Lấy danh sách ảnh cũ từ DB
+        $currentImages = json_decode($room->images ?? '[]', true);
+
+        // Lấy danh sách ảnh người dùng muốn giữ lại từ form
+        $keepImages = $request->input('existing_images', []);
+        $keepImages = is_array($keepImages) ? $keepImages : [];
+
+        // Tìm ảnh cần xóa (có trong DB nhưng không còn trong danh sách giữ lại)
+        $deletedImages = array_diff($currentImages, $keepImages);
+
+        foreach ($deletedImages as $imgPath) {
+            $fullPath = public_path($imgPath);
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
+        }
+
+        // Bắt đầu với danh sách ảnh giữ lại
+        $images = $keepImages;
+
+        // Thêm ảnh mới
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
                 if ($img->isValid()) {
@@ -201,8 +220,25 @@ class RoomController extends Controller
             }
         }
 
+        // Gán lại vào dữ liệu
+        $validated['images'] = json_encode($images);
 
-        $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
+
+
+
+        // $images = $request->input('existing_images', []);
+        // $images = is_array($images) ? $images : [];
+
+        // if ($request->hasFile('images')) {
+        //     foreach ($request->file('images') as $img) {
+        //         if ($img->isValid()) {
+        //             $fileName = time() . '_' . $img->getClientOriginalName();
+        //             $img->move(public_path('rooms'), $fileName);
+        //             $images[] = 'rooms/' . $fileName;
+        //         }
+        //     }
+        // }
+        // $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
 
         $room->update($validated);
         LogHelper::ghi('Cập nhật phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Cập nhật phòng trọ trong quản trị viên');
@@ -211,10 +247,26 @@ class RoomController extends Controller
 
     public function destroy(Rooms $room)
     {
+        // Xóa ảnh nếu có
+        if (!empty($room->images)) {
+            $images = json_decode($room->images, true);
+            foreach ($images as $imgPath) {
+                $fullPath = public_path($imgPath);
+                if (file_exists($fullPath)) {
+                    unlink($fullPath);
+                }
+            }
+        }
+
+        // Xóa bản ghi
         $room->delete();
+
+        // Ghi log
         LogHelper::ghi('Xóa phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Xóa phòng trọ trong quản trị viên');
+
         return back()->with('success', 'Xóa phòng thành công.');
     }
+
     // App\Http\Controllers\RoomController.php
     public function getUsedRoomCodes($nha_tro_id)
     {
