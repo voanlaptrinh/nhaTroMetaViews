@@ -54,56 +54,58 @@
 
 
 
-<div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Tên tòa nhà</th>
-                                <th>Mã</th>
-                                <th>Địa chỉ</th>
-                                <th>Số tầng</th>
-                                <th>Dịch vụ</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($nhaTros as $nhaTro)
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td>{{ $nhaTro->ten_toa_nha }}</td>
-                                    <td>{{ $nhaTro->ma_toa_nha }}</td>
-                                    <td>{{ $nhaTro->dia_chi }}</td>
-                                    <td>{{ $nhaTro->so_tang }}</td>
-                                    <td>
-                                        @foreach ($nhaTro->dichVus as $dv)
-                                            <span
-                                                class="badge border border-primary border-1 text-primary">{{ $dv->ten_dich_vu }}</span>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('nha_tro.edit', $nhaTro->id) }}" class="btn btn-warning"><i
-                                                class="bi bi-wrench"></i></a>
-                                        <form action="{{ route('nha_tro.destroy', $nhaTro->id) }}" method="POST"
-                                            style="display:inline-block;">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-danger" onclick="return confirm('Xóa nhà trọ này?')"><i
-                                                    class="bi bi-trash text-white"></i></button>
-                                        </form>
-                                        <button type="button" class="btn btn-info btn-xem-chi-tiet" data-bs-toggle="modal"
-                                            data-bs-target="#modalChiTiet" data-nhatro='@json($nhaTro)'
-                                            data-dichvus='@json($nhaTro->dichVus)'>
-                                            <i class="bi bi-eye"></i>
-                                        </button>
+                                    <th>Tên tòa nhà</th>
+                                    <th>Mã</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số tầng</th>
+                                    <th>Dịch vụ</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($nhaTros as $nhaTro)
+                                    <tr>
+                                        <td>{{ $nhaTro->ten_toa_nha }}</td>
+                                        <td>{{ $nhaTro->ma_toa_nha }}</td>
+                                        <td>{{ $nhaTro->dia_chi }}</td>
+                                        <td>{{ $nhaTro->so_tang }}</td>
+                                        <td>
+                                            @foreach ($nhaTro->dichVus as $dv)
+                                                <span
+                                                    class="badge border border-primary border-1 text-primary">{{ $dv->ten_dich_vu }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('nha_tro.edit', $nhaTro->id) }}" class="btn btn-warning"><i
+                                                    class="bi bi-wrench"></i></a>
+                                            <form action="{{ route('nha_tro.destroy', $nhaTro->id) }}" method="POST"
+                                                style="display:inline-block;">
+                                                @csrf @method('DELETE')
+                                                <button class="btn btn-danger"
+                                                    onclick="return confirm('Xóa nhà trọ này?')"><i
+                                                        class="bi bi-trash text-white"></i></button>
+                                            </form>
+                                            <button type="button" class="btn btn-info btn-xem-chi-tiet"
+                                                data-bs-toggle="modal" data-bs-target="#modalChiTiet"
+                                                data-nhatro='@json($nhaTro)'
+                                                data-dichvus='@json($nhaTro->dichVus)'>
+                                                <i class="bi bi-eye"></i>
+                                            </button>
 
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">Không có dữ liệu nhà trọ.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-</div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">Không có dữ liệu nhà trọ.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                     <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $nhaTros->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>

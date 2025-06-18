@@ -47,8 +47,8 @@
                                             @endif
                                             <td class="col-md-2">
                                                 <div>
-                                                    <div class="checkbox-wrapper-31">
-                                                        <input type="checkbox" name="permissions[]" value="{{ $permission->name }}" />
+                                                    <div class="checkbox-wrapper-61">
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission->name }}" class="check" />
                                                         <svg viewBox="0 0 35.6 35.6">
                                                             <circle class="background" cx="17.8" cy="17.8"
                                                                 r="17.8"></circle>
