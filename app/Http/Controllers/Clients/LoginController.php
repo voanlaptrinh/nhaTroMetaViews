@@ -11,7 +11,7 @@ class LoginController extends Controller
     public function showform()
     {
         if (Auth::check()) {
-            return redirect()->route('home'); // Chuyển hướng đến trang chính
+            return redirect()->route('dashboard.index'); // Chuyển hướng đến trang chính
         }
         $no_layout = true;
         return view('login', compact('no_layout'));
@@ -24,7 +24,7 @@ class LoginController extends Controller
         // Kiểm tra thông tin đăng nhập
         if (Auth::attempt($credentials, $remember)) {
             // Nếu thành công, chuyển hướng đến trang chủ
-            return redirect()->intended('dashboard.index');
+            return redirect()->route('dashboard.index');
         }
 
         // Nếu đăng nhập thất bại, quay lại form với thông báo lỗi

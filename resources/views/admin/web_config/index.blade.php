@@ -355,6 +355,7 @@
 
 
     <script>
+        let cropper;
         const input = document.getElementById('logo');
         const preview = document.getElementById('preview-image');
         const plusIcon = document.getElementById('plus-icon');
@@ -374,8 +375,6 @@
         let currentInput = null;
         let targetSize = null;
         // Khi chọn ảnh logo, hiển thị preview ngay
-
-
         document.querySelectorAll('.crop-input').forEach(input => {
             input.addEventListener('change', function(e) {
                 if (e.target.files && e.target.files[0]) {
