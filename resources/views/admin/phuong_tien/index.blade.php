@@ -1,11 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
     <div class="pagetitle">
-        <h1>Nhà trọ</h1>
+        <h1>Phương tiện</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Nhà trọ</li>
+                <li class="breadcrumb-item active">Phương tiện</li>
             </ol>
         </nav>
     </div>
@@ -19,10 +19,11 @@
 
             <div class="card">
                 <div class="card-body">
-                    <a href="{{ route('admin.phuong_tiens.create', ['user_id' => request('user_id')]) }}"
-                        class="btn btn-success mb-3">
-                        Thêm phương tiện
-                    </a>
+                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Phương tiện</h5>
+                        <a href="{{ route('admin.phuong_tiens.create', ['user_id' => request('user_id')]) }}" class="btn btn-success rounded-pill"> Thêm phương tiện</a>
+                    </div>
+                  
                     <table class="table">
                         <thead>
                             <tr>
@@ -35,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($phuongTiens as $pt)
+                            @forelse ($phuongTiens as $pt)
                                 <tr>
                                     <td>{{ $pt->name }}</td>
                                     <td>{{ $pt->bien_so }}</td>
@@ -53,7 +54,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">Không có dữ liệu.</td>
+                                    </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
