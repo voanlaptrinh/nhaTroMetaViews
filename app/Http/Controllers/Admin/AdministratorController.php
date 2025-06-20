@@ -6,16 +6,22 @@ use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
-class UserController extends Controller
+class AdministratorController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::query()
-            ->role('nguoi-thue-tro'); // chỉ lấy user có quyền này
+        $query = User::query();
+
+        // Loại bỏ user có role 'nguoi-thue-tro'
+        $query->whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'nguoi-thue-tro');
+        });
 
         // Tìm kiếm theo tên
         if ($request->filled('name')) {
@@ -27,21 +33,26 @@ class UserController extends Controller
             $query->where('email', 'like', '%' . $request->email . '%');
         }
 
-        // Tìm kiếm theo trạng thái
-        if ($request->filled('active')) {
-            $query->where('active', $request->active); // active là true/false
+        // Lọc theo trạng thái active (0 hoặc 1)
+        if ($request->has('active') && $request->active !== '') {
+            $query->where('active', $request->active);
         }
 
-        $users = $query->paginate(20);
+        // 👉 Sắp xếp theo ngày tạo mới nhất
+        $query->orderBy('created_at', 'desc');
 
-        return view('admin.users.index', compact('users'));
+        $administractors = $query->paginate(20);
+
+        return view('admin.administractor.index', compact('administractors'));
     }
 
     public function create()
     {
-        return view('admin.users.form');
+        
+        $roles = Role::where('name', '!=', 'nguoi-thue-tro')->get();
+        $user = null;
+        return view('admin.administractor.form', compact('roles', 'user'));
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -148,21 +159,20 @@ class UserController extends Controller
             $user->ho_chieu = 'uploads/users/' . $filename;
         }
 
-        $user->assignRole('nguoi-thue-tro');
         $user->save();
-        LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên');
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        $user->syncRoles($request->roles);
+        LogHelper::ghi('Thêm Người quản lý mới bởi. ' . $request->name, 'Quản lý', 'Thêm quản lý mới trong quản trị viên bởi' . Auth::user()->name);
+        return redirect()->route('admin.quanly.index')->with('success', 'Dữ liệu quản lý đã được thêm mới.');
     }
 
     public function edit(User $user)
     {
-        if (!$user->roles->pluck('name')->contains('nguoi-thue-tro')) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra.');
+         if ($user->roles()->where('name', 'nguoi-thue-tro')->exists()) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra');
+        }
+        $roles = Role::where('name', '!=', 'nguoi-thue-tro')->get();
+        return view('admin.administractor.form', compact('user', 'roles'));
     }
-        return view('admin.users.form', compact('user'));
-    }
-
-
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -249,10 +259,10 @@ class UserController extends Controller
         // Upload avatar
         if ($request->hasFile('avatar')) {
 
- // Xóa ảnh cũ nếu có
-    if (!empty($user->avatar) && file_exists(public_path($user->avatar))) {
-        @unlink(public_path($user->avatar));
-    }
+            // Xóa ảnh cũ nếu có
+            if (!empty($user->avatar) && file_exists(public_path($user->avatar))) {
+                @unlink(public_path($user->avatar));
+            }
 
             $file = $request->file('avatar');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
@@ -262,9 +272,9 @@ class UserController extends Controller
 
         // Upload CMT mặt trước
         if ($request->hasFile('cmt_mat_truoc')) {
-  if (!empty($user->cmt_mat_truoc) && file_exists(public_path($user->cmt_mat_truoc))) {
-        @unlink(public_path($user->cmt_mat_truoc));
-    }
+            if (!empty($user->cmt_mat_truoc) && file_exists(public_path($user->cmt_mat_truoc))) {
+                @unlink(public_path($user->cmt_mat_truoc));
+            }
 
 
             $file = $request->file('cmt_mat_truoc');
@@ -275,9 +285,9 @@ class UserController extends Controller
 
         // Upload CMT mặt sau
         if ($request->hasFile('cmt_mat_sau')) {
-  if (!empty($user->cmt_mat_sau) && file_exists(public_path($user->cmt_mat_sau))) {
-        @unlink(public_path($user->cmt_mat_sau));
-    }
+            if (!empty($user->cmt_mat_sau) && file_exists(public_path($user->cmt_mat_sau))) {
+                @unlink(public_path($user->cmt_mat_sau));
+            }
 
 
             $file = $request->file('cmt_mat_sau');
@@ -289,40 +299,32 @@ class UserController extends Controller
         // Upload hộ chiếu
         if ($request->hasFile('ho_chieu')) {
 
- if (!empty($user->ho_chieu) && file_exists(public_path($user->ho_chieu))) {
-        @unlink(public_path($user->ho_chieu));
-    }
+            if (!empty($user->ho_chieu) && file_exists(public_path($user->ho_chieu))) {
+                @unlink(public_path($user->ho_chieu));
+            }
 
             $file = $request->file('ho_chieu');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
             $user->ho_chieu = 'uploads/users/' . $filename;
         }
-
         $user->save();
-        LogHelper::ghi('Cập nhật khách hàng với id ' . $user->id, 'Khách hàng', 'Cập nhật thông tin Khách hàng trong quản trị viên');
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        $user->syncRoles($request->roles);
+        LogHelper::ghi('Cập nhật quản lý mới bởi. ' . $request->name, 'Quản lý', 'Cập nhật trong quản trị bởi' . Auth::user()->name);
+        return redirect()->route('admin.quanly.index')->with('success', 'Dữ liệu quản lý đã được cập nhật.');
     }
 
-    public function destroy(User $user)
+
+    public function destroy($id)
     {
-        if (!$user->roles->pluck('name')->contains('nguoi-thue-tro')) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra.');
-    }
-         // Danh sách các cột chứa đường dẫn ảnh
-    $imageFields = ['avatar', 'cmt_mat_truoc', 'cmt_mat_sau', 'ho_chieu'];
 
-    // Xóa từng ảnh nếu có
-    foreach ($imageFields as $field) {
-        if (!empty($user->$field)) {
-            $imagePath = public_path($user->$field);
-            if (file_exists($imagePath)) {
-                @unlink($imagePath); // Xóa file vật lý
-            }
+        $user = User::findOrFail($id);
+        // Kiểm tra nếu user có role 'nguoi-thue-tro' thì không cho xóa
+        if ($user->roles()->where('name', 'nguoi-thue-tro')->exists()) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra');
         }
-    }
-    
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        LogHelper::ghi('Xóa quản lý mới bởi. ' . $user->name, 'Quản lý', 'Xóa trong quản trị bởi' . Auth::user()->name);
+        return redirect()->route('admin.users.index')->with('success', 'Xóa user thành công!');
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\AdministratorController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\NhaTroController;
+use App\Http\Controllers\Admin\PhuongTienController;
 use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\RolesControler;
 use App\Http\Controllers\Admin\RoomController;
@@ -139,7 +141,16 @@ Route::prefix('admin')->group(function () {
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
-    // Xoá người dùng
+    Route::prefix('quan-ly')->name('admin.quanly.')->group(function () {
+        Route::get('/', [AdministratorController::class, 'index'])->name('index');
+        Route::get('/create', [AdministratorController::class, 'create'])->name('create');
+        Route::post('/store', [AdministratorController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [AdministratorController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [AdministratorController::class, 'update'])->name('update');
+        Route::delete('/{user}', [AdministratorController::class, 'destroy'])->name('destroy');
+    });
+
+
     Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 
 
@@ -151,6 +162,20 @@ Route::prefix('admin')->group(function () {
         Route::put('/{role}', [RolesControler::class, 'update'])->name('update');
         Route::delete('/{role}', [RolesControler::class, 'destroy'])->name('destroy');
     });
+
+// Routes chính cho quản lý phương tiện
+Route::prefix('phuong-tiens')->name('admin.phuong_tiens.')->group(function () {
+    Route::get('/', [PhuongTienController::class, 'index'])->name('index');
+    Route::get('/create', [PhuongTienController::class, 'create'])->name('create');
+    Route::post('/', [PhuongTienController::class, 'store'])->name('store');
+    Route::get('/{phuong_tien}/edit', [PhuongTienController::class, 'edit'])->name('edit');
+    Route::put('/{phuong_tien}', [PhuongTienController::class, 'update'])->name('update');
+    Route::delete('/{phuong_tien}', [PhuongTienController::class, 'destroy'])->name('destroy');
+});
+
+
+
+
 });
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

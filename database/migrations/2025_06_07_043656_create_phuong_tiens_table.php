@@ -19,7 +19,7 @@ return new class extends Migration
                 'o_to', 'o_to_dien', 'xe_may', 'xe_may_dien', 'xe_dap', 'xe_dap_dien'
             ]);
             $table->string('ten_chu_xe'); // Theo đăng ký xe
-            $table->foreignId('khach_hang_id')->constrained('khach_hangs')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

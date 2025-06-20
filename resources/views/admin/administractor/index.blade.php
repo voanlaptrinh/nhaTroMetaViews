@@ -1,11 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
     <div class="pagetitle">
-        <h1>Người dùng</h1>
+        <h1>Người quản trị</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Người dùng</li>
+                <li class="breadcrumb-item active">Người quản trị</li>
             </ol>
         </nav>
     </div>
@@ -20,11 +20,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
-                        <h5 class="card-title">Nội dung Người dùng</h5>
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-success rounded-pill">Thêm người dùng</a>
+                        <h5 class="card-title">Nội dung Người quản trị</h5>
+                        <a href="{{ route('admin.quanly.create') }}" class="btn btn-success rounded-pill">Thêm Người quản
+                            trị</a>
                     </div>
                     <div class="row">
-                        <form method="GET" action="{{ route('admin.users.index') }}" class="row align-items-end g-3 mb-4">
+                        <form method="GET" action="{{ route('admin.quanly.index') }}" class="row align-items-end g-1 mb-4">
 
                             <div class="col-md-4">
                                 <label class="form-label">Tên</label>
@@ -50,7 +51,7 @@
 
                             <div class="col-md-2 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
+                                <a href="{{ route('admin.quanly.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
                             </div>
                         </form>
 
@@ -64,42 +65,44 @@
                                 <tr>
                                     <th>Họ tên</th>
                                     <th>Email</th>
-                                    <th>Phương tiện</th>
+                                    {{-- <th>Ảnh</th> --}}
                                     <th>Ngày sinh</th>
                                     <th>Hoạt động</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($users as $user)
+                                @forelse ($administractors as $user)
                                     <tr>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.phuong_tiens.index', ['user_id' => $user->id]) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="bi bi-car-front"></i> Phương tiện
-                                            </a>
-
-                                        </td>
+                                        {{-- <td>
+                                            @if ($user->avatar)
+                                                <img src="{{ asset($user->avatar) }}" width="50" height="50">
+                                            @endif
+                                        </td> --}}
                                         <td>{{ $user->birthday ?? 'Chưa có ngày sinh' }}</td>
                                         <td>{{ $user->active ? 'Có' : 'Không' }}</td>
                                         <td>
-                                            <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
-                                            <form method="POST" action="{{ route('admin.users.destroy', $user->id) }}"
-                                                style="display:inline-block;">
-                                                @csrf @method('DELETE')
-                                                <button onclick="return confirm('Xoá người dùng này?')"
-                                                    class="btn btn-danger btn-sm"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if ($user->email != 'superadmin@example.com')
+                                                <a href="{{ route('admin.quanly.edit', $user->id) }}"
+                                                    class="btn btn-warning btn-sm"><i
+                                                class="bi bi-wrench"></i></a>
+                                                <form method="POST" action="{{ route('admin.quanly.destroy', $user->id) }}"
+                                                    style="display:inline-block;">
+                                                    @csrf @method('DELETE')
+                                                    <button onclick="return confirm('Xoá người dùng này?')"
+                                                        class="btn btn-danger btn-sm"><i
+                                                    class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
+
                                             <button class="btn btn-info btn-sm"
                                                 onclick="showUserDetail({{ json_encode($user) }})">
-                                                <i class="bi bi-eye"></i>
+                                              <i class="bi bi-eye"></i>
                                             </button>
-
                                         </td>
+
                                     </tr>
                                 @empty
                                     <tr>
@@ -110,12 +113,10 @@
                         </table>
                     </div>
                     <div class=" p-nav text-end d-flex justify-content-end">
-                        {{ $users->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        {{ $administractors->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
-                <div class=" p-nav text-end d-flex justify-content-end">
-                    {{-- {{ $rooms->appends(request()->query())->links('pagination::bootstrap-4') }} --}}
-                </div>
+
             </div>
         </div>
 

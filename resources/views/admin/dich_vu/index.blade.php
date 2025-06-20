@@ -47,15 +47,22 @@
                                         <td>
                                             <a href="{{ route('dichvus.edit', $dichvu->id) }}" class="btn btn-warning"><i
                                                     class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
-                                                style="display:inline-block" class="btn btn-danger"
-                                                onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @php
+                                                $maKhongXoa = ['dien_sinh_hoat', 'nuoc', 'mang'];
+                                            @endphp
+
+                                            @if (!in_array($dichvu->ma_dich_vu, $maKhongXoa))
+                                                <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
+                                                    style="display:inline-block" class="btn btn-danger"
+                                                    onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
+
                                             <button type="button" class="btn btn-info btn-xem-chi-tiet"
                                                 data-ten="{{ $dichvu->ten_dich_vu }}" data-ma="{{ $dichvu->ma_dich_vu }}"
                                                 data-donvi="{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}"
@@ -79,7 +86,7 @@
                         <!-- End Table with stripped rows -->
 
                     </div>
-                     <div class=" p-nav text-end d-flex justify-content-end">
+                    <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $dichVus->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
                 </div>

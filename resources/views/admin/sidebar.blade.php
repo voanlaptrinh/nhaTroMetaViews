@@ -47,12 +47,19 @@
                  <span>Tài sản</span>
              </a>
          </li>
-           <li class="nav-heading">Phân quyền</li>
-            <li class="nav-item">
+         <li class="nav-heading">Phân quyền</li>
+         <li class="nav-item">
              <a class="nav-link {{ in_array(Request::route()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? '' : 'collapsed' }}"
                  href="{{ route('roles.index') }}">
-                 <i class="bi bi-person-circle"></i>
+                <i class="bi bi-shield-lock"></i>
                  <span>Vai trò</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.quanly.index']) ? '' : 'collapsed' }}"
+                 href="{{ route('admin.quanly.index') }}">
+                 <i class="bi bi-person-circle"></i>
+                 <span>Quản trị</span>
              </a>
          </li>
          <li class="nav-heading">Khách hàng</li>
@@ -61,6 +68,13 @@
                  href="{{ route('admin.users.index') }}">
                  <i class="bi bi-person-circle"></i>
                  <span>Khách hàng</span>
+             </a>
+         </li>
+         <li class="nav-item">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.phuong_tiens.index', 'admin.phuong_tiens.create', 'admin.phuong_tiens.edit']) ? '' : 'collapsed' }}"
+                 href="{{ route('admin.phuong_tiens.index') }}">
+              <i class="bi bi-bicycle"></i>
+                 <span>Phương tiện</span>
              </a>
          </li>
 

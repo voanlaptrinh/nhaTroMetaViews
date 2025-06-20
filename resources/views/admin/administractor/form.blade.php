@@ -4,11 +4,11 @@
         $isEdit = isset($user);
     @endphp
     <div class="pagetitle">
-        <h1>Khách hàng</h1>
+        <h1>Người quản trị</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">{{ $isEdit ? 'Sửa khách hàng' : 'Thêm mới khách hàng' }}</li>
+                <li class="breadcrumb-item active">{{ $isEdit ? 'Sửa người quản trị' : 'Thêm mới người quản trị' }}</li>
             </ol>
         </nav>
     </div>
@@ -21,11 +21,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
-                        <h5 class="card-title">{{ $isEdit ? 'Sửa khách hàng' : 'Thêm mới khách hàng' }}</h5>
+                        <h5 class="card-title">{{ $isEdit ? 'Sửa người quản trị' : 'Thêm mới người quản trị' }}</h5>
 
                     </div>
                     <form method="POST"
-                        action="{{ $isEdit ? route('admin.users.update', $user->id) : route('admin.users.store') }}"
+                        action="{{ $isEdit ? route('admin.quanly.update', $user->id) : route('admin.quanly.store') }}"
                         enctype="multipart/form-data">
                         @csrf
                         @if ($isEdit)
@@ -243,10 +243,8 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group mb-3">
-                                    <label>Mật khẩu
-                                        {!! $isEdit ? '(Để trống nếu không đổi)' : '<span class="text-danger">*</span>' !!}
-                                    </label>
-
+                                    <label>Mật khẩu {{ $isEdit ? '(Để trống nếu không đổi)' : '' }} <span
+                                            class="text-danger">*</span></label>
                                     <input type="password" name="password" class="form-control"
                                         {{ $isEdit ? '' : 'required' }}>
                                 </div>
@@ -375,7 +373,51 @@
                                     <textarea name="note" class="form-control">{{ old('note', $user->note ?? '') }}</textarea>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <label for="roles">Vai trò</label>
+                                <table class="table">
+                                    <tbody>
+                                        @php
+                                            $userRoles = $user ? $user->roles->pluck('name')->toArray() : [];
+                                        @endphp
 
+                                        @foreach ($roles as $index => $role)
+                                            @if ($index % 6 === 0 && $index > 0)
+                                                </tr>
+                                                <tr>
+                                            @endif
+                                            <td class="col-md-2">
+                                                <div>
+                                                    <div class="checkbox-wrapper-61">
+                                                        <input type="checkbox" name="roles[]" class="check" id="role-{{ $role->id }}"
+                                                            value="{{ $role->name }}"
+                                                            {{ in_array($role->name, $userRoles) ? 'checked' : '' }}>
+                                                        <label for="role-{{ $role->id }}" class="label">
+                                                            <svg width="45" height="45" viewbox="0 0 95 95">
+                                                                <rect x="30" y="20" width="50" height="50"
+                                                                    stroke="black" fill="none" />
+                                                                <g transform="translate(0,-952.36222)">
+                                                                    <path
+                                                                        d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4 "
+                                                                        stroke="black" stroke-width="3" fill="none"
+                                                                        class="path1" />
+                                                                </g>
+                                                            </svg>
+                                                            <span> {{ $role->name }}
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                  
+                                                </div>
+                                            </td>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                                @error('roles')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
 
                         </div>
                         <div class="text-end"><button type="submit" class="btn btn-success">Lưu</button></div>

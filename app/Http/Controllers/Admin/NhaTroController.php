@@ -70,7 +70,17 @@ class NhaTroController extends Controller
             'don_gia.*' => 'nullable|numeric|min:0',
             'kieu_tinh.*' => 'nullable|in:cong_to,dau_nguoi,co_dinh',
         ], $this->messages());
+        $defaultServiceCodes = ['nuoc', 'dien_sinh_hoat', 'mang'];
+        $defaultServiceIds = DichVu::whereIn('ma_dich_vu', $defaultServiceCodes)->pluck('id')->toArray();
 
+        // Nếu thiếu bất kỳ dịch vụ bắt buộc nào => trả lỗi
+        $selectedServiceIds = $request->input('dich_vu_ids', []);
+
+        $missingDefaults = array_diff($defaultServiceIds, $selectedServiceIds);
+
+        if (!empty($missingDefaults)) {
+            return back()->with('error', 'Vui lòng không bỏ chọn dịch vụ mặc định (Điện, Nước, Mạng)');
+        }
         $nhaTro = NhaTros::create([
             'ten_toa_nha' => $request->ten_toa_nha,
             'ma_toa_nha' => $request->ma_toa_nha,
@@ -86,6 +96,7 @@ class NhaTroController extends Controller
             'chu_so_huu' => $request->chu_so_huu,
             'mo_ta' => $request->mo_ta,
         ]);
+
 
         if ($request->has('dich_vu_ids')) {
             $syncData = [];
@@ -149,7 +160,17 @@ class NhaTroController extends Controller
             'don_gia.*' => 'nullable|numeric|min:0',
             'kieu_tinh.*' => 'nullable|in:cong_to,dau_nguoi,co_dinh',
         ], $this->messages());
+        $defaultServiceCodes = ['nuoc', 'dien_sinh_hoat', 'mang'];
+        $defaultServiceIds = DichVu::whereIn('ma_dich_vu', $defaultServiceCodes)->pluck('id')->toArray();
 
+        // Nếu thiếu bất kỳ dịch vụ bắt buộc nào => trả lỗi
+        $selectedServiceIds = $request->input('dich_vu_ids', []);
+
+        $missingDefaults = array_diff($defaultServiceIds, $selectedServiceIds);
+
+        if (!empty($missingDefaults)) {
+            return back()->with('error', 'Vui lòng không bỏ chọn dịch vụ mặc định (Điện, Nước, Mạng)');
+        }
         $nhaTro->update([
             'ten_toa_nha' => $request->ten_toa_nha,
             'ma_toa_nha' => $request->ma_toa_nha,

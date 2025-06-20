@@ -22,8 +22,8 @@ class DichVuController extends Controller
     {
         $donViTinhs = DonViTinh::all();
         LogHelper::ghi('Vào form tạo dịch vụ', 'Dịch Vụ', 'Vào form tạo dịch vụ trong quản trị viên');
-
-        return view('admin.dich_vu.create', compact('donViTinhs'));
+        $maDichVuDaTonTai = DichVu::pluck('ma_dich_vu')->toArray();
+        return view('admin.dich_vu.create', compact('donViTinhs', 'maDichVuDaTonTai'));
     }
 
     public function store(Request $request)
@@ -32,7 +32,7 @@ class DichVuController extends Controller
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu',
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
-           
+
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',
@@ -43,7 +43,7 @@ class DichVuController extends Controller
 
             'don_vi_tinh_id.exists' => 'Đơn vị tính không hợp lệ.',
 
-            
+
         ]);
 
 
@@ -56,8 +56,9 @@ class DichVuController extends Controller
     {
         $dichvu = DichVu::find($id);
         $donViTinhs = DonViTinh::all();
+        $maDichVuDaTonTai = DichVu::where('id', '!=', $dichvu->id)->pluck('ma_dich_vu')->toArray();
         LogHelper::ghi('Vào form sửa dịch vụ', 'Dịch Vụ', 'Vào form sửa dịch vụ trong quản trị viên');
-        return view('admin.dich_vu.edit', compact('dichvu', 'donViTinhs'));
+        return view('admin.dich_vu.edit', compact('dichvu', 'donViTinhs', 'maDichVuDaTonTai'));
     }
 
     public function update(Request $request, $id)
@@ -67,7 +68,7 @@ class DichVuController extends Controller
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu,' . $dichVu->id,
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
-            
+
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',
@@ -75,18 +76,24 @@ class DichVuController extends Controller
             'ma_dich_vu.required' => 'Vui lòng nhập mã dịch vụ.',
             'ma_dich_vu.unique' => 'Mã dịch vụ đã tồn tại, vui lòng chọn mã khác.',
             'don_vi_tinh_id.exists' => 'Đơn vị tính không hợp lệ.',
-           
+
         ]);
 
 
         $dichVu->update($request->all());
-    LogHelper::ghi('Cập nhật dịch vụ với Id là ' . $dichVu->id, 'Dịch Vụ', 'Cập nhật dịch vụ trong quản trị viên');
+        LogHelper::ghi('Cập nhật dịch vụ với Id là ' . $dichVu->id, 'Dịch Vụ', 'Cập nhật dịch vụ trong quản trị viên');
         return redirect()->route('dichvu.index')->with('success', 'Cập nhật dịch vụ thành công');
     }
 
     public function destroy($id)
     {
         $dichVu = DichVu::find($id);
+        $maKhongChoXoa = ['dien_sinh_hoat', 'nuoc', 'mang'];
+
+        if (in_array($dichVu->ma_dich_vu, $maKhongChoXoa)) {
+            return redirect()->route('dichvu.index')
+                ->with('error', 'Không thể xóa dịch vụ quan trọng: ' . $dichVu->ma_dich_vu);
+        }
         $dichVu->delete();
         LogHelper::ghi('Xóa dịch vụ với Id là ' . $dichVu->id, 'Dịch Vụ', 'Xóa dịch vụ trong quản trị viên');
         return redirect()->route('dichvu.index')->with('success', 'Xóa dịch vụ thành công');

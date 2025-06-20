@@ -59,7 +59,7 @@
 
     <div class="col-lg-4">
         <label class="form-label">Loại phòng</label>
-        <select name="loai_phong" class="form-control">
+        <select name="loai_phong" class="form-select">
             @php
                 $loai_phong = old('loai_phong', optional($room)->loai_phong);
             @endphp

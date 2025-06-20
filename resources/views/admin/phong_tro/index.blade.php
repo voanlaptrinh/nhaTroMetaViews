@@ -120,7 +120,7 @@
                                         <td>
                                             <span
                                                 class="badge bg-{{ $room->status == 'trong' ? 'success' : 'secondary' }}">
-                                                {{ ucfirst($room->status) }}
+                                                {{ $room->status == 'trong' ? 'Trống' : 'Đã thuê' }}
                                             </span>
                                         </td>
                                         <td>{{ $room->da_thue ? 'Có' : 'Không' }}</td>

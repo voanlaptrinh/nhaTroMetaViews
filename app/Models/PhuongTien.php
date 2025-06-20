@@ -13,11 +13,11 @@ class PhuongTien extends Model
         'bien_so',
         'loai_phuong_tien',
         'ten_chu_xe',
-        'khach_hang_id',
+        'user_id',
     ];
 
     public function khachHang()
     {
-        return $this->belongsTo(KhachHang::class);
+        return $this->belongsTo(User::class);
     }
 }

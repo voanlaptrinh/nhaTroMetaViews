@@ -38,27 +38,63 @@
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                @php
+                                    $dichVuOptions = [
+                                        'dien_sinh_hoat' => 'Điện sinh hoạt',
+                                        'nuoc' => 'Nước',
+                                        'mang' => 'Mạng internet',
+                                        'rac' => 'Phí rác',
+                                        'bao_tri' => 'Phí bảo trì',
+                                        'giu_xe_may' => 'Gửi xe máy',
+                                        'giu_xe_dap' => 'Gửi xe đạp',
+                                        'giu_xe_oto' => 'Gửi ô tô',
+                                        'vs_chung' => 'Vệ sinh chung',
+                                        'an_ninh' => 'An ninh',
+                                        'truyen_hinh' => 'Truyền hình cáp',
+                                        'thang_may' => 'Phí thang máy',
+                                        'wifi' => 'Wifi',
+                                        'khu_tu_quan' => 'Phí tự quản',
+                                        'dich_vu_khac' => 'Dịch vụ khác',
+                                        'phi_quan_ly' => 'Phí quản lý',
+                                    ];
+                                @endphp
 
                                 <div class="col-lg-6">
-                                    <label for="ma_dich_vu" class="form-label">Mã dịch vụ</label><br>
-                                    <input type="text" class="form-control" id="ma_dich_vu" name="ma_dich_vu"
-                                       value="{{ old('ma_dich_vu', $dichvu->ma_dich_vu) }}">
+                                    <label for="ma_dich_vu" class="form-label">Mã dịch vụ</label>
+                                    <select class="form-control" id="ma_dich_vu" name="ma_dich_vu">
+                                        <option value="">-- Chọn mã dịch vụ --</option>
+                                        @foreach ($dichVuOptions as $value => $label)
+                                            @php
+                                                $isDisabled =
+                                                    in_array($value, $maDichVuDaTonTai ?? []) &&
+                                                    $value !== $dichvu->ma_dich_vu;
+                                                $isSelected = old('ma_dich_vu', $dichvu->ma_dich_vu) == $value;
+                                            @endphp
+                                            <option value="{{ $value }}" {{ $isSelected ? 'selected' : '' }}
+                                                {{ $isDisabled ? 'disabled' : '' }}>
+                                                {{ $label }} {{ $isDisabled ? '(Đã tồn tại)' : '' }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
                                     <div class="text-danger" id="err-ma_dich_vu"></div>
                                     @error('ma_dich_vu')
                                         <div style="color:red">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+
+
                                 <div class="col-lg-12">
                                     <label for="don_vi_tinh_id" class="form-label">Đơn vị tính</label><br>
                                     <select id="don_vi_tinh_id" name="don_vi_tinh_id" class="select_ted form-control">
                                         <option value="">-- Chọn đơn vị tính --</option>
                                         @foreach ($donViTinhs as $dvt)
-                                        <option value="{{ $dvt->id }}"
-                                            {{ old('don_vi_tinh_id', $dichvu->don_vi_tinh_id) == $dvt->id ? 'selected' : '' }}>
-                                            {{ $dvt->ma_don_vi }} - {{ $dvt->ten_day_du }}
-                                        </option>
-                                    @endforeach
+                                            <option value="{{ $dvt->id }}"
+                                                {{ old('don_vi_tinh_id', $dichvu->don_vi_tinh_id) == $dvt->id ? 'selected' : '' }}>
+                                                {{ $dvt->ma_don_vi }} - {{ $dvt->ten_day_du }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="text-danger" id="err-don_vi_tinh_id"></div>
                                     @error('don_vi_tinh_id')
@@ -110,7 +146,7 @@
                                 <button type="submit" class="btn btn-success">Cập nhật dịch vụ</button>
                             </div>
 
-                      
+
                         </form>
 
                     </div>
