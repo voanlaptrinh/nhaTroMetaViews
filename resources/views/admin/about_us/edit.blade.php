@@ -71,25 +71,27 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                      <div class="mb-3">
-                <label>Mô tả ngắn</label>
-                <textarea name="description" class="form-control">{{ old('description', $about->description) }}</textarea>
-                @error('description')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-                  <div class="mb-3">
-                <label>Hiển thị</label>
-                <select name="active" class="form-select">
-                    <option value="1" {{ old('active', $about->active) == 1 ? 'selected' : '' }}>Hiển thị</option>
-                    <option value="0" {{ old('active', $about->active) == 0 ? 'selected' : '' }}>Ẩn</option>
-                </select>
-                @error('active')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            </div>
+                    <div class="mb-3">
+                        <label>Mô tả ngắn</label>
+                        <textarea name="description" class="form-control">{{ old('description', $about->description) }}</textarea>
+                        @error('description')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                        <div class="mb-3">
+                            <label>Hiển thị</label>
+                            <select name="active" class="form-select">
+                                <option value="1" {{ old('active', $about->active) == 1 ? 'selected' : '' }}>Hiển thị
+                                </option>
+                                <option value="0" {{ old('active', $about->active) == 0 ? 'selected' : '' }}>Ẩn
+                                </option>
+                            </select>
+                            @error('active')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
-                
+
             </div>
 
 
@@ -139,7 +141,7 @@
                 @enderror
             </div>
 
-          
+
 
             <div class="text-end">
                 <button class="btn btn-primary">Cập nhật</button>

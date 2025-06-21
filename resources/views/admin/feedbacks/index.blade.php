@@ -21,30 +21,34 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách cảm nghĩ</h5>
-                        <a href="{{ route('feedbacks.create') }}" class="btn btn-success rounded-pill">Thêm cảm nghĩ</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm cảm nghĩ'))
+                            <a href="{{ route('feedbacks.create') }}" class="btn btn-success rounded-pill">Thêm cảm nghĩ</a>
+                        @endif
                     </div>
                     <form method="GET" action="{{ route('feedbacks.index') }}" class="row mb-4">
-    <div class="col-md-3">
-        <input type="text" name="name" class="form-control" placeholder="Tìm theo tên" value="{{ request('name') }}">
-    </div>
-    <div class="col-md-3">
-        <input type="text" name="position" class="form-control" placeholder="Tìm theo chức vụ" value="{{ request('position') }}">
-    </div>
-    <div class="col-md-3">
-        <select name="active" class="form-select">
-            <option value="">-- Trạng thái --</option>
-            <option value="1" {{ request('active') === '1' ? 'selected' : '' }}>Hiển thị</option>
-            <option value="0" {{ request('active') === '0' ? 'selected' : '' }}>Ẩn</option>
-        </select>
-    </div>
-    <div class="col-md-3 d-flex">
-        <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
-        <a href="{{ route('feedbacks.index') }}" class="btn btn-secondary">Reset</a>
-    </div>
-</form>
+                        <div class="col-md-3">
+                            <input type="text" name="name" class="form-control" placeholder="Tìm theo tên"
+                                value="{{ request('name') }}">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="position" class="form-control" placeholder="Tìm theo chức vụ"
+                                value="{{ request('position') }}">
+                        </div>
+                        <div class="col-md-3">
+                            <select name="active" class="form-select">
+                                <option value="">-- Trạng thái --</option>
+                                <option value="1" {{ request('active') === '1' ? 'selected' : '' }}>Hiển thị</option>
+                                <option value="0" {{ request('active') === '0' ? 'selected' : '' }}>Ẩn</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex">
+                            <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
+                            <a href="{{ route('feedbacks.index') }}" class="btn btn-secondary">Reset</a>
+                        </div>
+                    </form>
 
                     <div class="table-responsive">
-                      
+
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -69,26 +73,29 @@
                                         {{-- <td>{{ Str::limit($fb->message, 60) }}</td> --}}
                                         <td>{{ $fb->active ? '✔️ Có' : '❌ Không' }}</td>
                                         <td>
-                                            <a href="{{ route('feedbacks.edit', $fb) }}"
-                                                class="btn btn-sm btn-warning"><i
-                                                    class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('feedbacks.destroy', $fb) }}" method="POST"
-                                                class="d-inline-block" onsubmit="return confirm('Xóa cảm nghĩ này?')">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa cảm nghĩ'))
+                                                <a href="{{ route('feedbacks.edit', $fb) }}"
+                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa cảm nghĩ'))
+                                                <form action="{{ route('feedbacks.destroy', $fb) }}" method="POST"
+                                                    class="d-inline-block" onsubmit="return confirm('Xóa cảm nghĩ này?')">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
                                             <button type="button" class="btn btn-info btn-sm btn-xem-chi-tiet"
                                                 data-bs-toggle="modal" data-bs-target="#modalChiTiet"
                                                 data-ten="{{ $fb->name }}" data-chucvu="{{ $fb->position }}"
                                                 data-noidung="{{ $fb->message }}"
                                                 data-anh="{{ $fb->image ? asset($fb->image) : '' }}">
-                                                  <i class="bi bi-eye"></i>
+                                                <i class="bi bi-eye"></i>
                                             </button>
 
                                         </td>
                                     </tr>
-                                 @empty
+                                @empty
                                     <tr>
                                         <td colspan="5" class="text-center text-muted">Không có dữ liệu cảm nghĩ.</td>
                                     </tr>

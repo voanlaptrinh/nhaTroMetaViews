@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class WebConfigController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+     
+        $this->middleware('can:Cài đặt web')->only(['edit', 'update']);
+      
+    }
     /**
      * Hiển thị form sửa cấu hình website (chỉ có 1 bản ghi)
      */

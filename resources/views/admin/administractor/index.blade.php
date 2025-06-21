@@ -21,8 +21,10 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Người quản trị</h5>
+                           @if (auth()->user()->hasPermissionTo('Thêm tài khoản quản trị'))
                         <a href="{{ route('admin.quanly.create') }}" class="btn btn-success rounded-pill">Thêm Người quản
                             trị</a>
+                            @endif
                     </div>
                     <div class="row">
                         <form method="GET" action="{{ route('admin.quanly.index') }}" class="row align-items-end g-1 mb-4">
@@ -85,9 +87,12 @@
                                         <td>{{ $user->active ? 'Có' : 'Không' }}</td>
                                         <td>
                                             @if ($user->email != 'superadmin@example.com')
+                                               @if (auth()->user()->hasPermissionTo('Sửa tài khoản quản trị'))
                                                 <a href="{{ route('admin.quanly.edit', $user->id) }}"
                                                     class="btn btn-warning btn-sm"><i
                                                 class="bi bi-wrench"></i></a>
+                                                @endif
+                                                   @if (auth()->user()->hasPermissionTo('Xóa tài khoản quản trị'))
                                                 <form method="POST" action="{{ route('admin.quanly.destroy', $user->id) }}"
                                                     style="display:inline-block;">
                                                     @csrf @method('DELETE')
@@ -95,6 +100,8 @@
                                                         class="btn btn-danger btn-sm"><i
                                                     class="bi bi-trash text-white"></i></button>
                                                 </form>
+                                                @endif
+
                                             @endif
 
                                             <button class="btn btn-info btn-sm"

@@ -21,7 +21,9 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Nhà trọ</h5>
-                        <a href="{{ route('nha_tro.create') }}" class="btn btn-success rounded-pill">Thêm nhà trọ</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm nhà trọ'))
+                            <a href="{{ route('nha_tro.create') }}" class="btn btn-success rounded-pill">Thêm nhà trọ</a>
+                        @endif
                     </div>
                     <hr>
                     <form method="GET" action="{{ route('nha_tro.index') }}" class="mb-3">
@@ -80,15 +82,19 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{ route('nha_tro.edit', $nhaTro->id) }}" class="btn btn-warning"><i
-                                                    class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('nha_tro.destroy', $nhaTro->id) }}" method="POST"
-                                                style="display:inline-block;">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-danger"
-                                                    onclick="return confirm('Xóa nhà trọ này?')"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa nhà trọ'))
+                                                <a href="{{ route('nha_tro.edit', $nhaTro->id) }}"
+                                                    class="btn btn-warning"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa nhà trọ'))
+                                                <form action="{{ route('nha_tro.destroy', $nhaTro->id) }}" method="POST"
+                                                    style="display:inline-block;">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-danger"
+                                                        onclick="return confirm('Xóa nhà trọ này?')"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
                                             <button type="button" class="btn btn-info btn-xem-chi-tiet"
                                                 data-bs-toggle="modal" data-bs-target="#modalChiTiet"
                                                 data-nhatro='@json($nhaTro)'

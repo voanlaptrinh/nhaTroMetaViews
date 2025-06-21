@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class AboutUsController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+       
+        $this->middleware('can:Về chúng tôi')->only(['edit', 'update']);
+      
+    }
     public function edit()
     {
         $about = AboutUs::first();

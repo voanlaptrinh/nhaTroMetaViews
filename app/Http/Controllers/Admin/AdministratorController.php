@@ -14,6 +14,14 @@ use Illuminate\Support\Str;
 
 class AdministratorController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem tài khoản quản trị')->only(['index']);
+        $this->middleware('can:Thêm tài khoản quản trị')->only(['create', 'store']);
+        $this->middleware('can:Sửa tài khoản quản trị')->only(['edit', 'update']);
+        $this->middleware('can:Xóa tài khoản quản trị')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = User::query();

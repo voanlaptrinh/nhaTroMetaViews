@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
+    public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem cảm nghĩ')->only(['index']);
+        $this->middleware('can:Thêm cảm nghĩ')->only(['create', 'store']);
+        $this->middleware('can:Sửa cảm nghĩ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa cảm nghĩ')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = Feedback::query();

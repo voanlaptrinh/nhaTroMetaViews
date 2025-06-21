@@ -9,18 +9,28 @@ use Illuminate\Http\Request;
 
 class PhuongTienController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem phương tiện')->only(['index']);
+        $this->middleware('can:Thêm phương tiện')->only(['create', 'store']);
+        $this->middleware('can:Sửa phương tiện')->only(['edit', 'update']);
+        $this->middleware('can:Xóa phương tiện')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = PhuongTien::with('user');
-
+       $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'nguoi-thue-tro');
+        })->get();
         // Lọc theo user_id nếu có
         if ($request->filled('user_id')) {
             $query->where('user_id', $request->user_id);
         }
 
-        $phuongTiens = $query->latest()->paginate(20);
+        $phuongTiens = $query->paginate(20);
         $userId = $request->user_id;
-        return view('admin.phuong_tien.index', compact('phuongTiens', 'userId'));
+        return view('admin.phuong_tien.index', compact('phuongTiens', 'userId','users'));
     }
 
     public function create(Request $request)

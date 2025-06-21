@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem phòng trọ')->only(['index']);
+        $this->middleware('can:Thêm phòng trọ')->only(['create', 'store']);
+        $this->middleware('can:Sửa phòng trọ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa phòng trọ')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = Rooms::query()->with('nhaTro');

@@ -1,11 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
     <div class="pagetitle">
-        <h1>Nhà trọ</h1>
+        <h1>Phòng trọ</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Nhà trọ</li>
+                <li class="breadcrumb-item active">Phòng trọ</li>
             </ol>
         </nav>
     </div>
@@ -20,13 +20,15 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
-                        <h5 class="card-title">Nội dung Nhà trọ</h5>
-                        <a href="{{ route('rooms.create') }}" class="btn btn-success rounded-pill">Thêm phòng mới</a>
+                        <h5 class="card-title">Nội dung Phòng trọ</h5>
+                        @if (auth()->user()->hasPermissionTo('Thêm phòng trọ'))
+                            <a href="{{ route('rooms.create') }}" class="btn btn-success rounded-pill">Thêm phòng mới</a>
+                        @endif
                     </div>
                     <div class="row">
                         <form method="GET" action="{{ route('rooms.index') }}" class="row align-items-end g-3 mb-4">
                             <div class="col-md-3">
-                                <label class="form-label">Nhà trọ</label>
+                                <label class="form-label">Phòng trọ</label>
                                 <select name="nha_tro_id" class="form-select select_ted">
                                     <option value="">-- Tất cả --</option>
                                     @foreach ($nhaTros as $nhaTro)
@@ -125,17 +127,20 @@
                                         </td>
                                         <td>{{ $room->da_thue ? 'Có' : 'Không' }}</td>
                                         <td>
-                                            <a href="{{ route('rooms.edit', $room->id) }}"
-                                                class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
-
-                                            <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
-                                                style="display:inline-block"
-                                                onsubmit="return confirm('Bạn có chắc muốn xoá phòng này không?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa phòng trọ'))
+                                                <a href="{{ route('rooms.edit', $room->id) }}"
+                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa phòng trọ'))
+                                                <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
+                                                    style="display:inline-block"
+                                                    onsubmit="return confirm('Bạn có chắc muốn xoá phòng này không?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
                                             <button class="btn btn-sm btn-info btn-show-detail"
                                                 data-id="{{ $room->id }}" data-ten-phong="{{ $room->ten_phong }}"
                                                 data-ma-phong="{{ $room->ma_phong }}"

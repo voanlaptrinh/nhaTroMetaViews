@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\File;
 
 class TintucController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem tin tức')->only(['index']);
+        $this->middleware('can:Thêm tin tức')->only(['create', 'store']);
+        $this->middleware('can:Sửa tin tức')->only(['edit', 'update']);
+        $this->middleware('can:Xóa tin tức')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = TinTuc::query();

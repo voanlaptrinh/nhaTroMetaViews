@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class PolicyController extends Controller
 {
+    public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem chính sách')->only(['index']);
+        $this->middleware('can:Thêm chính sách')->only(['create', 'store']);
+        $this->middleware('can:Sửa chính sách')->only(['edit', 'update']);
+        $this->middleware('can:Xóa chính sách')->only(['destroy']);
+    }
      public function index()
     {
         $policies = Policie::latest()->get();

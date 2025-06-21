@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\DB;
 
 class TaiSanChungRiengController extends Controller
 {
+    public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem tài sản trọ')->only(['index']);
+        $this->middleware('can:Thêm tài sản trọ')->only(['create', 'store']);
+        $this->middleware('can:Sửa tài sản trọ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa tài sản trọ')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = TaiSanChungRieng::with(['nhaTro', 'room', 'taiSanChungs.taiSan', 'taiSanRiengs.taiSan']);

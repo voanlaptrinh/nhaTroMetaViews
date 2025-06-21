@@ -22,25 +22,27 @@
 
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách Tài sản chung riêng</h5>
-                        <a href="{{ route('tai_san_chung_riengs.create') }}" class="btn btn-success rounded-pill">Thêm
-                            mới</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm tài sản trọ'))
+                            <a href="{{ route('tai_san_chung_riengs.create') }}" class="btn btn-success rounded-pill">Thêm
+                                mới</a>
+                        @endif
                     </div>
                     <hr>
                     <form method="GET" action="{{ route('tai_san_chung_riengs.index') }}" class="mb-3">
-    <div class="row g-2">
-        <div class="col-md-4">
-            <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tìm theo tên tòa nhà"
-                value="{{ request('ten_toa_nha') }}">
-        </div>
-        <div class="col-md-4">
-            <input type="text" name="ma_phong" class="form-control" placeholder="Tìm theo mã phòng"
-                value="{{ request('ma_phong') }}">
-        </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-        </div>
-    </div>
-</form>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" name="ten_toa_nha" class="form-control"
+                                    placeholder="Tìm theo tên tòa nhà" value="{{ request('ten_toa_nha') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="ma_phong" class="form-control" placeholder="Tìm theo mã phòng"
+                                    value="{{ request('ma_phong') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </form>
 
 
 
@@ -76,16 +78,20 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
-                                                class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
-                                                method="POST" style="display:inline-block;"
-                                                onsubmit="return confirm('Bạn có chắc muốn xóa?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger" type="submit"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa tài sản trọ'))
+                                                <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa tài sản trọ'))
+                                                <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
+                                                    method="POST" style="display:inline-block;"
+                                                    onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger" type="submit"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
                                             <button class="btn btn-sm btn-info btn-xem-chi-tiet"
                                                 data-id="{{ $item->id }}"
                                                 data-toa-nha="{{ $item->nhaTro->ten_toa_nha ?? 'Không rõ' }}"

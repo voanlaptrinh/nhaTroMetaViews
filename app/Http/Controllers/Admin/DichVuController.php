@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 
 class DichVuController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem dịch vụ')->only(['index']);
+        $this->middleware('can:Thêm dịch vụ')->only(['create', 'store']);
+        $this->middleware('can:Sửa dịch vụ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa dịch vụ')->only(['destroy']);
+    }
     public function index()
     {
         $dichVus = DichVu::with('donViTinh')->paginate(10);

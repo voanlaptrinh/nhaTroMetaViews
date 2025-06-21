@@ -21,7 +21,10 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Người dùng</h5>
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-success rounded-pill">Thêm người dùng</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm người dùng'))
+                            <a href="{{ route('admin.users.create') }}" class="btn btn-success rounded-pill">Thêm người
+                                dùng</a>
+                        @endif
                     </div>
                     <div class="row">
                         <form method="GET" action="{{ route('admin.users.index') }}" class="row align-items-end g-3 mb-4">
@@ -85,15 +88,19 @@
                                         <td>{{ $user->birthday ?? 'Chưa có ngày sinh' }}</td>
                                         <td>{{ $user->active ? 'Có' : 'Không' }}</td>
                                         <td>
-                                            <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
-                                            <form method="POST" action="{{ route('admin.users.destroy', $user->id) }}"
-                                                style="display:inline-block;">
-                                                @csrf @method('DELETE')
-                                                <button onclick="return confirm('Xoá người dùng này?')"
-                                                    class="btn btn-danger btn-sm"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa người dùng'))
+                                                <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                    class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa người dùng'))
+                                                <form method="POST" action="{{ route('admin.users.destroy', $user->id) }}"
+                                                    style="display:inline-block;">
+                                                    @csrf @method('DELETE')
+                                                    <button onclick="return confirm('Xoá người dùng này?')"
+                                                        class="btn btn-danger btn-sm"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
                                             <button class="btn btn-info btn-sm"
                                                 onclick="showUserDetail({{ json_encode($user) }})">
                                                 <i class="bi bi-eye"></i>

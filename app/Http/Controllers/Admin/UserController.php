@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem người dùng')->only(['index']);
+        $this->middleware('can:Thêm người dùng')->only(['create', 'store']);
+        $this->middleware('can:Sửa người dùng')->only(['edit', 'update']);
+        $this->middleware('can:Xóa người dùng')->only(['destroy']);
+    }
     public function index(Request $request)
     {
         $query = User::query()

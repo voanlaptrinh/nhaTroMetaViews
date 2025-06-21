@@ -22,7 +22,9 @@
 
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách Tin tức</h5>
-                        <a href="{{ route('tin_tuc.create') }}" class="btn btn-success rounded-pill">Thêm mới</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm tin tức'))
+                            <a href="{{ route('tin_tuc.create') }}" class="btn btn-success rounded-pill">Thêm mới</a>
+                        @endif
                     </div>
                     <hr>
                     <form action="{{ route('tin_tuc.index') }}" method="GET"
@@ -73,15 +75,19 @@
                                             <td>{{ $tt->trang_thai == 'hien_thi' ? 'Hiện thị' : 'Bản nháp' }}</td>
                                             <td>{{ $tt->created_at->format('d/m/Y') }}</td>
                                             <td>
-                                                <a href="{{ route('tin_tuc.edit', $tt->id) }}"
-                                                    class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
-                                                <form action="{{ route('tin_tuc.destroy', $tt->id) }}" method="POST"
-                                                    style="display:inline-block;">
-                                                    @csrf @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Xóa tin tức này?')"><i
-                                                            class="bi bi-trash text-white"></i></button>
-                                                </form>
+                                                @if (auth()->user()->hasPermissionTo('Sửa tin tức'))
+                                                    <a href="{{ route('tin_tuc.edit', $tt->id) }}"
+                                                        class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                                @endif
+                                                @if (auth()->user()->hasPermissionTo('Xóa tin tức'))
+                                                    <form action="{{ route('tin_tuc.destroy', $tt->id) }}" method="POST"
+                                                        style="display:inline-block;">
+                                                        @csrf @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Xóa tin tức này?')"><i
+                                                                class="bi bi-trash text-white"></i></button>
+                                                    </form>
+                                                @endif
                                                 <button type="button" class="btn btn-info btn-sm btn-xem-chi-tiet"
                                                     data-bs-toggle="modal" data-bs-target="#modalChiTiet"
                                                     data-tieude="{{ $tt->tieu_de }}" data-noidung="{{ $tt->noi_dung }}"

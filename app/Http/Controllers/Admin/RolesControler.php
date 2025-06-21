@@ -11,6 +11,14 @@ use Spatie\Permission\Models\Permission;
 
 class RolesControler extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem vai trò')->only(['index']);
+        $this->middleware('can:Thêm vai trò')->only(['create', 'store']);
+        $this->middleware('can:Sửa vai trò')->only(['edit', 'update']);
+        $this->middleware('can:Xóa vai trò')->only(['destroy']);
+    }
      public function index()
     {
         // Get all roles with their permissions

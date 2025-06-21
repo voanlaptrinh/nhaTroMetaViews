@@ -11,6 +11,14 @@ use Illuminate\Validation\Rule;
 
 class NhaTroController extends Controller
 {
+      public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem nhà trọ')->only(['index']);
+        $this->middleware('can:Thêm nhà trọ')->only(['create', 'store']);
+        $this->middleware('can:Sửa nhà trọ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa nhà trọ')->only(['destroy']);
+    }
     public function index(Request $request)
     {
 

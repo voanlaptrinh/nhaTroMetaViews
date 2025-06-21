@@ -11,6 +11,14 @@ use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem slider')->only(['index']);
+        $this->middleware('can:Thêm slider')->only(['create', 'store']);
+        $this->middleware('can:Sửa slider')->only(['edit', 'update']);
+        $this->middleware('can:Xóa slider')->only(['destroy']);
+    }
     public function index()
     {
         $sliders = Slider::orderBy('position')->get();

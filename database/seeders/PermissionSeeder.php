@@ -70,7 +70,15 @@ class PermissionSeeder extends Seeder
             'Sửa cảm nghĩ',
             'Xóa cảm nghĩ',
             'Cài đặt web',
-            'Về chúng tôi'
+            'Về chúng tôi',
+            'Xem tài khoản quản trị',
+            'Sửa tài khoản quản trị',
+            'Xóa tài khoản quản trị',
+            'Thêm tài khoản quản trị',
+            'Xem phương tiện',
+            'Sửa phương tiện',
+            'Xóa phương tiện',
+            'Thêm phương tiện'
 
 
         ];

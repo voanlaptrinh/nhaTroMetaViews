@@ -21,7 +21,9 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách tài sản</h5>
-                        <a href="{{ route('tai-sans.create') }}" class="btn btn-success rounded-pill">Thêm tài sản</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm tài sản'))
+                            <a href="{{ route('tai-sans.create') }}" class="btn btn-success rounded-pill">Thêm tài sản</a>
+                        @endif
                     </div>
                     <hr>
                     <form method="GET" action="{{ route('tai-sans.index') }}" class="row align-items-end g-3 mb-4">
@@ -42,55 +44,60 @@
                         </div>
                     </form>
 
-<div class="table-responsive">
-                    <table class="table table-striped table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Mã</th>
-                                <th>Tên</th>
-                                <th>Ngày mua</th>
-                                <th>Giá trị</th>
-                                <th>Tình trạng</th>
-
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($taiSans as $ts)
+                    <div class="table-responsive">
+                        <table class="table table-striped table-responsive">
+                            <thead>
                                 <tr>
-                                    <td>{{ $ts->ma_tai_san }}</td>
-                                    <td>{{ $ts->ten_tai_san }}</td>
-                                    <td>{{ $ts->ngay_mua }}</td>
-                                    <td>{{ number_format($ts->gia_tri) }}</td>
-                                    <td>{{ $ts->tinh_trang }}</td>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Ngày mua</th>
+                                    <th>Giá trị</th>
+                                    <th>Tình trạng</th>
 
-                                    <td>
-                                        <a href="{{ route('tai-sans.edit', $ts->id) }}"
-                                            class="btn btn-warning btn-sm"><i
-                                                class="bi bi-wrench"></i></a>
-                                        <form action="{{ route('tai-sans.destroy', $ts->id) }}" method="POST"
-                                            style="display:inline-block">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Xóa tài sản?')"><i
-                                                    class="bi bi-trash text-white"></i></button>
-                                        </form>
-                                        <button class="btn btn-info btn-sm view-details" data-id="{{ $ts->id }}"
-                                            data-ma="{{ $ts->ma_tai_san }}" data-ten="{{ $ts->ten_tai_san }}"
-                                            data-ngay="{{ $ts->ngay_mua }}" data-gia="{{ number_format($ts->gia_tri) }}"
-                                            data-tinhtrang="{{ $ts->tinh_trang }}" data-ghichu="{{ $ts->ghi_chu }}">
-                                              <i class="bi bi-eye"></i>
-                                        </button>
-                                    </td>
+                                    <th>Hành động</th>
                                 </tr>
-                             @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">Không có dữ liệu tài sản.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-</div>
+                            </thead>
+                            <tbody>
+                                @forelse ($taiSans as $ts)
+                                    <tr>
+                                        <td>{{ $ts->ma_tai_san }}</td>
+                                        <td>{{ $ts->ten_tai_san }}</td>
+                                        <td>{{ $ts->ngay_mua }}</td>
+                                        <td>{{ number_format($ts->gia_tri) }}</td>
+                                        <td>{{ $ts->tinh_trang }}</td>
+
+                                        <td>
+                                            @if (auth()->user()->hasPermissionTo('Sửa tài sản'))
+                                                <a href="{{ route('tai-sans.edit', $ts->id) }}"
+                                                    class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa tài sản'))
+                                                <form action="{{ route('tai-sans.destroy', $ts->id) }}" method="POST"
+                                                    style="display:inline-block">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Xóa tài sản?')"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
+
+                                            <button class="btn btn-info btn-sm view-details" data-id="{{ $ts->id }}"
+                                                data-ma="{{ $ts->ma_tai_san }}" data-ten="{{ $ts->ten_tai_san }}"
+                                                data-ngay="{{ $ts->ngay_mua }}"
+                                                data-gia="{{ number_format($ts->gia_tri) }}"
+                                                data-tinhtrang="{{ $ts->tinh_trang }}" data-ghichu="{{ $ts->ghi_chu }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">Không có dữ liệu tài sản.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                     <div class=" p-nav text-end d-flex justify-content-end">
                         {{ $taiSans->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>

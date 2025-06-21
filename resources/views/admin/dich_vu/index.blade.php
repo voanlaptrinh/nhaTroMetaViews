@@ -11,8 +11,6 @@
     </div>
 
 
-
-
     <div class="row">
 
         <div class="col-lg-12">
@@ -21,8 +19,10 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung dịch vụ</h5>
-                        <a href="{{ route('dichvus.create') }}" class="btn btn-success rounded-pill">Thêm Dịch Vụ
-                            Mới</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm dịch vụ'))
+                            <a href="{{ route('dichvus.create') }}" class="btn btn-success rounded-pill">Thêm Dịch Vụ
+                                Mới</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <!-- Table with stripped rows -->
@@ -45,24 +45,27 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ route('dichvus.edit', $dichvu->id) }}" class="btn btn-warning"><i
-                                                    class="bi bi-wrench"></i></a>
-                                            @php
-                                                $maKhongXoa = ['dien_sinh_hoat', 'nuoc', 'mang'];
-                                            @endphp
-
-                                            @if (!in_array($dichvu->ma_dich_vu, $maKhongXoa))
-                                                <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
-                                                    style="display:inline-block" class="btn btn-danger"
-                                                    onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
-                                                            class="bi bi-trash text-white"></i></button>
-                                                </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa dịch vụ'))
+                                                <a href="{{ route('dichvus.edit', $dichvu->id) }}"
+                                                    class="btn btn-warning"><i class="bi bi-wrench"></i></a>
                                             @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa dịch vụ'))
+                                                @php
+                                                    $maKhongXoa = ['dien_sinh_hoat', 'nuoc', 'mang'];
+                                                @endphp
 
+                                                @if (!in_array($dichvu->ma_dich_vu, $maKhongXoa))
+                                                    <form action="{{ route('dichvus.destroy', $dichvu->id) }}"
+                                                        method="POST" style="display:inline-block" class="btn btn-danger"
+                                                        onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
+                                                                class="bi bi-trash text-white"></i></button>
+                                                    </form>
+                                                @endif
+                                            @endif
                                             <button type="button" class="btn btn-info btn-xem-chi-tiet"
                                                 data-ten="{{ $dichvu->ten_dich_vu }}" data-ma="{{ $dichvu->ma_dich_vu }}"
                                                 data-donvi="{{ $dichvu->donViTinh ? $dichvu->donViTinh->ma_don_vi . ' - ' . $dichvu->donViTinh->ten_day_du : '-' }}"

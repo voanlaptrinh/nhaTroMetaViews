@@ -21,7 +21,10 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách chính sách</h5>
-                        <a href="{{ route('policies.create') }}" class="btn btn-success rounded-pill">Thêm chính sách</a>
+                        @if (auth()->user()->hasPermissionTo('Thêm chính sách'))
+                            <a href="{{ route('policies.create') }}" class="btn btn-success rounded-pill">Thêm chính
+                                sách</a>
+                        @endif
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-responsive">
@@ -44,14 +47,21 @@
                                         </td>
                                         <td>{{ $policy->created_at->format('d/m/Y') }}</td>
                                         <td>
-                                            <a href="{{ route('policies.edit', $policy) }}" class="btn btn-sm btn-warning">
-                                                <i class="bi bi-wrench"></i></a>
-                                            <form action="{{ route('policies.destroy', $policy) }}" method="POST"
-                                                style="display:inline-block;" onsubmit="return confirm('Xác nhận xoá?')">
-                                                @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger"><i
-                                                        class="bi bi-trash text-white"></i></button>
-                                            </form>
+                                            @if (auth()->user()->hasPermissionTo('Sửa chính sách'))
+                                                <a href="{{ route('policies.edit', $policy) }}"
+                                                    class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-wrench"></i></a>
+                                            @endif
+                                            @if (auth()->user()->hasPermissionTo('Xóa chính sách'))
+                                                <form action="{{ route('policies.destroy', $policy) }}" method="POST"
+                                                    style="display:inline-block;"
+                                                    onsubmit="return confirm('Xác nhận xoá?')">
+                                                    @csrf @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"><i
+                                                            class="bi bi-trash text-white"></i></button>
+                                                </form>
+                                            @endif
+
                                             <button class="btn btn-sm btn-info btn-show-policy"
                                                 data-title="{{ $policy->title }}"
                                                 data-content="{{ base64_encode($policy->content) }}" data-bs-toggle="modal"

@@ -8,9 +8,17 @@ use App\Models\TaiSan;
 use Illuminate\Http\Request;
 
 class TaiSanController extends Controller
-{
+{ public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem tài sản')->only(['index']);
+        $this->middleware('can:Thêm tài sản')->only(['create', 'store']);
+        $this->middleware('can:Sửa tài sản')->only(['edit', 'update']);
+        $this->middleware('can:Xóa tài sản')->only(['destroy']);
+    }
     public function index(Request $request)
     {
+        
         $query = TaiSan::query();
 
         if ($request->filled('ten_tai_san')) {
